@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
 
 <script>
+import { Group, Cell } from 'vux'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Group,
+    Cell
+  }
 }
 </script>
 
@@ -19,5 +23,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  font-size: 20px;
 }
 </style>
