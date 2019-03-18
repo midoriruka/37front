@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://121.42.242.126:90/', // 设置你调用的接口域名和端口号
+        target: 'http://121.42.242.126:95/', // 设置你调用的接口域名和端口号
         changeOrigin: true,     // 跨域
         pathRewrite: {
           '^/api': '/api'        

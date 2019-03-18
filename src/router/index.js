@@ -1,15 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Index from '@/page/index/index'
+import User from './user'
+
 
 Vue.use(Router)
 
-export default new Router({
+let menu = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: '首页',
+      component: Index
     }
-  ]
+  ].concat(User)
 })
+
+export default menu
