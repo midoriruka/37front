@@ -1,7 +1,7 @@
 import Login from '@/page/login/login'
 import Register from '@/page/login/registertion'
 
-const user = [{
+const loginRegister = [{
   path: '/login',
   name: '登录',
   component: Login
@@ -11,4 +11,4 @@ const user = [{
   component: Register
 }]
 
-export default user
+export default loginRegister

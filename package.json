@@ -15,10 +15,12 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "element-ui": "^2.7.2",
     "font-awesome": "^4.7.0",
     "lib-flexible": "^0.3.2",
     "mint-ui": "^2.2.13",
     "mockjs": "^1.0.1-beta3",
+    "moment": "^2.24.0",
     "px2rem-loader": "^0.1.9",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"

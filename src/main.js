@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import mockdata from './mock'
 import 'lib-flexible/flexible'
 import MintUI from 'mint-ui'
@@ -12,6 +14,7 @@ import 'font-awesome/scss/font-awesome.scss'
 import './styles/index.scss'
 
 
+Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 

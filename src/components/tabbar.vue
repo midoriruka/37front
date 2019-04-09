@@ -2,13 +2,13 @@
   <div id="app">
     <router-view/>
     <mt-tabbar v-model="message" fixed>
-      <mt-tab-item id="home">
+      <mt-tab-item id="">
         <img slot="icon" :src="iArr[0]">
         首页
       </mt-tab-item>
       <mt-tab-item id="hire">
         <img slot="icon" :src="iArr[1]">
-        招聘信息
+        高新职位
       </mt-tab-item>
       <mt-tab-item id="person">
         <img slot="icon" :src="iArr[2]">
@@ -50,6 +50,6 @@ export default {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#d9d9d9), color-stop(50%, #d9d9d9), color-stop(50%, transparent));
   background-size: 100% 1px;
   background-repeat: no-repeat;
-  color: #5dd5ca
+  color: #28a0a5
 }
 </style>

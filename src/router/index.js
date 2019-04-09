@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/page/index/index'
-import User from './user'
+import LoginRegister from './login'
+import Person from './person'
 
 
 Vue.use(Router)
@@ -14,7 +15,7 @@ let menu = new Router({
       name: '首页',
       component: Index
     }
-  ].concat(User)
+  ].concat(Person, LoginRegister)
 })
 
 export default menu

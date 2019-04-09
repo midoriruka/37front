@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="min-height: 100vh; background: #fff;padding-top: 1px">
     <div v-title>注册</div>
     <div class="login-logo">
       <img src="@/assets/login/logo.png" alt="">
