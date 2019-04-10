@@ -481,7 +481,7 @@ export default {
       }, 3500);
     },
     jumpTo() {
-      console.log('fasdf')
+      this.$router.push('/recruitment')
     }
   }
 }
