@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 每个页面的地址栏title更改部分 -->
     <div v-title>个人中心</div>
     <div v-if="isLogin">
       <!-- 已登录 -->
