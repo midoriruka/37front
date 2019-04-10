@@ -1,12 +1,167 @@
 <template>
   <div>
+    <div v-title>个人中心</div>
     <div v-if="isLogin">
       <!-- 已登录 -->
-      <div>
-
+      <div v-if="isCompanyUser">
+        <!-- 企业用户 -->
+        <div class="person-bgm">
+          <img  class="person-bgm-img" src="@/assets/person/login.png" alt="">
+          <div class="person-info">
+            <el-row type="flex" class="row-bg" justify="space-between" style="margin: 0; padding-left: 10px; text-align: left">
+              <el-col :span="6">
+                <span v-if="isInfo" class="qiandao">
+                  已入驻
+                </span>
+                <span v-else class="weiqiandao">
+                  未入驻
+                </span>
+              </el-col>
+              <el-col :span="6"></el-col>
+              <el-col :span="6" style="padding-right: 10px; text-align: right; font-size: 0.3rem">
+                <span @click="editorMsg()">修改资料</span>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20" style="margin: 0">
+              <div>
+                <el-col :span="12" :offset="6">
+                  <div>
+                    <img :src="companyUserInfo.userHeadImage" alt="" class="person-unlogin" v-if="companyUserInfo.userHeadImage">
+                    <img src="@/assets/login/user.png" alt="" class="person-unlogin" v-else>
+                  </div>
+                  <div>
+                    {{this.companyUserInfo.companyName}}
+                  </div>
+                </el-col>
+              </div>
+            </el-row>
+          </div>
+          <div class="person-info-num">
+            <el-row style="margin: 0">
+              <el-col :span="12">
+                <div style="font-size: 0.3rem">
+                  总资产
+                </div>
+                <div style="font-size: 0.6rem">
+                  {{this.companyUserInfo.userTotal | numfilter}}
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div style="font-size: 0.3rem">
+                  账户余额
+                </div>
+                <div style="font-size: 0.6rem">
+                  {{this.companyUserInfo.userBlanace | numfilter}}
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+        <div class="person-two">
+          <el-row style="margin: 0">
+            <el-col :span="12">
+              <div style="font-size: 0.6rem">
+                {{this.companyUserInfo.userInte || 0}}
+              </div>
+              <div style="font-size: 0.3rem">
+                可用积分
+              </div>
+                
+            </el-col>
+            <el-col :span="12">
+              <div style="font-size: 0.6rem">
+                {{this.companyUserInfo.userName || '无'}}
+              </div>
+              <div style="font-size: 0.3rem">
+                经纪人
+              </div>
+            </el-col>
+          </el-row>
+        </div>
       </div>
-      <div>
-
+      <div v-else>
+        <!-- 个人用户 -->
+        <div class="person-bgm">
+          <img  class="person-bgm-img" src="@/assets/person/login.png" alt="">
+          <div class="person-info">
+            <el-row type="flex" class="row-bg" justify="space-between" style="margin: 0; padding-left: 10px; text-align: left">
+              <el-col :span="6">
+                <span v-if="!isQian" class="qiandao" @click="setQian()">
+                  签到
+                </span>
+                <span v-else class="weiqiandao">
+                  已签到
+                </span>
+              </el-col>
+              <el-col :span="6"></el-col>
+              <el-col :span="6" style="padding-right: 10px; text-align: right; font-size: 0.3rem">
+                <span @click="editorMsg()">修改资料</span>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20" style="margin: 0">
+              <div>
+                <el-col :span="12" :offset="6">
+                  <div>
+                    <img :src="personUserInfo.userImageUrl" alt="" class="person-unlogin" v-if="personUserInfo.userImageUrl">
+                    <img src="@/assets/login/user.png" alt="" class="person-unlogin" v-else>
+                  </div>
+                  <div>
+                    {{this.personUserInfo.nickName}}
+                  </div>
+                </el-col>
+              </div>
+            </el-row>
+          </div>
+          <div class="person-info-num">
+            <el-row style="margin: 0">
+              <el-col :span="8">
+                <div style="font-size: 0.3rem">
+                  总资产
+                </div>
+                <div style="font-size: 0.6rem">
+                  {{this.personUserInfo.totalAsset | numfilter}}
+                </div>
+              </el-col>
+              <el-col :span="8">
+                <div style="font-size: 0.3rem">
+                  预计奖励
+                </div>
+                <div style="font-size: 0.6rem">
+                  {{this.personUserInfo.payAmount | numfilter}}
+                </div>
+              </el-col>
+              <el-col :span="8">
+                <div style="font-size: 0.3rem">
+                  账户余额
+                </div>
+                <div style="font-size: 0.6rem">
+                  {{this.personUserInfo.userBalance | numfilter}}
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+        <div class="person-two">
+          <el-row style="margin: 0">
+            <el-col :span="12">
+              <div style="font-size: 0.6rem">
+                {{this.personUserInfo.userInte || 0}}
+              </div>
+              <div style="font-size: 0.3rem">
+                可用积分
+              </div>
+                
+            </el-col>
+            <el-col :span="12">
+              <div style="font-size: 0.6rem">
+                {{this.personUserInfo.ecoName || '无'}}
+              </div>
+              <div style="font-size: 0.3rem">
+                经纪人
+              </div>
+            </el-col>
+          </el-row>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -14,7 +169,7 @@
       <div class="person-bgm">
         <img  class="person-bgm-img" src="@/assets/person/unlogin.png" alt="">
         <div class="person-info">
-          <el-row :gutter="20">
+          <el-row :gutter="20" style="margin: 0">
             <div @click="jumpto('login')">
               <el-col :span="12" :offset="6">
                 <div>
@@ -29,7 +184,7 @@
           </el-row>
         </div>
         <div class="person-info-num">
-          <el-row>
+          <el-row style="margin: 0">
             <el-col :span="8">
               <div style="font-size: 0.3rem">
                 总资产
@@ -40,7 +195,7 @@
             </el-col>
             <el-col :span="8">
               <div style="font-size: 0.3rem">
-                总资产
+                预计奖励
               </div>
               <div style="font-size: 0.6rem">
                 0
@@ -48,7 +203,7 @@
             </el-col>
             <el-col :span="8">
               <div style="font-size: 0.3rem">
-                总资产
+                账户余额
               </div>
               <div style="font-size: 0.6rem">
                 0
@@ -58,7 +213,7 @@
         </div>
       </div>
       <div class="person-two">
-        <el-row>
+        <el-row style="margin: 0">
           <el-col :span="12">
             <div style="font-size: 0.6rem">
               0
@@ -80,7 +235,7 @@
       </div>
     </div>
     <div class="person-list">
-      <el-row :gutter="24" type="flex"  justify="center">
+      <el-row :gutter="24" type="flex"  justify="center" style="margin: 0">
         <el-col :span="4" style="padding: 0">
           <div>
             <div>
@@ -165,24 +320,145 @@ export default {
   data() {
     return {
       iconArr: ['../../static/index/1.png', '../../static/index/2.png', '../../static/index/3-check.png'],
-      isLogin: false
+      isLogin: false,
+      isCompanyUser: false,
+      user: {},
+      personUserInfo: {},
+      companyUserInfo: {},
+      isQian: false,
+      isInfo: false
     }
   },
   components: {tabbar},
+  filters: {
+    time: (value) => {
+      return moment(value).format('YYYY-MM-DD')
+    },
+    numfilter: (num) => {
+      if (num) {
+        var num = (+num || 0).toString(), result = '';
+        while (num.length > 3) {
+            result = ',' + num.slice(-3) + result;
+            num = num.slice(0, num.length - 3);
+        }
+        if (num) { result = num + result; }
+        return result
+        } else {
+          return 0
+        }
+      }
+      
+  },
   created() {
     if (window.localStorage.getItem('userMsg')) {
       this.isLogin = true
+      this.user = JSON.parse(window.localStorage.getItem('userMsg')).users
+      if (this.user.loginType == 'person') {
+        this.isCompanyUser = false
+        this.getUserMsg(0)
+        this.isQiandao()
+      } else {
+        this.isCompanyUser = true
+        this.getUserMsg(1)
+      }
+
+      // this.isCompanyUser = true
+      // this.getUserMsg(1)
+
     } else {
       this.isLogin = false
     }
-
-    this.isLogin = false
   },
   methods: {
+    editorMsg() {
+      window.localStorage.setItem('editoMsg', JSON.stringify({
+        userId: this.user.userId,
+        userType: this.user.loginType
+      }))
+      this.$router.push({
+        path: '/person/edit'
+      })
+    },
+    isQiandao() {
+      this.axios({
+        method: 'post',
+        url: '/api/h5/getSignDetail',
+        headers: {
+          'Content-type': 'application/json;charset=UTF-8'
+        },
+        data: {
+          userId: this.user.userId
+        }
+      }).then((res) => {
+        if (res.data.code == 200) {
+          this.isQian = res.data.data.isSign
+        }
+      }).catch((res) => {
+        MessageBox({
+          title: '小提示',
+          message: res.data.msg,
+        })
+      })
+    },
     jumpto(data) {
       this.$router.push({
         path: `/${data}`
       })
+    },
+    getUserMsg(data) {
+      let url = data == 0 ? '/api/h5/getMyCenter' : '/api/h5/getCompanyCenter'
+      this.axios({
+        method: 'post',
+        url: url,
+        headers: {
+          'Content-type': 'application/json;charset=UTF-8'
+        },
+        data: {
+          userId: this.user.userId
+        }
+      }).then((res) => {
+        if (res.data.code == 200) {
+          if (data == 0) {
+            this.personUserInfo = res.data.data
+          } else {
+            this.companyUserInfo = res.data.data.companyInfo
+            this.isInfo = res.data.data.isInfo
+          }
+        }
+      }).catch((res) => {
+        MessageBox({
+          title: '小提示',
+          message: res.data.msg,
+        })
+      })
+    },
+    setQian() {
+      this.$router.push({
+        path: '/person/sign'
+      })
+    //   this.axios({
+    //     method: 'post',
+    //     url: '/api/h5/userDaySign',
+    //     headers: {
+    //       'Content-type': 'application/json;charset=UTF-8'
+    //     },
+    //     data: {
+    //       userId: this.user.userId
+    //     }
+    //   }).then((res) => {
+    //     if (res.data.code == 200) {
+    //       MessageBox({
+    //         title: '小提示',
+    //         message: '签到成功',
+    //       })
+    //       this.isQian = true
+    //     }
+    //   }).catch((res) => {
+    //     MessageBox({
+    //       title: '小提示',
+    //       message: res.data.msg,
+    //     })
+    //   })
     }
   }
 }
@@ -243,6 +519,21 @@ export default {
   line-height: 20px;
   text-align: center;
   margin-top: 30px;
+}
+
+.qiandao {
+  display: inline-block;
+  background: #e6a03c;
+  padding: 2px 5px;
+  border-radius: 10px;
+  font-size: 0.3rem
+}
+.weiqiandao {
+  display: inline-block;
+  background: #969696;
+  padding: 2px 5px;
+  border-radius: 10px;
+  font-size: 0.3rem
 }
 </style>
 
