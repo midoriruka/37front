@@ -1,23 +1,115 @@
-.no-activity{
+.no-activity {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.no-activity-img {
+  margin-top: 2.053333rem;
+  width: 3.426667rem;
+}
+
+.no-activity-desc {
+  margin-top: 0.853333rem;
+  margin-bottom: 5.76rem;
+  font-size: 0.32rem;
+  color: #323232;
+}
+
+.no-activity-footer {
+  font-size: 0.32rem;
+  color: #969696;
+}
+
+.activity {
+  background: url('~@/assets/icon/最新活动/bg.png');
+  height: 19.173333rem;
+  background-size: cover;
+  background-position: bottom;
+  background-repeat:no-repeat;
+  overflow:hidden;
+}
+
+.pool{
+	//position:absolute;
 	display:flex;
-	flex-direction: column;
+	flex-wrap: wrap;
+	margin:auto;
+	margin-top:4.026667rem;
+	//margin-left:0.973333rem;
+	margin-bottom:0.626667rem;
+	width: 8.133333rem;
+	height: 7.066667rem;
+	padding:0.226667rem 0.2rem 0.306667rem;
+	
+}
+.prize{
+	width:2.4rem;
+	height:2.0rem;
+	background-color: #fff;
+	border-radius: 0.133333rem;
+	margin-right: 0.266667rem;
+	margin-bottom:0.266667rem;
+	&:nth-child(3n){
+		margin-right: 0;
+	}
+	&:nth-child(5){
+		background-color:#e65032;
+		font-size: 0.8rem;
+		color:#fff;
+		line-height: 2.0rem;
+		text-align: center;
+		font-weight: bolder;
+	}
+}
+
+.count-tip{
+	color:white;
+	font-size: 0.32rem;
 	text-align: center;
 }
-.no-activity-img{
-	margin-top:2.053333rem;
-	
-	width:3.426667rem;
+.count-tip-num{
+	font-size:0.64rem;
+	font-weight: bolder;
+	padding:0 0.173333rem;
+	vertical-align: middle;
+	line-height:0.64rem;
 }
 
-.no-activity-desc{
-	margin-top:0.853333rem;
-	margin-bottom:5.76rem;
-	font-size:0.32rem;
-	color:#323232;
+.winning-record{
+	width:8.133333rem;
+	height:5.0rem;
+	margin:auto;
+	margin-top:0.706667rem;
+	padding:0.4rem 0.48rem 0;
+	background-color: #fffde5;
+	border-radius: 0.133333rem;
+	overflow: auto;
+	color: #323232;
 }
 
-.no-activity-footer{
-	margin-bottom:1.76rem;
-	font-size:0.32rem;
-	color:#969696;
+.wr-title{
+	text-align: center;
+	font-size:0.4rem;
+	font-weight: bold;
+	margin-bottom:0.413333rem;
+
+}
+
+.wr-ul{
+	list-style-type: none;
+	padding:0;
+	margin:0;
+}
+
+.wr-li{
+	display:flex;
+	justify-content: space-between;
+	height:1.173333rem;
+	border-top:1px solid #323232;
+	line-height: 1.173333rem;
+}
+
+p{
+	margin:0;
 }
