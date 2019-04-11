@@ -35,7 +35,7 @@
         bannerList: {},
         weituo:{
           name:'委托招聘',
-          imgUrl:require('@/assets/icon/我要招聘/委托招聘.png')
+          imgUrl:require('@/assets/icon/我要招聘/委托招聘.png'),
         },
         qiye:{
           name:'企业招聘',
