@@ -5,6 +5,7 @@ import News from '@/page/news/index'
 import LoginRegister from './login'
 import Person from './person'
 import Activity from '@/page/activity/index';
+import Recruitment from './recruitment'
 
 import Recommend from "./recommend";
 
@@ -26,7 +27,7 @@ let menu = new Router({
       name: '薪资讯',
       component: News
     }
-  ].concat(Person, LoginRegister, Recommend)
+  ].concat(Person, LoginRegister, Recruitment, Recommend)
 })
 
 export default menu;

@@ -1,0 +1,130 @@
+let InduOption = [{
+  value: '0',
+  label: '制造业'
+}, {
+  value: '1',
+  label: '采矿业'
+}, {
+  value: '2',
+  label: '农、林、牧、渔业'
+}, {
+  value: '3',
+  label: '电力、热力、燃气及水的生产和供应业'
+}, {
+  value: '4',
+  label: '环境和公共设施管理业'
+}, {
+  value: '5',
+  label: '建筑业'
+}, {
+  value: '6',
+  label: '交通运输、仓储业和邮政业'
+}, {
+  value: '7',
+  label: '信息传输、计算机服务和软件业'
+}, {
+  value: '8',
+  label: '批发和零售业'
+}, {
+  value: '9',
+  label: '住宿、餐饮业'
+}, {
+  value: '10',
+  label: '金融、保险业'
+}, {
+  value: '11',
+  label: '房地产业'
+}, {
+  value: '12',
+  label: '租赁和商业服务业'
+}, {
+  value: '13',
+  label: '科学研究、技术服务和地质勘查业'
+}, {
+  value: '14',
+  label: '水利、环境和公共设施管理业'
+}, {
+  value: '15',
+  label: '居民服务和其他服务业'
+}, {
+  value: '16',
+  label: '教育'
+}, {
+  value: '17',
+  label: '卫生、社会保障和社会服务业'
+}, {
+  value: '18',
+  label: '文化、体育、娱乐业'
+}, {
+  value: '19',
+  label: '综合（含投资类，主业不明显）'
+}, {
+  value: '20',
+  label: '其他'
+}]
+
+let NatureOption = [{
+  value: '0',
+  label: '国有企业'
+}, {
+  value: '1',
+  label: '世界500强'
+}, {
+  value: '2',
+  label: '大型工厂'
+}, {
+  value: '3',
+  label: '中型工厂'
+}, {
+  value: '4',
+  label: '上市公司'
+}, {
+  value: '5',
+  label: '民营企业'
+}, {
+  value: '5',
+  label: '私营企业'
+}]
+
+let ScaleOption = [{
+  value: '0',
+  label: '10人左右'
+}, {
+  value: '1',
+  label: '30人左右'
+}, {
+  value: '2',
+  label: '50人左右'
+}, {
+  value: '3',
+  label: '100人左右'
+}, {
+  value: '4',
+  label: '300人左右'
+}, {
+  value: '5',
+  label: '500人左右'
+}, {
+  value: '6',
+  label: '1000人左右'
+}, {
+  value: '7',
+  label: '2000人左右'
+}, {
+  value: '8',
+  label: '5000人左右'
+}, {
+  value: '9',
+  label: '8000人左右'
+}, {
+  value: '10',
+  label: '10000人左右'
+}, {
+  value: '11',
+  label: '15000人左右'
+}, {
+  value: '12',
+  label: '20000人左右'
+}]
+
+export { InduOption, NatureOption, ScaleOption }
