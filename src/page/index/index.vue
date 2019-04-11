@@ -352,12 +352,9 @@ export default {
           text = '元/月';
           break;
         case '1':
-          text = '元/周';
-          break;
-        case '2':
           text = '元/天';
           break;
-        case '3':
+        case '2':
           text = '元/小时';
           break;
         default:
