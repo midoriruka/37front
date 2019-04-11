@@ -1,7 +1,6 @@
 <template>
   <div>
   <div v-title>薪资讯</div>
-    <div>
       <mt-swipe :auto="4000" style="height: 200px">
         <mt-swipe-item>
           <img :src="bannerList.topBannerOne" :alt="bannerList.topBannerOneUrl" class="banner-img">
@@ -13,13 +12,13 @@
           <img :src="bannerList.topBannerThree" :alt="bannerList.topBannerThreeUrl" class="banner-img">
         </mt-swipe-item>
       </mt-swipe>
-      <ul class="tabList">
+      
+    <div>
+    <ul class="tabList" id="tabList">
         <li v-for="(item, index) in tabLIst" :key="index">
           <span tabId={item.classId}>{{item.className}}</span>
         </li>
       </ul>
-    </div>
-    <div>
      <div class="list-content" v-for="(item, index) in tabLIst" :key="index">
       <div class="list"><span class="list-title">{{item.className}}</span><span class="list-more">更多</span></div>
       <div v-for="(item, index) in data['list'+index]">
@@ -67,9 +66,23 @@ export default{
           message: res.data.msg,
         })
       })
-    },
-  },
+    }
+  }
 };
+window.onscroll = function(){
+  if(window.location.pathname!=="/news") return;
+  //获取当前滚动的距离
+     const btop = document.body.scrollTop||document.documentElement.scrollTop;
+     const tabListTop = document.getElementById("tabList").offsetTop;
+     //如果滚动距离大于导航条据顶部的距离
+     if(btop>tabListTop){
+         //为导航条设置fix
+         document.getElementById("tabList").classList.add("fix")
+     }else{
+         //移除fixed
+         document.getElementById("tabList").classList.remove("fix")
+     }
+}
 </script>
 <style lang="less" scoped>
 .tabList{
@@ -118,6 +131,13 @@ export default{
     float:right;
   }
   
+}
+.fix {
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:1;
+  width:100%;
 }
 
 </style>

@@ -74,18 +74,18 @@
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('news')">
                 <div class="button-box">
                   <img src="@/assets/index/xinzixun.png" alt="">
                 </div>
                 <div class="button-box">
-                  新资讯
+                  薪资讯
                 </div>
               </div>
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('person')">
                 <div class="button-box">
                   <img src="@/assets/index/person.png" alt="">
                 </div>
@@ -480,8 +480,10 @@ export default {
       }
       }, 3500);
     },
-    jumpTo() {
-      console.log('fasdf')
+    jumpTo(data) {
+      this.$router.push({
+        path: `/${data}`
+      })
     }
   }
 }
