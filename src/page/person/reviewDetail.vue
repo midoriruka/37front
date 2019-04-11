@@ -1,0 +1,149 @@
+<template>
+  <div class="review-detail">
+    <div v-title>发表评论</div>
+    <div class="commit-submit">
+      <mt-field placeholder="亲，分享环境，人员素质，餐厅等方面的体验" type="textarea" rows="4" v-model="introduction"></mt-field>
+      <div class="anonymous-review">
+        <img :src="isAnonymous ? icon : iconActive" alt class="anonymous-icon" @click="changeImg()">
+        <span style="font-size:0.32rem;color:#323232;">匿名</span>
+        <span class="anonymous-info">您的评论将以匿名的形式展示</span>
+      </div>
+      <div style="width: 4.5rem;margin:auto">
+        <mt-button type="primary" @click="getVerifying()" style="width: 100%;">发表评论</mt-button>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import { MessageBox } from "mint-ui";
+export default {
+  data() {
+    return {
+      introduction: "",
+      isAnonymous: true,
+      icon: require("@/assets/recommend/anonymous.png"),
+      iconActive: require("@/assets/recommend/anonymous_s.png")
+    };
+  },
+  created() {},
+  methods: {
+    changeImg: function() {
+      this.isAnonymous = !this.isAnonymous;
+    },
+
+    outPoint: function() {
+      this.isShow = true;
+      this.timeout = setTimeout(() => {
+        document.body.scrollTop = 0;
+      }, 500);
+    },
+
+    getVerifying() {
+      if (!this.introduction) {
+        MessageBox("提示", "您还未输入评论信息");
+        return false;
+      } else {
+        return false;
+        this.commit();
+      }
+    },
+    commit() {
+      this.axios({
+        method: "post",
+        url: "/api/h5/commentOffice",
+        headers: {
+          "Content-type": "application/json;charset=UTF-8"
+        },
+        data: {
+          userPhone: this.userPhone,
+          smsCode: this.smsCode,
+          commitType: this.commitType
+        }
+      })
+        .then(res => {
+          if (res.data.code == 200 || res.data.code == "200") {
+            window.localStorage.setItem(
+              "userMsg",
+              JSON.stringify(res.data.data)
+            );
+            this.$router.push({
+              path: "/"
+            });
+          } else {
+            MessageBox({
+              title: "小提示",
+              message: res.data.msg
+            });
+          }
+        })
+        .catch(res => {
+          MessageBox({
+            title: "小提示",
+            message: res.data.msg
+          });
+        });
+    }
+  }
+};
+</script>
+
+<style lang="less">
+.review-detail {
+  min-height: 100vh;
+  background: #fff;
+  padding-top: 1px;
+
+  .commit-form {
+    margin-top: 50px;
+    margin-bottom: 1.3333rem;
+  }
+  .commit-submit {
+    width: 100%;
+    padding: 0 0.46rem;
+    .mint-navbar .mint-tab-item.is-selected {
+      color: #fff;
+      border-bottom: none;
+      background: #e6a03c;
+    }
+    .mint-button--primary {
+      background: #e6a03c;
+    }
+    .mint-cell-value {
+      border-bottom: 1px solid #d9d9d9;
+      font-size: 0.32rem;
+      padding: 0.48rem 0;
+      height: 4.14rem;
+      margin-bottom: 0.27rem;
+    }
+    .anonymous-info {
+      color: #e3e3ee;
+      font-size: 0.28rem;
+      display: block;
+      float: right;
+    }
+
+    .anonymous-icon {
+      width: 0.6667rem;
+      height: 0.6667rem;
+      vertical-align: middle;
+    }
+
+    .commit-form-input {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #d9d9d9;
+      overflow: hidden;
+      .commit-form-input-2 {
+        float: left;
+      }
+    }
+  }
+}
+</style>
+<style>
+.mint-cell:first-child .mint-cell-wrapper {
+  background: none !important;
+}
+</style>
+
+
+
