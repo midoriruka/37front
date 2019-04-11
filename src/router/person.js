@@ -2,11 +2,8 @@ import Person from '@/page/person'
 import Sign from '@/page/person/sign'
 import Shop from '@/page/person/shop'
 import ShopDetail from '@/page/person/shopDetail'
-<<<<<<< HEAD
 import MyShop from '@/page/person/myshop'
-=======
 import Suggest from '@/page/person/suggest'
->>>>>>> master
 
 const user = [{
   path: '/person',
