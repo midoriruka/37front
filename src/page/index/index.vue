@@ -121,7 +121,7 @@
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('recruitment')">
                 <div class="button-box">
                   <img src="@/assets/index/zhaopin.png" alt="">
                 </div>
