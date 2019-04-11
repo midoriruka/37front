@@ -1,15 +1,11 @@
 <template>
-    <div class="page">
-        <div style="height: 800px;">
+    <div>
+        <div>
             this is template body
         </div>
     </div>
 </template>
 <style>
-  .page{
-    background:#ffffff;
-    padding-top: 40px;
-  }
 </style>
 <script>
     export default{
@@ -17,6 +13,7 @@
             return {
                 msg: 'hello vue'
             }
-        }, components: {}
+        }, components: {
+        }
     }
 </script>

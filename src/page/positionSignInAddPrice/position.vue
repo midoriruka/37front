@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <div style="height: 800px;">
+        <div>
             this is template body
         </div>
     </div>
@@ -8,7 +8,6 @@
 <style>
   .page{
     background:#ffffff;
-    padding-top: 40px;
   }
 </style>
 <script>
@@ -17,6 +16,7 @@
             return {
                 msg: 'hello vue'
             }
-        }, components: {}
+        }, components: {
+        }
     }
 </script>
