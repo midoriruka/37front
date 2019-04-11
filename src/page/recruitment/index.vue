@@ -93,17 +93,12 @@
     display: flex;
     .zhaopin{
       width: 50%;
-      padding-left: 1.293rem;
+      text-align: center;
       img{
         width: 2.4rem;
         height: 2.4rem;
       }
-      p{
-        padding-left: 0.5rem;
-      }
     }
   }
-
 }
-
 </style>
