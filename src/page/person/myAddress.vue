@@ -5,11 +5,10 @@
     <div class="address-list">
       <div class="address-item" v-for="(item,i) in addresses" :key="i">
         <div class="address-item-l" @click="chooseAddress(item)">
-          <div class="receiver"><span>周星驰</span><span class="phone-num">18888888888</span></div>
+          <div class="receiver"><span>{{item.reciverName}}</span><span class="phone-num">{{item.contactPhone}}</span></div>
           <div class="address-item-b">
-            <div><img class="select-img" :src="i === currentAddress? selectedImg:unselectedImg"></div>
-            <div>江省AA市某某花园902江省AA市某某花园02江省AA市某
-              某花园9029</div>
+            <div><img class="select-img" :src="item.addressId === currentAddressId? selectedImg:unselectedImg"></div>
+            <div>{{item.addressArea}}{{item.addressDetail}}</div>
           </div>
         </div>
         <div class="edit-btn" @click="editAddress(item)">编辑</div>
@@ -23,15 +22,15 @@
 <script>
 import unselectedImg from '@/assets/icon/个人中心/unselected.png';
 import selectedImg from '@/assets/icon/个人中心/selected.png';
-
+import { mapState, mapMutations } from 'vuex';
 export default {
   name: '',
   data() {
     return {
       unselectedImg,
       selectedImg,
-      addresses: [{}, {}, {}],
-      currentAddress: 0,
+      addresses: [],
+      currentAddressId: null,
     }
   },
   mounted() {
@@ -40,30 +39,44 @@ export default {
       //获取我的收货地址
       if (userMsg && userMsg.users.userId) {
         const userId = userMsg.users.userId;
-        const { result } = await this.axios.post('/api/h5/getUserAddressList', {
+        const { data } = await this.axios.post('/api/h5/getUserAddressList', {
           userId,
         });
         //收货地址列表
-        this.addresses = result.data ? result.data : [];
+        this.addresses = data.data;
+        if (this.chosenAddress) {
+          this.currentAddressId = this.chosenAddress.addressId;
+        }
       }
     })
   },
   methods: {
+    ...mapMutations('person', [
+      'setAddressEditType',
+      'setEditingAddress',
+      'setChosenAddress'
+    ]),
     editAddress(item) {
       //编辑地址
-      this.$router.push('/person/shop/addressEdit#edit')
+      this.setAddressEditType('edit');
+      this.setEditingAddress(item);
+      this.$router.push('/person/shop/addressEdit');
     },
     addAddress() {
       //跳转至新增地址页面
-      this.$router.push('/person/shop/addressEdit#add');
+      this.setAddressEditType('add');
+      this.$router.push('/person/shop/addressEdit');
     },
     chooseAddress(item) {
       //跳转至订单确认页面
+      this.setChosenAddress(item);
       this.$router.push('/person/shop/orderConfirm');
     }
   },
   computed: {
-
+    ...mapState('person', [
+      'chosenAddress'
+    ])
   },
 
 }

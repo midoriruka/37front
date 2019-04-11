@@ -8,6 +8,9 @@
   color: #323232;
   border-bottom: 1px solid #f5f5f9;
 }
+.address-item-l{
+  flex: auto;
+}
 
 .receiver {
   margin: 0.4rem 1.493333rem;
@@ -22,15 +25,16 @@
   display: flex;
   padding-bottom: 0.413333rem;
   font-size: 0.32rem;
+      align-items: center;
 }
 
 .edit-btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1 0 auto;
+  flex: 0 0 auto;
   border-left: 1px solid #ccc;
-  width: 1.333333rem;
+  width: 1.733333rem;
   margin: 0.4rem 0;
 }
 
