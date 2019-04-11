@@ -11,12 +11,14 @@
 
 .address-bar-l {
   display: flex;
-  flex:1 0 auto;
+  flex:0 0 auto;
   width: 1.48rem;
   justify-content: center;
   align-items: center;
 }
-
+.address-bar-m{
+	flex:auto;
+}
 .locate-icon {
   height: 0.866667rem;
 }

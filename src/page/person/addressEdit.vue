@@ -21,12 +21,13 @@
       </div>
     </div>
     <div class="btn-group">
-      <div class="btn">保存并使用</div>
-      <div v-if="!isNew" class="btn delete-btn">删除</div>
+      <div class="btn" @click="saveAddress">保存并使用</div>
+      <div v-if="!isNew" class="btn delete-btn" @click="deleteAddress">删除</div>
     </div>
   </div>
 </template>
 <script>
+
 export default {
   name: '',
   data() {
@@ -36,11 +37,26 @@ export default {
   },
   mounted() {
     this.$nextTick().then(() => {
-
+      const operation = window.location.hash;
+      console.log(operation);
+      if(operation === '#add'){
+        this.isNew = true;
+      }else if(operation === '#edit'){
+        this.isNew = false;
+      }
     })
   },
   methods: {
-
+    saveAddress(){
+      //调接口保存，成功返回订单确认页
+      this.$router.push('/person/shop/orderConfirm');
+    },
+    deleteAddress(){
+      //询问是否要删除
+      //调接口删除
+      //删除成功返回我的地址
+      this.$router.push('/person/shop/myAddress');
+    }
   },
   computed: {
 

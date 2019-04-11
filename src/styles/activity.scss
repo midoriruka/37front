@@ -50,6 +50,7 @@
 	border-radius: 0.133333rem;
 	margin-right: 0.266667rem;
 	margin-bottom:0.266667rem;
+	transition: opacity .3s;
 	&:nth-child(3n){
 		margin-right: 0;
 	}
@@ -112,4 +113,8 @@
 
 p{
 	margin:0;
+}
+.active{
+	//background:#e34f31;
+	opacity: .2;
 }

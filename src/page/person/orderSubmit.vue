@@ -8,8 +8,8 @@
         <p class="main-text">订单提交{{success?'成功':'失败'}}</p>
         <p>{{success?'我们已经收到来自你的订单，将尽快安排发货':'抱歉您的订单提交失败，请返回仔细检查'}}</p>
         <div class="btn-group">
-          <div class="btn">商城首页</div>
-          <div class="btn">{{success?'查看订单':'返回'}}</div>
+          <div class="btn" @click="$router.push('')">商城首页</div>
+          <div class="btn" @click="onSecondBtnClick">{{success?'查看订单':'返回'}}</div>
         </div>
       </div>
     </div>
@@ -29,11 +29,14 @@ export default {
   },
   mounted() {
     this.$nextTick().then(() => {
-
+      this.success = window.location.hash === '#true';
     })
   },
   methods: {
-
+    onSecondBtnClick(){
+        const url = this.success ? '/person/shop/orderDetail':'/person/shop/orderConfirm';
+        this.$router.push(url);
+    }
   },
   computed: {
 
