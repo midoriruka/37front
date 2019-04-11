@@ -58,6 +58,7 @@
 </template>
 <script>
 import { MessageBox } from 'mint-ui'
+import { Toast } from 'mint-ui'
 export default {
   data() {
     return {
@@ -139,9 +140,15 @@ export default {
         data: prams
       }).then((res) => {
         if (res.data.code == 200 || res.data.code == '200') {
+          Toast({
+            message: '注册成功',
+            iconClass: 'icon icon-success'
+          })
+          setTimeout(() => {
             this.$router.push({
               path: '/login'
-            })
+            }) 
+          }, 200);
           } else {
             MessageBox({
               title: '小提示',

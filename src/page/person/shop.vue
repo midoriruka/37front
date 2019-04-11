@@ -61,8 +61,7 @@ export default {
       event.stopPropagation()
     },
     showDetail(data) {
-      console.log('fas')
-      window.localStorage.getItem('shopDetail', data.saleId)
+      window.localStorage.setItem('shopDetail', data.saleId)
       this.$router.push({
         path: '/person/shop/detail'
       })
