@@ -216,20 +216,26 @@
       <div class="person-two">
         <el-row style="margin: 0">
           <el-col :span="12">
-            <div style="font-size: 0.6rem">
-              0
+            <div @click="unLogin()">
+              <div style="font-size: 0.6rem">
+                0
+              </div>
+              <div style="font-size: 0.3rem">
+                可用积分
+              </div>
             </div>
-            <div style="font-size: 0.3rem">
-              可用积分
-            </div>
+            
               
           </el-col>
           <el-col :span="12">
-            <div style="font-size: 0.6rem">
-              无
-            </div>
-            <div style="font-size: 0.3rem">
-              经纪人
+            <div @click="unLogin()">
+              <div style="font-size: 0.6rem">
+                无
+              </div>
+              <div style="font-size: 0.3rem">
+                经纪人
+              </div>
+            
             </div>
           </el-col>
         </el-row>
@@ -238,7 +244,7 @@
     <div class="person-list">
       <el-row :gutter="24" type="flex"  justify="center" style="margin: 0">
         <el-col :span="4" style="padding: 0">
-          <div>
+          <div @click="jumpTo('/person/focusCompany')">
             <div>
               <img src="@/assets/person/guanzhuqiye.png" alt="" class="person-list-img">
             </div>
@@ -249,7 +255,7 @@
           
         </el-col>
         <el-col :span="4" style="padding: 0">
-          <div>
+          <div @click="jumpto('person/myshop')">
             <div>
               <img src="@/assets/person/shop.png" alt="" class="person-list-img">
             </div>
@@ -259,7 +265,7 @@
           </div>
         </el-col>
         <el-col :span="4" style="padding: 0">
-          <div>
+          <div @click="jumpTo('/person/focusCompany')">
             <div>
               <img src="@/assets/person/msg.png" alt="" class="person-list-img">
             </div>
@@ -279,7 +285,7 @@
           </div>
         </el-col>
         <el-col :span="4" style="padding: 0">
-          <div>
+          <div @click="jumpTo('/person/suggest')">
             <div>
               <img src="@/assets/person/suggest.png" alt="" class="person-list-img">
             </div>
@@ -317,6 +323,7 @@
 import tabbar from '@/components/tabbar'
 import { MessageBox } from 'mint-ui'
 import moment from 'moment'
+import { Toast } from 'mint-ui'
 export default {
   data() {
     return {
@@ -371,6 +378,24 @@ export default {
     }
   },
   methods: {
+    unLogin() {
+      Toast({
+        message: '您还未登录',
+        iconClass: 'fa fa-remove fa-5x'
+      });
+    },
+    jumpTo(data) {
+      if (window.localStorage.getItem('userMsg')) {
+        this.$router.push({
+          path: data
+        })
+      } else {
+        Toast({
+          message: '您还未登录',
+          iconClass: 'fa fa-remove fa-5x'
+        });
+      }
+    },
     editorMsg() {
       window.localStorage.setItem('editoMsg', JSON.stringify({
         userId: this.user.userId,
