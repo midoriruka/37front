@@ -74,18 +74,18 @@
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('news')">
                 <div class="button-box">
                   <img src="@/assets/index/xinzixun.png" alt="">
                 </div>
                 <div class="button-box">
-                  新资讯
+                  薪资讯
                 </div>
               </div>
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('person')">
                 <div class="button-box">
                   <img src="@/assets/index/person.png" alt="">
                 </div>
@@ -352,12 +352,9 @@ export default {
           text = '元/月';
           break;
         case '1':
-          text = '元/周';
-          break;
-        case '2':
           text = '元/天';
           break;
-        case '3':
+        case '2':
           text = '元/小时';
           break;
         default:
@@ -480,8 +477,10 @@ export default {
       }
       }, 3500);
     },
-    jumpTo() {
-      console.log('fasdf')
+    jumpTo(data) {
+      this.$router.push({
+        path: `/${data}`
+      })
     }
   }
 }
