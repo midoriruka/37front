@@ -478,9 +478,18 @@ export default {
       }, 3500);
     },
     jumpTo(data) {
-      this.$router.push({
-        path: `/${data}`
-      })
+      let loginType=window.localStorage.getItem('loginType');
+      if(data=='recruitment' && loginType=='person'){
+        MessageBox({
+          title: '小提示',
+          message: '请使用企业账号登录'
+        })
+      }
+      else{
+        this.$router.push({
+          path: `/${data}`
+        })
+      }
     }
   }
 }

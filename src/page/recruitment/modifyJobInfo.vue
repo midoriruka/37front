@@ -1,6 +1,6 @@
 <template>
     <div class="index">
-      <el-form ref="form" :model="jobInfo" label-width="70px" label-position="left">
+      <el-form ref="form" :model="jobInfo" label-width="2rem" label-position="left">
         <el-form-item label="职位名称" class="item">
           <el-input v-model="jobInfo.officeName"></el-input>
         </el-form-item>
@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="2" class="ren">人</el-col>
           <el-col :span="10">
-            <el-form-item label="性别" label-width="40px">
+            <el-form-item label="性别" label-width="1rem">
               <el-select v-model="jobInfo.inviteSex">
                 <el-option label="男" value="0"></el-option>
                 <el-option label="女" value="1"></el-option>
@@ -65,13 +65,13 @@
           </el-col>
           <el-col :span="2" class="line">元/月</el-col>
         </el-row>
-        <el-form-item label="摘要" class="item">
+        <el-form-item label="摘要" style="padding-right: 0.5rem">
           <el-input type="textarea" v-model="jobInfo.officeIndu" placeholder="255个字符以内" maxlength="255"></el-input>
         </el-form-item>
-        <el-form-item label="工资说明" class="item">
+        <el-form-item label="工资说明"  style="padding-right: 0.5rem">
           <el-input type="textarea" v-model="jobInfo.officeDes" placeholder="请输入工资说明"></el-input>
         </el-form-item>
-        <el-form-item label="录用条件" class="item">
+        <el-form-item label="录用条件"  style="padding-right: 0.5rem">
           <el-input type="textarea" v-model="jobInfo.ofterReason" placeholder="请输入录用条件"></el-input>
         </el-form-item>
       </el-form>
@@ -129,6 +129,14 @@
         }
       },
       mounted(){
+        this.$nextTick().then(() => {
+          if(this.$route.query.type=='add'){
+            this.jobInfo={}
+          }else{
+
+          }
+          // this.getJobInfo();
+        })
           console.log(this.$route.query.type)
       }
     }

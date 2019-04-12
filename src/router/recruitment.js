@@ -18,6 +18,7 @@ const recruitment = [{
       {name: '企业信息', path: 'qiye', component: comInfo},
       {name: '职位名称', path: 'zhiwei', component: jobInfo},
       {name: '修改信息', path: 'modify', component: Modify}
+
     ]
   }
   // {

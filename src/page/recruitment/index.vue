@@ -67,7 +67,7 @@
       },
       jumpTo(value){
         if(value===1){
-          this.$router.push('/recruitment/wtRecruitment')
+          this.$router.push('/recruitment/wtRecruitment/qiye')
         }
         else{
           this.$router.push('/recruitment/qyRecruitment')
