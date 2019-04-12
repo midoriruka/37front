@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="index" style="background: rgb(255, 255, 255);">
     <div v-title>我要招聘</div>
     <div class="index-banner">
       <mt-swipe :auto="4000" style="height: 200px">
