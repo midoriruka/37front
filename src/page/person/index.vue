@@ -265,7 +265,7 @@
           </div>
         </el-col>
         <el-col :span="4" style="padding: 0">
-          <div @click="jumpTo('/person/focusCompany')">
+          <div @click="jumpTo('/person/message')">
             <div>
               <img src="@/assets/person/msg.png" alt="" class="person-list-img">
             </div>

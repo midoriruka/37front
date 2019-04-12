@@ -110,7 +110,7 @@
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('recommend')">
                 <div class="button-box">
                   <img src="@/assets/index/tuijian.png" alt="">
                 </div>

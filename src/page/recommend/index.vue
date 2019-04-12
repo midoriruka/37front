@@ -39,10 +39,18 @@ export default {
   data() {
     return {
       pushMobile: "",
-      pushName: ""
+      pushName: "",
+      userId: '',
+      success:require('@/assets/recommend/success.png'),
+      error:require('@/assets/recommend/error.png')
     };
   },
-  created() {},
+  created() {
+    if (window.localStorage.getItem('userMsg')) {
+      var info = JSON.parse(window.localStorage.getItem('userMsg'))
+      this.userId = info.users.userId
+    }
+  },
   methods: {
     outPoint: function() {
       this.isShow = true;
@@ -74,28 +82,29 @@ export default {
         data: {
           pushMobile: this.pushMobile,
           pushName: this.pushName,
-          userId: this.commitType
+          userId: this.userId
         }
       })
         .then(res => {
-          if (res.data.code == 200 || res.data.code == "200") {
-            window.localStorage.setItem(
-              "userMsg",
-              JSON.stringify(res.data.data)
-            );
-            this.$router.push({
-              path: "/"
-            });
-          } else {
+          if(res.data.code == 200 ){
             MessageBox({
-              title: "小提示",
-              message: res.data.msg
+              title: "推荐成功",
+              message: '<img src="' + this.success + '" />',
+              confirmButtonText:'继续推荐'
+            });
+            this.pushMobile = '';
+            this.pushName = '';
+          } else{
+            MessageBox({
+              title: "推荐失败",
+              message: '<img src="' + this.error + '" />',
+              confirmButtonText:'继续推荐'
             });
           }
         })
         .catch(res => {
           MessageBox({
-            title: "小提示",
+            title: "提示",
             message: res.data.msg
           });
         });
@@ -163,6 +172,12 @@ export default {
         margin-top: 3px;
       }
     }
+  }
+}
+.mint-msgbox-message{
+  width: 80%;
+  img{
+    width: 70%
   }
 }
 </style>

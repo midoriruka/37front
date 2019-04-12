@@ -8,7 +8,8 @@ import AddressEdit from '@/page/person/addressEdit';
 import OrderSubmit from '@/page/person/orderSubmit';
 import OrderDetail from '@/page/person/orderDetail';
 import MyShop from '@/page/person/myshop'
-import Suggest from '@/page/person/suggest'
+import Suggest from '@/page/person/suggest';
+import Message from '@/page/person/message'
 
 const user = [{
   path: '/person',
@@ -54,6 +55,10 @@ const user = [{
   path: '/person/suggest',
   name: '意见反馈',
   component: Suggest
+}, {
+  path: '/person/message',
+  name: '消息中心',
+  component: Message
 }]
 
 export default user
