@@ -6,8 +6,8 @@ import LoginRegister from './login'
 import Person from './person'
 import Activity from '@/page/activity/index';
 import Recruitment from './recruitment'
-
 import Recommend from "./recommend";
+import RecruitDetail from '@/page/reward/recruitDetail';
 
 Vue.use(Router);
 
@@ -26,6 +26,11 @@ let menu = new Router({
       path: "/news",
       name: '薪资讯',
       component: News
+    },
+    {
+      path:'/recruitDetail',
+      name:'招聘详情',
+      component:RecruitDetail,
     }
   ].concat(Person, LoginRegister, Recruitment, Recommend)
 })
