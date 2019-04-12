@@ -30,12 +30,15 @@
 export default {
   data() {
     return {
-      shopList: []
+      shopList: [],
+      personUserInfo: {}
     }
   },
   created() {
     window.localStorage.removeItem('shopDetail')
+    window.localStorage.removeItem('saleId')
     this.getShopList()
+    this.getUserMsg()
   },
   methods: {
     getShopList() {
@@ -56,9 +59,39 @@ export default {
         })
       })
     },
+    getUserMsg() {
+      
+      this.axios({
+        method: 'post',
+        url: '/api/h5/getMyCenter',
+        headers: {
+          'Content-type': 'application/json;charset=UTF-8'
+        },
+        data: {
+          userId: JSON.parse(window.localStorage.getItem('userMsg')).users.userId
+        }
+      }).then((res) => {
+        if (res.data.code == 200) {
+          this.personUserInfo = res.data.data.userInte
+        }
+      }).catch((res) => {
+        MessageBox({
+          title: '小提示',
+          message: res.data.msg,
+        })
+      })
+    },
     exchangeShop(data) {
-      console.log('af')
+      
       event.stopPropagation()
+      if (this.personUserInfo && (this.personUserInfo > data.saleNeedInte)) {
+        window.localStorage.setItem('saleId', this.shopDetail.saleInfo.sale_id)
+        this.$router.push({
+          path: '/person/shop/orderConfirm'
+        })
+      } else {
+        this.$message('您的积分不够~')
+      }
     },
     showDetail(data) {
       window.localStorage.setItem('shopDetail', data.saleId)

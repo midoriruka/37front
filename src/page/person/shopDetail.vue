@@ -70,9 +70,9 @@ export default {
 
     exchange() {
       if (this.shopDetail.inte && (this.shopDetail.inte > this.shopDetail.saleInfo.sale_need_inte)) {
-        alert('需要确定页面和传递参数的方式')
+        window.localStorage.setItem('saleId', this.shopDetail.saleInfo.sale_id)
         this.$router.push({
-          path: '/login'
+          path: '/person/shop/orderConfirm'
         })
       } else {
         this.$message('您的积分不够~')
