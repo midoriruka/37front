@@ -1,4 +1,6 @@
 <template>
+  <div>
+   <div v-title>{{type}}</div>
     <div class="index">
       <el-form ref="form" :model="jobInfo" label-width="2rem" label-position="left">
         <el-form-item label="职位名称" class="item">
@@ -75,9 +77,10 @@
           <el-input type="textarea" v-model="jobInfo.ofterReason" placeholder="请输入录用条件"></el-input>
         </el-form-item>
       </el-form>
-      <mt-button class="index-btn" type="primary">保存</mt-button>
-      <mt-button class="index-btn" type="primary">删除职位</mt-button>
+      <mt-button class="index-btn" type="primary" @click="save()">保存</mt-button>
+      <mt-button class="index-btn" type="primary" @click="goBack()">返回</mt-button>
     </div>
+  </div>
 </template>
 
 <script>
@@ -86,6 +89,7 @@
       name: "modifyJobInfo",
       data(){
         return{
+          type:this.$route.query.type,
           education:[
             {
             label:'不限',
@@ -131,20 +135,68 @@
       },
       mounted(){
         this.$nextTick().then(() => {
-          if(this.$route.query.type=='add'){
+          if(this.$route.query.type=='增加职位'){
             this.jobInfo={}
           }else{
-
+            this.getJobInfo();
           }
-          // this.getJobInfo();
         })
-          console.log(this.$route.query.type)
+      },
+      methods:{
+        getJobInfo(){
+          this.axios({
+            method: 'post',
+            url: '/api/h5/addEntrust',
+            headers: {
+              'Content-type': 'application/json;charset=UTF-8'
+            },
+            data: {
+              officeId:this.$route.query.officeId
+            }
+          }).then((res) => {
+            if (res.data.code == 200 && res.data.data) {
+              this.jobInfo = res.data.data
+            }
+          }).catch((res) => {
+            MessageBox({
+              title: '提示',
+              message: res.data.msg,
+            })
+          })
+        },
+        save(){
+          this.axios({
+            method: 'post',
+            url: '/api/h5/addEntrust',
+            headers: {
+              'Content-type': 'application/json;charset=UTF-8'
+            },
+            data: this.jobInfo
+          }).then((res) => {
+            if (res.data.code == 200) {
+              MessageBox({
+                title: '提示',
+                message: '保存成功！',
+              })
+            }
+          }).catch((res) => {
+            MessageBox({
+              title: '提示',
+              message: res.data.msg,
+            })
+          })
+        },
+        goBack(){
+          this.$router.go(-1);
+        }
       }
     }
 </script>
 
 <style scoped lang="scss">
 .index{
+  min-height: 100vh;
+  background: #fff;
   padding-left: 0.5rem;
   padding-top: 0.5rem;
   .item{
@@ -153,8 +205,7 @@
   .index-btn{
     width: 3.2rem;
     height: 1.067rem;
-    margin-top: 1rem;
-    margin-left: 1rem;
+    margin: 1rem 0 1rem 1rem;
     background-color: #e6a03c;
     font-size: 0.32rem;
   }
