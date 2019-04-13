@@ -14,7 +14,6 @@ import 'mint-ui/lib/style.css'
 import 'font-awesome/scss/font-awesome.scss'
 import './styles/index.scss'
 
-
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
@@ -44,7 +43,6 @@ Vue.directive('title', {
 //   }
 // })
 
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
