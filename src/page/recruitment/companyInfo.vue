@@ -131,7 +131,7 @@
               companyUserId:JSON.parse(window.localStorage.getItem('userMsg')).users.userId,
             }
           }).then((res) => {
-            console.log(res.data.code);
+            console.log(JSON.parse(window.localStorage.getItem('userMsg')).users.userId);
             if (res.code == 200 && res.data.data) {
               console.log(res.data.data);
               this.fieldData = res.data.data;
