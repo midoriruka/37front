@@ -278,8 +278,8 @@
               
             </el-col>
             <el-col :span="4" style="padding: 0">
-              <div v-if="isInfo">
-                <div @click="showDetail('pushWork')">
+              <!-- <div v-if="isInfo"> -->
+                <!-- <div @click="showDetail('pushWork')">
                   <div>
                     <img src="@/assets/person/shop.png" alt="" class="person-list-img">
                   </div>
@@ -288,7 +288,7 @@
                   </div>
                 </div>
               </div>
-              <div v-else>
+              <div v-else> -->
                 <div @click="showDetail('apply')">
                   <div>
                     <img src="@/assets/person/shop.png" alt="" class="person-list-img">
@@ -297,7 +297,7 @@
                     我要入驻
                   </div>
                 </div>
-              </div>
+              <!-- </div> -->
               
             </el-col>
             <el-col :span="4" style="padding: 0">
@@ -1247,6 +1247,7 @@ export default {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    
   }
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;

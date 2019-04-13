@@ -11,11 +11,17 @@ import position from '../page/positionSignInAddPrice/position.vue'
 import addPrice from '../page/positionSignInAddPrice/addPrice.vue'
 import Activity from '@/page/activity/index';
 import Recruitment from './recruitment'
-import Recommend from "./recommend";
+import Recommend from './recommend';
 import RecruitDetail from '@/page/reward/recruitDetail';
 import ImgUpload from '@/page/reward/imgUpload';
+import MoreComments from '@/page/reward/moreComments';
+import Sign from './sign'
+import Daypay from '@/page/daypay/index'
+import HighReward from '@/page/highreward/index'
 
 Vue.use(Router);
+
+Vue.use(Router)
 
 let menu = new Router({
   mode: 'history',
@@ -54,21 +60,37 @@ let menu = new Router({
       component: Activity
     },
     {
-      path: "/news",
+      path: '/news',
       name: '薪资讯',
       component: News
     },
     {
-      path:'/recruitDetail',
-      name:'招聘详情',
-      component:RecruitDetail,
+      path: '/recruitDetail',
+      name: '招聘详情',
+      component: RecruitDetail
     },
     {
       path:'/reward/imgUpload',
-      name:'招聘详情',
+      name:'企业图片上传',
       component:ImgUpload,
+    },{
+      path:'/reward/moreComments',
+      name:'更多点评',
+      component:MoreComments,
+    },{
+      path: '/reward/imgUpload',
+      name: '招聘详情',
+      component: ImgUpload
+    },{
+      path: '/daypay',
+      name: '日多薪',
+      component: Daypay
+    }, {
+      path: '/highreward',
+      name: '最高奖励',
+      component: HighReward
     }
-  ].concat(Person, LoginRegister, Recruitment, Recommend)
+  ].concat(Person, LoginRegister, Recruitment, Recommend, Sign)
 })
 
 export default menu;
