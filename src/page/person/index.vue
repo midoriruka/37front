@@ -48,12 +48,15 @@
                 </div>
               </el-col>
               <el-col :span="12">
-                <div style="font-size: 0.3rem">
-                  账户余额
+                <div @click="showDetail('tixian')">
+                  <div style="font-size: 0.3rem">
+                    账户余额
+                  </div>
+                  <div style="font-size: 0.6rem">
+                    {{this.companyUserInfo.userBlanace | numfilter}}
+                  </div>
                 </div>
-                <div style="font-size: 0.6rem">
-                  {{this.companyUserInfo.userBlanace | numfilter}}
-                </div>
+                
               </el-col>
             </el-row>
           </div>
@@ -138,12 +141,15 @@
                 </div>
               </el-col>
               <el-col :span="8">
-                <div style="font-size: 0.3rem">
-                  账户余额
+                <div @click="showDetail('tixian')">
+                  <div style="font-size: 0.3rem">
+                    账户余额
+                  </div>
+                  <div style="font-size: 0.6rem">
+                    {{this.personUserInfo.userBalance | numfilter}}
+                  </div>
                 </div>
-                <div style="font-size: 0.6rem">
-                  {{this.personUserInfo.userBalance | numfilter}}
-                </div>
+                
               </el-col>
             </el-row>
           </div>
@@ -535,6 +541,8 @@ export default {
         })
       } else if (data == 'eco') {
         this.ecoDialogVisible = true
+      } else if (data == 'tixian') {
+        
       }
     },
     unLogin() {
