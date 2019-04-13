@@ -405,6 +405,10 @@
               <el-col :span="12">{{this.companyUserInfo.userName}}</el-col>
               <el-col :span="12">{{this.companyInfo.userPhone}}</el-col>
             </el-row>
+            <el-row style="margin: 0">
+              <el-col :span="12">拨打免费电话</el-col>
+              <el-col :span="12">{{this.companyInfo.userPhone}}</el-col>
+            </el-row>
           </div>
           <div v-else>
             暂无经纪人
@@ -623,7 +627,7 @@ export default {
           'Content-type': 'application/json;charset=UTF-8'
         },
         data: {
-          userId: this.user.userId
+          userId: data == 0 ? this.user.userId : this.user.company_user_id
         }
       }).then((res) => {
         if (res.data.code == 200) {
