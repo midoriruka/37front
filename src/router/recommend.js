@@ -2,6 +2,8 @@ import Recommend from "@/page/recommend";
 
 import ReviewDetail from '@/page/person/reviewDetail'
 
+import ErrorCorrection from '@/page/person/errorCorrection'
+
 
 const recommend = [
   {
@@ -13,6 +15,11 @@ const recommend = [
     path: "/reviewDetail",
     name: "发表评论",
     component: ReviewDetail
+  },
+  {
+    path: "/errorCorrection",
+    name: "我要纠错",
+    component: ErrorCorrection
   }
 ];
 

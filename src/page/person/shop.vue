@@ -82,10 +82,9 @@ export default {
       })
     },
     exchangeShop(data) {
-      
       event.stopPropagation()
       if (this.personUserInfo && (this.personUserInfo > data.saleNeedInte)) {
-        window.localStorage.setItem('saleId', this.shopDetail.saleInfo.sale_id)
+        window.localStorage.setItem('saleId', data.saleId)
         this.$router.push({
           path: '/person/shop/orderConfirm'
         })

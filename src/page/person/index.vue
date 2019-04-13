@@ -11,10 +11,10 @@
           <div class="person-info">
             <el-row type="flex" class="row-bg" justify="space-between" style="margin: 0; padding-left: 10px; text-align: left">
               <el-col :span="6">
-                <span v-if="isInfo" class="qiandao">
+                <span v-if="isInfo"  class="weiqiandao">
                   已入驻
                 </span>
-                <span v-else class="weiqiandao">
+                <span v-else class="qiandao"  @click="showDetail('apply')">
                   未入驻
                 </span>
               </el-col>
@@ -48,7 +48,7 @@
                 </div>
               </el-col>
               <el-col :span="12">
-                <div @click="showDetail('tixian')">
+                <div >
                   <div style="font-size: 0.3rem">
                     账户余额
                   </div>
@@ -133,15 +133,18 @@
                 </div>
               </el-col>
               <el-col :span="8">
-                <div style="font-size: 0.3rem">
-                  预计奖励
+                <div @click="showDetail('pay')">
+                  <div style="font-size: 0.3rem">
+                    预计奖励
+                  </div>
+                  <div style="font-size: 0.6rem">
+                    {{this.personUserInfo.payAmount | numfilter}}
+                  </div>
                 </div>
-                <div style="font-size: 0.6rem">
-                  {{this.personUserInfo.payAmount | numfilter}}
-                </div>
+                
               </el-col>
               <el-col :span="8">
-                <div @click="showDetail('tixian')">
+                <div >
                   <div style="font-size: 0.3rem">
                     账户余额
                   </div>
@@ -259,61 +262,193 @@
         </el-row>
       </div>
     </div>
-    <div class="person-list">
-      <el-row :gutter="24" type="flex"  justify="center" style="margin: 0">
-        <el-col :span="4" style="padding: 0">
-          <div @click="jumpTo('/person/focusCompany')">
-            <div>
-              <img src="@/assets/person/guanzhuqiye.png" alt="" class="person-list-img">
-            </div>
-            <div style="font-size: 0.1rem;">
-              关注企业
-            </div>
-          </div>
-          
-        </el-col>
-        <el-col :span="4" style="padding: 0">
-          <div @click="jumpto('person/myshop')">
-            <div>
-              <img src="@/assets/person/shop.png" alt="" class="person-list-img">
-            </div>
-            <div style="font-size: 0.1rem;">
-              我的小店
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="4" style="padding: 0">
-          <div @click="jumpTo('/person/message')">
-            <div>
-              <img src="@/assets/person/msg.png" alt="" class="person-list-img">
-            </div>
-            <div style="font-size: 0.1rem;">
-              消息中心
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="4" style="padding: 0">
-          <div>
-            <div>
-              <img src="@/assets/person/tixian.png" alt="" class="person-list-img">
-            </div>
-            <div style="font-size: 0.1rem;">
-              提现
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="4" style="padding: 0">
-          <div @click="jumpTo('/person/suggest')">
-            <div>
-              <img src="@/assets/person/suggest.png" alt="" class="person-list-img">
-            </div>
-            <div style="font-size: 0.1rem;">
-              意见反馈
-            </div>
-          </div>
-        </el-col>
-      </el-row>
+    <div v-if="isLogin">
+      <div v-if="isCompanyUser">
+        <div class="person-list">
+          <el-row :gutter="24" type="flex"  justify="center" style="margin: 0">
+            <el-col :span="4" style="padding: 0">
+              <div @click="jumpTo('/recruitment')">
+                <div>
+                  <img src="@/assets/person/guanzhuqiye.png" alt="" class="person-list-img">
+                </div>
+                <div style="font-size: 0.1rem;">
+                  我的招聘
+                </div>
+              </div>
+              
+            </el-col>
+            <el-col :span="4" style="padding: 0">
+              <!-- <div v-if="isInfo"> -->
+                <!-- <div @click="showDetail('pushWork')">
+                  <div>
+                    <img src="@/assets/person/shop.png" alt="" class="person-list-img">
+                  </div>
+                  <div style="font-size: 0.1rem;">
+                    职位发布
+                  </div>
+                </div>
+              </div>
+              <div v-else> -->
+                <div @click="showDetail('apply')">
+                  <div>
+                    <img src="@/assets/person/shop.png" alt="" class="person-list-img">
+                  </div>
+                  <div style="font-size: 0.1rem;">
+                    我要入驻
+                  </div>
+                </div>
+              <!-- </div> -->
+              
+            </el-col>
+            <el-col :span="4" style="padding: 0">
+              <div @click="jumpTo('/person/message')">
+                <div>
+                  <img src="@/assets/person/msg.png" alt="" class="person-list-img">
+                </div>
+                <div style="font-size: 0.1rem;">
+                  消息中心
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="4" style="padding: 0">
+              <div @click="showDetail('tixian')">
+                <div>
+                  <img src="@/assets/person/tixian.png" alt="" class="person-list-img">
+                </div>
+                <div style="font-size: 0.1rem;">
+                  提现
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="4" style="padding: 0">
+              <div @click="jumpTo('/person/suggest')">
+                <div>
+                  <img src="@/assets/person/suggest.png" alt="" class="person-list-img">
+                </div>
+                <div style="font-size: 0.1rem;">
+                  意见反馈
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+      <div v-else>
+        <div class="person-list">
+          <el-row :gutter="24" type="flex"  justify="center" style="margin: 0">
+            <el-col :span="4" style="padding: 0">
+              <div @click="jumpTo('/person/focusCompany')">
+                <div>
+                  <img src="@/assets/person/guanzhuqiye.png" alt="" class="person-list-img">
+                </div>
+                <div style="font-size: 0.1rem;">
+                  关注企业
+                </div>
+              </div>
+              
+            </el-col>
+            <el-col :span="4" style="padding: 0">
+              <div @click="jumpto('person/myshop')">
+                <div>
+                  <img src="@/assets/person/shop.png" alt="" class="person-list-img">
+                </div>
+                <div style="font-size: 0.1rem;">
+                  我的小店
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="4" style="padding: 0">
+              <div @click="jumpTo('/person/message')">
+                <div>
+                  <img src="@/assets/person/msg.png" alt="" class="person-list-img">
+                </div>
+                <div style="font-size: 0.1rem;">
+                  消息中心
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="4" style="padding: 0">
+              <div @click="showDetail('tixian')">
+                <div>
+                  <img src="@/assets/person/tixian.png" alt="" class="person-list-img">
+                </div>
+                <div style="font-size: 0.1rem;">
+                  提现
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="4" style="padding: 0">
+              <div @click="jumpTo('/person/suggest')">
+                <div>
+                  <img src="@/assets/person/suggest.png" alt="" class="person-list-img">
+                </div>
+                <div style="font-size: 0.1rem;">
+                  意见反馈
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
     </div>
+    <div v-else>
+      <div class="person-list">
+        <el-row :gutter="24" type="flex"  justify="center" style="margin: 0">
+          <el-col :span="4" style="padding: 0">
+            <div @click="jumpTo('/person/focusCompany')">
+              <div>
+                <img src="@/assets/person/guanzhuqiye.png" alt="" class="person-list-img">
+              </div>
+              <div style="font-size: 0.1rem;">
+                关注企业
+              </div>
+            </div>
+            
+          </el-col>
+          <el-col :span="4" style="padding: 0">
+            <div @click="jumpto('person/myshop')">
+              <div>
+                <img src="@/assets/person/shop.png" alt="" class="person-list-img">
+              </div>
+              <div style="font-size: 0.1rem;">
+                我的小店
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="4" style="padding: 0">
+            <div @click="jumpTo('/person/message')">
+              <div>
+                <img src="@/assets/person/msg.png" alt="" class="person-list-img">
+              </div>
+              <div style="font-size: 0.1rem;">
+                消息中心
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="4" style="padding: 0">
+            <div>
+              <div>
+                <img src="@/assets/person/tixian.png" alt="" class="person-list-img">
+              </div>
+              <div style="font-size: 0.1rem;">
+                提现
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="4" style="padding: 0">
+            <div @click="jumpTo('/person/suggest')">
+              <div>
+                <img src="@/assets/person/suggest.png" alt="" class="person-list-img">
+              </div>
+              <div style="font-size: 0.1rem;">
+                意见反馈
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
+    
     <div class="index-foot">
       <div>
         站点地图
@@ -506,6 +641,89 @@
       </span>
     </el-dialog>
 
+
+    <el-dialog
+      title="预计奖励"
+      :visible.sync="payDialogVisible"
+      width="90%"
+      center
+      >
+      <div>
+        <div v-if="payList.length == 0">
+          暂无奖励记录
+        </div>
+        <div v-else>
+          <el-table
+            :data="payList"
+            stripe
+            style="width: 100%">
+            <el-table-column
+              prop="index"
+              label="序号"
+              align="center"
+              >
+            </el-table-column>
+            <el-table-column
+              prop="orderType"
+              label="来源"
+              align="center"
+              >
+              <template slot-scope="scope">
+                {{scope.row.orderType | orderType}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="onAmount"
+              align="center"
+              label="金额（元）">
+            </el-table-column>
+            <el-table-column
+              prop="address"
+              align="center"
+              label="预计获得时间">
+              <template slot-scope="scope">
+                {{scope.row.inteTime | time}}
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="payDialogVisible = false" style="background: #e6a03c; border: none">知道了</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog
+      title="我要入驻"
+      :visible.sync="applyDIalogVisible"
+      width="90%"
+      center
+      >
+      <div>
+        <el-form ref="form" :model="applyForm" label-width="80px">
+          <el-form-item label="企业名称">
+            <el-input v-model="applyForm.userName"></el-input>
+          </el-form-item>
+          <el-form-item label="营业执照">
+            <el-upload
+              class="avatar-uploader"
+              action="https://jaf"
+              :show-file-list="false"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="applyForm.companyTaxImage" :src="applyForm.companyTaxImage" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="applyDIalogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitApply()" style="background: #e6a03c; border: none">提交申请</el-button>
+      </span>
+    </el-dialog>
+
     
     <tabbar tarname="person" :iconarr="iconArr"></tabbar>
   </div>
@@ -537,7 +755,14 @@ export default {
         bankName: '',
         userName: ''
       },
-      tixianHistory: []
+      tixianHistory: [],
+      payDialogVisible: false,
+      payList: [],
+      applyDIalogVisible: false,
+      applyForm: {
+        userId: '',
+        companyTaxImage: ''
+      }
     }
   },
   components: {tabbar},
@@ -572,6 +797,21 @@ export default {
           break
         case '3': 
           text = '入职奖励'
+          break
+        default: 
+          text = ''
+      }
+
+      return text
+    },
+    orderType: (value) => {
+      let text = ''
+      switch (value) {
+        case '0': 
+          text = '入职'
+          break
+        case '1': 
+          text = '推荐'
           break
         default: 
           text = ''
@@ -617,6 +857,44 @@ export default {
     }
   },
   methods: {
+    beforeAvatarUpload(file) {
+      var testmsg=file.name.substring(file.name.lastIndexOf('.'))				
+      let typeArr = ['.png', '.jpg', '.jpeg']
+      if (typeArr.indexOf(testmsg) > -1) {
+        // 上传文件地址，然后赋值给fileForm.waterFile
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+          let _base64 = reader.result
+
+          this.axios({
+            method: 'post',
+            url: '/api/back/uploadFile',
+            headers: {
+              'Content-type': 'application/json;charset=UTF-8'
+            },
+            data: {
+              baseFile: _base64,
+              baseType: testmsg.substring(1)
+            }
+          }).then((res) => {
+            if (res.data.code == 200) {
+              this.applyForm.companyTaxImage = res.data.data
+            } else {
+              this.$message.error('上传失败，请重试')
+            }
+          }).catch(() => {
+            this.$message.error('上传失败，请重试')
+          })
+        }
+      } else {
+        this.$message({
+          type: 'error',
+          message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
+        })
+        return 
+      }
+    },
     showDetail(data) {
       if (data == 'userInte') {
         this.userInteDialogVisible = true
@@ -667,8 +945,6 @@ export default {
               this.tixianForm = res.data.data.userInfo
             }
             
-            
-            
           }
         }).catch((res) => {
           MessageBox({
@@ -676,29 +952,113 @@ export default {
             message: res.data.msg,
           })
         })
+      } else if (data == 'pay') {
+        this.payDialogVisible = true
+
+        this.axios({
+          method: 'post',
+          url: '/api/h5/getBackOrderList',
+          headers: {
+            'Content-type': 'application/json;charset=UTF-8'
+          },
+          data: {
+            userId: this.user.loginType == 'person' ? this.user.userId : this.user.company_user_id
+          }
+        }).then((res) => {
+          if (res.data.code == 200 && res.data.data) {
+            let data = res.data.data
+            for (let i = 0; i < data.length; i++) {
+              data[i].index = i + 1
+            }
+            this.payList = data
+          }
+        }).catch((res) => {
+          MessageBox({
+            title: '小提示',
+            message: res.data.msg,
+          })
+        })
+      } else if (data == 'apply') {
+        if (this.isInfo) {
+          this.$message({
+            message: '您当前已经入驻',
+            type: 'success'
+          })
+        } else {
+          this.applyDIalogVisible = true
+        }
+        
+      } else if (data == 'pushWork') {
+        
       }
     },
     submitTixian() {
       this.axios({
         method: 'post',
-        url: '/api/h5/getCashLog',
+        url: '/api/h5/commitCash',
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
         data: {
-          userId: this.user.loginType == 'person' ? this.user.userId : this.user.company_user_id
+          userId: this.user.loginType == 'person' ? this.user.userId : this.user.company_user_id,
+          bankNo: this.tixianForm.bankNo,
+          bankName: this.tixianForm.bankName
         }
       }).then((res) => {
         if (res.data.code == 200 && res.data.data) {
-          this.tixianHistory = res.data.data.logList
-          this.tixianForm = res.data.data.userInfo
+          this.$message({
+            message: '恭喜你，提现已提交',
+            type: 'success'
+          })
           
+          
+        } else {
+          MessageBox({
+            title: '小提示',
+            message: res.data.msg,
+          })
         }
+        this.tixianDialogVisible = false
       }).catch((res) => {
         MessageBox({
           title: '小提示',
           message: res.data.msg,
         })
+        this.tixianDialogVisible = false
+      })
+    },
+    submitApply() {
+      this.axios({
+        method: 'post',
+        url: '/api/h5/commitCompanyApply',
+        headers: {
+          'Content-type': 'application/json;charset=UTF-8'
+        },
+        data: {
+          userId: this.user.loginType == 'person' ? this.user.userId : this.user.company_user_id,
+          companyTaxImage: this.applyForm.companyTaxImage
+        }
+      }).then((res) => {
+        if (res.data.code == 200 && res.data.data) {
+          this.$message({
+            message: '恭喜你，申请已提交',
+            type: 'success'
+          })
+          
+          
+        } else {
+          MessageBox({
+            title: '小提示',
+            message: res.data.msg,
+          })
+        }
+        this.applyDIalogVisible = false
+      }).catch((res) => {
+        MessageBox({
+          title: '小提示',
+          message: res.data.msg,
+        })
+        this.tixianDialogVisible = false
       })
     },
     unLogin() {
@@ -875,5 +1235,33 @@ export default {
   border-radius: 10px;
   font-size: 0.3rem
 }
+
 </style>
+<style>
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+</style>
+
 

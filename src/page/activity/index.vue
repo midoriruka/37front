@@ -130,10 +130,9 @@ export default {
         // this.prizes[7].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
         // this.prizes[8].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
       }
-      console.log(this.prizes);
     },
     async drawLottery(index) {
-      if (!interval) {
+      if (!interval && this.count > 0) {
         if (index === 4) { //4是抽奖按钮
           let i = parseInt(Math.random() * 8);
           interval = setInterval(() => {
@@ -171,9 +170,12 @@ export default {
               }, 100)
             }, drawTime);
           } else {
+            clearInterval(interval);
+            interval = null;
+            this.currentIndex = -1;
             MessageBox.alert('抽奖失败');
           }
-
+          this.getActivityInfo();
         }
       }
     }
