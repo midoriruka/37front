@@ -137,8 +137,15 @@
         if(!this.userPhoneNew || !this.userPhoneOld){
           this.$store.commit('showToast','请填写号码');
           return
+        }else if(!(/^1[3456789]\d{9}$/.test(this.userPhoneNew)) || !(/^1[3456789]\d{9}$/.test(this.userPhoneOld))){
+          this.$store.commit('showToast','手机格式不正确');
+          return
         }
-
+        if(!this.smsCode){
+          this.$store.commit('showToast','请填写验证码');
+          return;
+        }
+        this.changeMyPhone();
       },
     },
     created(){

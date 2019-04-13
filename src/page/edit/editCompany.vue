@@ -7,7 +7,7 @@
         <mt-field label="企业名称" placeholder="请输入公司名称" v-model="companyUserInfo.companyName"></mt-field>
         <mt-field label="企业简称" placeholder="请输入公司简称" v-model="companyUserInfo.companySort"></mt-field>
         <mt-field label="联系人" placeholder="请输入性别" v-model="companyUserInfo.companyContact"></mt-field>
-        <EditPhone label="联系电话" :companyContactPhone="companyUserInfo.companyContactPhone"></EditPhone>
+        <EditPhone label="联系电话" :companyContactPhone="companyUserInfo.companyContactPhone" @callback="callback"></EditPhone>
         <!--<mt-field label="联系电话" placeholder="请输入联系电话" v-model="companyUserInfo.companyContactPhone"></mt-field>-->
         <Selector label="工资发放周期"
                   type="userNation"
@@ -104,6 +104,9 @@
       }
     },
     methods:{
+      callBack(data){
+        this.companyUserInfo.companyContactPhone = data;
+      },
       changeValue(data){
         this.companyUserInfo[data.type] = data.value;
       },
