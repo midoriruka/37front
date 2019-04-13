@@ -27,13 +27,13 @@
       <div class="index-banner">
         <mt-swipe :auto="4000" style="height: 200px">
           <mt-swipe-item>
-            <img :src="bannerList.indexBannerOneUrl" :alt="bannerList.indexBannerOne" class="banner-img">
+            <img :src="bannerList.indexBannerOne" :alt="bannerList.indexBannerOne" class="banner-img" @click="jump(bannerList.indexBannerOneUrl)">
           </mt-swipe-item>
           <mt-swipe-item>
-            <img :src="bannerList.indexBannerTwoUrl" :alt="bannerList.indexBannerTwo" class="banner-img">
+            <img :src="bannerList.indexBannerTwo" :alt="bannerList.indexBannerTwo" class="banner-img" @click="jump(bannerList.indexBannerTwoUrl)">
           </mt-swipe-item>
           <mt-swipe-item>
-            <img :src="bannerList.indexBannerThreeUrl" :alt="bannerList.indexBannerThree" class="banner-img">
+            <img :src="bannerList.indexBannerThree" :alt="bannerList.indexBannerThree" class="banner-img" @click="jump(bannerList.indexBannerThreeUrl)">
           </mt-swipe-item>
         </mt-swipe>
         <div class="banner-gun" v-if="this.bannerContent.length > 0">
@@ -74,18 +74,18 @@
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('news')">
                 <div class="button-box">
                   <img src="@/assets/index/xinzixun.png" alt="">
                 </div>
                 <div class="button-box">
-                  新资讯
+                  薪资讯
                 </div>
               </div>
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('person')">
                 <div class="button-box">
                   <img src="@/assets/index/person.png" alt="">
                 </div>
@@ -110,7 +110,7 @@
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('recommend')">
                 <div class="button-box">
                   <img src="@/assets/index/tuijian.png" alt="">
                 </div>
@@ -121,7 +121,7 @@
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('recruitment')">
                 <div class="button-box">
                   <img src="@/assets/index/zhaopin.png" alt="">
                 </div>
@@ -206,10 +206,10 @@
               </div>
               <div>
                 <span class="offic-tag" v-for="(tagItem, indexs) in item.officeTags.split(',')" :key="indexs">
-                  {{tagItem}}
+                  {{tagItem | tag}}
                 </span>
               </div>
-              <div style="color: #777; margin-top: 5px;">
+              <div style="color: #777; margin-top: 5px;" class="ellipsis-1">
                 {{item.companyName}}
               </div>
             </el-col>
@@ -262,10 +262,10 @@
               </div>
               <div>
                 <span class="offic-tag" v-for="(tagItem, indexs) in item.officeTags.split(',')" :key="indexs">
-                  {{tagItem}}
+                  {{tagItem | tag}}
                 </span>
               </div>
-              <div style="color: #777; margin-top: 5px;">
+              <div style="color: #777; margin-top: 5px;" class="ellipsis-1">
                 {{item.companyName}}
               </div>
             </el-col>
@@ -318,6 +318,7 @@
 import tabbar from '@/components/tabbar'
 import { MessageBox } from 'mint-ui'
 import moment from 'moment'
+import tags from './tags'
 export default {
   name: 'index',
   data() {
@@ -342,6 +343,16 @@ export default {
   },
   components: {tabbar},
   filters: {
+    tag: (value) => {
+      let text = ''
+      for (let i = 0; i < tags.length; i++) {
+        if (value == tags[i].value) {
+          text = tags[i].label
+          break
+        }
+      }
+      return text
+    },
     time: (value) => {
       return moment(value).format('YYYY-MM-DD')
     },
@@ -352,12 +363,9 @@ export default {
           text = '元/月';
           break;
         case '1':
-          text = '元/周';
-          break;
-        case '2':
           text = '元/天';
           break;
-        case '3':
+        case '2':
           text = '元/小时';
           break;
         default:
@@ -414,6 +422,11 @@ export default {
         })
       })
     },
+
+    jump(data) {
+      window.location.href = data
+    },
+    
     getHotOffice() {
       this.axios({
         method: 'post',
@@ -480,8 +493,19 @@ export default {
       }
       }, 3500);
     },
-    jumpTo() {
-      console.log('fasdf')
+    jumpTo(data) {
+      let loginType=window.localStorage.getItem('loginType');
+      if(data=='recruitment' && loginType=='person'){
+        MessageBox({
+          title: '小提示',
+          message: '请使用企业账号登录'
+        })
+      }
+      else{
+        this.$router.push({
+          path: `/${data}`
+        })
+      }
     }
   }
 }

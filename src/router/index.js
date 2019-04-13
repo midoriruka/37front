@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/page/index/index'
+import News from '@/page/news/index'
 import LoginRegister from './login'
 import Person from './person'
 import editPerson from '../page/edit/editPerson.vue'
@@ -8,8 +9,12 @@ import editCompany from '../page/edit/editCompany.vue'
 import signIn from '../page/positionSignInAddPrice/signIn.vue'
 import position from '../page/positionSignInAddPrice/position.vue'
 import addPrice from '../page/positionSignInAddPrice/addPrice.vue'
+import Activity from '@/page/activity/index';
+import Recruitment from './recruitment'
 
-Vue.use(Router)
+import Recommend from "./recommend";
+
+Vue.use(Router);
 
 let menu = new Router({
   mode: 'history',
@@ -18,13 +23,13 @@ let menu = new Router({
       path: '/editPerson',
       name: '修改个人资料',
       component: editPerson,
-      meta:{showHead:true}
+      meta: {showHead: true}
     },
     {
       path: '/editCompany',
       name: '修改公司资料',
       component: editCompany,
-      meta:{showHead:true}
+      meta: {showHead: true}
     },{
       path: '/signIn',
       name: '我要报名',
@@ -42,8 +47,17 @@ let menu = new Router({
       path: '/',
       name: '首页',
       component: Index
+    }, {
+      path: '/activity',
+      name: '最新活动',
+      component: Activity
+    },
+    {
+      path: "/news",
+      name: '薪资讯',
+      component: News
     }
-  ].concat(Person, LoginRegister)
+  ].concat(Person, LoginRegister, Recruitment, Recommend)
 })
 
-export default menu
+export default menu;

@@ -1,0 +1,29 @@
+.main{
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	font-size: 0.32rem;
+	color: #969696;
+}
+.main-img{
+	height:3.373333rem;
+	margin:1.133333rem 0 0.946667rem 0;
+}
+.main-text{
+	font-size: 0.4rem;
+	color: #323232;
+}
+.btn-group{
+	display:flex;
+	padding:1.373333rem 0;
+}
+.btn{
+	width: 3.2rem;
+	height: 1.066667rem;
+	line-height: 1.066667rem;
+	background-color: #e6a03c;
+	border-radius: 0.133333rem;
+	margin:0 0.44rem;
+	color:#fff;
+}

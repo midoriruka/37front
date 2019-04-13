@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="person-index">
+    <!-- 每个页面的地址栏title更改部分 -->
     <div v-title>个人中心</div>
     <div v-if="isLogin">
       <!-- 已登录 -->
@@ -47,12 +48,15 @@
                 </div>
               </el-col>
               <el-col :span="12">
-                <div style="font-size: 0.3rem">
-                  账户余额
+                <div @click="showDetail('tixian')">
+                  <div style="font-size: 0.3rem">
+                    账户余额
+                  </div>
+                  <div style="font-size: 0.6rem">
+                    {{this.companyUserInfo.userBlanace | numfilter}}
+                  </div>
                 </div>
-                <div style="font-size: 0.6rem">
-                  {{this.companyUserInfo.userBlanace | numfilter}}
-                </div>
+                
               </el-col>
             </el-row>
           </div>
@@ -60,21 +64,27 @@
         <div class="person-two">
           <el-row style="margin: 0">
             <el-col :span="12">
-              <div style="font-size: 0.6rem">
-                {{this.companyUserInfo.userInte || 0}}
+              <div @click="showDetail('userInte')">
+                <div style="font-size: 0.6rem">
+                  {{this.companyUserInfo.userInte || 0}}
+                </div>
+                <div style="font-size: 0.3rem">
+                  可用积分
+                </div>
               </div>
-              <div style="font-size: 0.3rem">
-                可用积分
-              </div>
+              
                 
             </el-col>
             <el-col :span="12">
-              <div style="font-size: 0.6rem">
-                {{this.companyUserInfo.userName || '无'}}
+              <div @click="showDetail('eco')">
+                <div style="font-size: 0.6rem">
+                  {{this.companyUserInfo.userName || '无'}}
+                </div>
+                <div style="font-size: 0.3rem">
+                  经纪人
+                </div>
               </div>
-              <div style="font-size: 0.3rem">
-                经纪人
-              </div>
+              
             </el-col>
           </el-row>
         </div>
@@ -131,12 +141,15 @@
                 </div>
               </el-col>
               <el-col :span="8">
-                <div style="font-size: 0.3rem">
-                  账户余额
+                <div @click="showDetail('tixian')">
+                  <div style="font-size: 0.3rem">
+                    账户余额
+                  </div>
+                  <div style="font-size: 0.6rem">
+                    {{this.personUserInfo.userBalance | numfilter}}
+                  </div>
                 </div>
-                <div style="font-size: 0.6rem">
-                  {{this.personUserInfo.userBalance | numfilter}}
-                </div>
+                
               </el-col>
             </el-row>
           </div>
@@ -144,21 +157,27 @@
         <div class="person-two">
           <el-row style="margin: 0">
             <el-col :span="12">
-              <div style="font-size: 0.6rem">
-                {{this.personUserInfo.userInte || 0}}
+              <div @click="showDetail('userInte')">
+                <div style="font-size: 0.6rem">
+                  {{this.personUserInfo.userInte || 0}}
+                </div>
+                <div style="font-size: 0.3rem">
+                  可用积分
+                </div>
               </div>
-              <div style="font-size: 0.3rem">
-                可用积分
-              </div>
+              
                 
             </el-col>
             <el-col :span="12">
-              <div style="font-size: 0.6rem">
-                {{this.personUserInfo.ecoName || '无'}}
+              <div @click="showDetail('eco')">
+                <div style="font-size: 0.6rem">
+                  {{this.personUserInfo.ecoName || '无'}}
+                </div>
+                <div style="font-size: 0.3rem">
+                  经纪人
+                </div>
               </div>
-              <div style="font-size: 0.3rem">
-                经纪人
-              </div>
+              
             </el-col>
           </el-row>
         </div>
@@ -215,20 +234,26 @@
       <div class="person-two">
         <el-row style="margin: 0">
           <el-col :span="12">
-            <div style="font-size: 0.6rem">
-              0
+            <div @click="unLogin()">
+              <div style="font-size: 0.6rem">
+                0
+              </div>
+              <div style="font-size: 0.3rem">
+                可用积分
+              </div>
             </div>
-            <div style="font-size: 0.3rem">
-              可用积分
-            </div>
+            
               
           </el-col>
           <el-col :span="12">
-            <div style="font-size: 0.6rem">
-              无
-            </div>
-            <div style="font-size: 0.3rem">
-              经纪人
+            <div @click="unLogin()">
+              <div style="font-size: 0.6rem">
+                无
+              </div>
+              <div style="font-size: 0.3rem">
+                经纪人
+              </div>
+            
             </div>
           </el-col>
         </el-row>
@@ -237,7 +262,7 @@
     <div class="person-list">
       <el-row :gutter="24" type="flex"  justify="center" style="margin: 0">
         <el-col :span="4" style="padding: 0">
-          <div>
+          <div @click="jumpTo('/person/focusCompany')">
             <div>
               <img src="@/assets/person/guanzhuqiye.png" alt="" class="person-list-img">
             </div>
@@ -248,7 +273,7 @@
           
         </el-col>
         <el-col :span="4" style="padding: 0">
-          <div>
+          <div @click="jumpto('person/myshop')">
             <div>
               <img src="@/assets/person/shop.png" alt="" class="person-list-img">
             </div>
@@ -258,7 +283,7 @@
           </div>
         </el-col>
         <el-col :span="4" style="padding: 0">
-          <div>
+          <div @click="jumpTo('/person/message')">
             <div>
               <img src="@/assets/person/msg.png" alt="" class="person-list-img">
             </div>
@@ -278,7 +303,7 @@
           </div>
         </el-col>
         <el-col :span="4" style="padding: 0">
-          <div>
+          <div @click="jumpTo('/person/suggest')">
             <div>
               <img src="@/assets/person/suggest.png" alt="" class="person-list-img">
             </div>
@@ -305,10 +330,105 @@
       <div>
         苏ICP备17027824号-
       </div>
-      <div style="margin-top: 50px;">
+      <div style="margin-top: 20px;">
         真的没有了！
       </div>
+      <div>
+        <el-button type="danger" style="width: 100%" @click="logout()">退出登录</el-button>
+      </div>
     </div>
+
+
+    <el-dialog
+      title="积分明细"
+      :visible.sync="userInteDialogVisible"
+      width="90%"
+      center
+      :before-close="handleClose">
+      <div>
+        <div v-if="inteList.length == 0">
+          暂无积分记录
+        </div>
+        <div v-else>
+          <el-table
+            :data="inteList"
+            stripe
+            style="width: 100%">
+            <el-table-column
+              prop="index"
+              label="序号"
+              align="center"
+              >
+            </el-table-column>
+            <el-table-column
+              prop="inteType"
+              label="来源"
+              align="center"
+              >
+              <template slot-scope="scope">
+                {{scope.row.inteType | inteType}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="inteValue"
+              align="center"
+              label="积分">
+            </el-table-column>
+            <el-table-column
+              prop="address"
+              align="center"
+              label="时间">
+              <template slot-scope="scope">
+                {{scope.row.inteTime | time}}
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="userInteDialogVisible = false" style="background: #e6a03c; border: none">知道了</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog
+      title="我的经纪人"
+      :visible.sync="ecoDialogVisible"
+      width="90%"
+      center
+      :before-close="handleClose">
+      <div>
+        <div v-if="isCompanyUser">
+          <div v-if="this.companyUserInfo.userName">
+            {{this.companyUserInfo.userName}}
+            <el-row style="margin: 0">
+              <el-col :span="12">{{this.companyUserInfo.userName}}</el-col>
+              <el-col :span="12">{{this.companyInfo.userPhone}}</el-col>
+            </el-row>
+          </div>
+          <div v-else>
+            暂无经纪人
+          </div>
+        </div>
+        <div v-else>
+          <div v-if="this.personUserInfo.ecoName">
+            <el-row style="margin: 0">
+              <el-col :span="12">{{this.personUserInfo.ecoName}}</el-col>
+              <el-col :span="12">{{this.personUserInfo.ecoPhone}}</el-col>
+            </el-row>
+          </div>
+          <div v-else>
+            暂无经纪人
+          </div>
+        </div>
+
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="ecoDialogVisible = false" style="background: #e6a03c; border: none">知道了</el-button>
+      </span>
+    </el-dialog>
+
+    
     <tabbar tarname="person" :iconarr="iconArr"></tabbar>
   </div>
 </template>
@@ -316,6 +436,7 @@
 import tabbar from '@/components/tabbar'
 import { MessageBox } from 'mint-ui'
 import moment from 'moment'
+import { Toast } from 'mint-ui'
 export default {
   data() {
     return {
@@ -326,7 +447,10 @@ export default {
       personUserInfo: {},
       companyUserInfo: {},
       isQian: false,
-      isInfo: false
+      isInfo: false,
+      userInteDialogVisible: false,
+      inteList: [],
+      ecoDialogVisible: false
     }
   },
   components: {tabbar},
@@ -346,7 +470,28 @@ export default {
         } else {
           return 0
         }
+      },
+    inteType: (value) => {
+      let text = ''
+      switch (value) {
+        case '0': 
+          text = '每日签到'
+          break
+        case '1': 
+          text = '邀请一人'
+          break
+        case '2': 
+          text = '意见反馈同意'
+          break
+        case '3': 
+          text = '入职奖励'
+          break
+        default: 
+          text = ''
       }
+
+      return text
+    }
       
   },
   created() {
@@ -362,14 +507,62 @@ export default {
         this.getUserMsg(1)
       }
 
-      // this.isCompanyUser = true
-      // this.getUserMsg(1)
-
     } else {
       this.isLogin = false
     }
   },
   methods: {
+    showDetail(data) {
+      if (data == 'userInte') {
+        this.userInteDialogVisible = true
+        this.axios({
+          method: 'post',
+          url: '/api/h5/getInteList',
+          headers: {
+            'Content-type': 'application/json;charset=UTF-8'
+          },
+          data: {
+            userId: this.user.userId
+          }
+        }).then((res) => {
+          if (res.data.code == 200 && res.data.data) {
+            let data = res.data.data
+            for (let i = 0; i < data.length; i++) {
+              data[i].index = i + 1
+            }
+            console.log(data)
+            this.inteList = data
+          }
+        }).catch((res) => {
+          MessageBox({
+            title: '小提示',
+            message: res.data.msg,
+          })
+        })
+      } else if (data == 'eco') {
+        this.ecoDialogVisible = true
+      } else if (data == 'tixian') {
+        
+      }
+    },
+    unLogin() {
+      Toast({
+        message: '您还未登录',
+        iconClass: 'fa fa-remove fa-5x'
+      });
+    },
+    jumpTo(data) {
+      if (window.localStorage.getItem('userMsg')) {
+        this.$router.push({
+          path: data
+        })
+      } else {
+        Toast({
+          message: '您还未登录',
+          iconClass: 'fa fa-remove fa-5x'
+        });
+      }
+    },
     editorMsg() {
       window.localStorage.setItem('editoMsg', JSON.stringify({
         userId: this.user.userId,
@@ -436,34 +629,26 @@ export default {
       this.$router.push({
         path: '/person/sign'
       })
-    //   this.axios({
-    //     method: 'post',
-    //     url: '/api/h5/userDaySign',
-    //     headers: {
-    //       'Content-type': 'application/json;charset=UTF-8'
-    //     },
-    //     data: {
-    //       userId: this.user.userId
-    //     }
-    //   }).then((res) => {
-    //     if (res.data.code == 200) {
-    //       MessageBox({
-    //         title: '小提示',
-    //         message: '签到成功',
-    //       })
-    //       this.isQian = true
-    //     }
-    //   }).catch((res) => {
-    //     MessageBox({
-    //       title: '小提示',
-    //       message: res.data.msg,
-    //     })
-    //   })
+    },
+    logout() {
+      window.localStorage.removeItem('userMsg')
+      Toast({
+        message: '退出成功',
+        iconClass: 'icon icon-success'
+      })
+      setTimeout(() => {
+        this.$router.push({
+          path: '/login'
+        })
+      }, 1500);
     }
   }
 }
 </script>
 <style lang="less" scoped>
+.person-index {
+
+}
 .person-bgm {
   position: relative;
   width: 100%;
@@ -519,6 +704,8 @@ export default {
   line-height: 20px;
   text-align: center;
   margin-top: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .qiandao {

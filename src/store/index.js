@@ -1,10 +1,19 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
+import person from './modules/person';
 import app from './modules/app'
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules:{
-    app,
+  modules: {
+    person,
+    app
+  },
+  state: {
+
+  },
+  mutations: {},
+  actions: {
+
   }
-});
+})
