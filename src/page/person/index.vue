@@ -267,7 +267,7 @@
         <div class="person-list">
           <el-row :gutter="24" type="flex"  justify="center" style="margin: 0">
             <el-col :span="4" style="padding: 0">
-              <div @click="jumpTo('/person/focusCompany')">
+              <div @click="jumpTo('/recruitment')">
                 <div>
                   <img src="@/assets/person/guanzhuqiye.png" alt="" class="person-list-img">
                 </div>
@@ -279,7 +279,7 @@
             </el-col>
             <el-col :span="4" style="padding: 0">
               <div v-if="isInfo">
-                <div @click="showDetail('apply')">
+                <div @click="showDetail('pushWork')">
                   <div>
                     <img src="@/assets/person/shop.png" alt="" class="person-list-img">
                   </div>
@@ -987,6 +987,8 @@ export default {
         } else {
           this.applyDIalogVisible = true
         }
+        
+      } else if (data == 'pushWork') {
         
       }
     },
