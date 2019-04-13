@@ -93,7 +93,7 @@
           <el-input type="textarea" v-model="fieldData.companyDes" placeholder="请输入企业介绍"></el-input>
         </el-form-item>
       </el-form>
-      <mt-button class="index-btn" type="primary" @click="submit()">提交</mt-button>
+      <mt-button class="index-btn" type="primary" @click="submit()">保存</mt-button>
     </div>
 </template>
 
@@ -110,7 +110,7 @@
           companyNatures:NatureOption,
           companyScales:ScaleOption,
           fieldData:{
-            companyUserId:JSON.parse(window.localStorage.getItem('userMsg')).users.company_user_id,
+            companyUserId:`${JSON.parse(window.localStorage.getItem('userMsg')).users.company_user_id}`,
           }
         }
       },
@@ -143,6 +143,7 @@
           })
         },
         submit(){
+          this.fieldData.companyFrom= this.$route.query.type =='委托招聘'?'1':'2';
           this.axios({
             method: 'post',
             url: '/api/h5/addEntrust',
