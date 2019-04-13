@@ -22,10 +22,17 @@ export default {
       introduction: "",
       isAnonymous: true,
       icon: require("@/assets/recommend/anonymous.png"),
-      iconActive: require("@/assets/recommend/anonymous_s.png")
+      iconActive: require("@/assets/recommend/anonymous_s.png"),
+      officeId: '',
+      userId: ''
     };
   },
-  created() {},
+  created() {
+    if (window.localStorage.getItem('userMsg')) {
+      var info = JSON.parse(window.localStorage.getItem('userMsg'))
+      this.userId = info.users.userId
+    }
+  },
   methods: {
     changeImg: function() {
       this.isAnonymous = !this.isAnonymous;
@@ -55,9 +62,10 @@ export default {
           "Content-type": "application/json;charset=UTF-8"
         },
         data: {
-          userPhone: this.userPhone,
-          smsCode: this.smsCode,
-          commitType: this.commitType
+          feedContext: this.introduction,
+          feedType: this.isAnonymous,
+          userId: this.userId,
+          officeId: this.officeId
         }
       })
         .then(res => {

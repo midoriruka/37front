@@ -139,6 +139,7 @@ export default {
         },
         data: prams
       }).then((res) => {
+        console.log(res)
         if (res.data.code == 200 || res.data.code == '200') {
           Toast({
             message: '注册成功',

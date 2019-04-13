@@ -6,13 +6,13 @@
       <div class="myshop-header-content">
         <div class="myshop-header-name">{{userMap.nickName}}</div>
         <div class="myshop-header-user">
-          <img src="@/assets/person/star-level.png" alt="" style="position:relative;zIndex:1;width:1.08rem;height:1.08rem;" /><span class="myshop-header-level">V{{userMap.skLevel}}12</span>
-          <span class="myshop-header-count">推荐人数{{userMap.investCount}}24</span>
+          <img src="@/assets/person/star-level.png" alt="" style="position:relative;zIndex:1;width:1.08rem;height:1.08rem;" /><span class="myshop-header-level">V{{userMap.skLevel}}</span>
+          <span class="myshop-header-count">推荐人数{{userMap.investCount}}</span>
         </div>
       </div>
     </div>
     <ul class="myshop-user">
-      <li class="myshop-user-list">
+      <li class="myshop-user-list" @click="showCode(true)">
         <span>我的二维码</span>
         <div>
           <img src="@/assets/person/code.png" alt="">
@@ -26,29 +26,41 @@
       </li>
       <li class="myshop-user-list">
         <span>我的专属链接</span>
-        {{userMap.investUrl}}
-        <el-button>复制</el-button>
+        <span id="link" class="myshop-list-link">{{userMap.investUrl}}</span>
+        <el-button @click="copyUrl2('link')">复制</el-button>
       </li>
       <li class="myshop-user-list">
         <span>我的推荐码</span>
-        {{userMap.investCode}}
-        <el-button>复制</el-button>
+        <span id="investCode" class="myshop-list-link">{{userMap.investCode}}</span>
+        
+        <el-button @click="copyUrl2('investCode')">复制</el-button>
       </li>
       </ul>
-      <div v-if="pushList.length > 0">
+      <div v-if=" pushList !== null " style="background:#fff;">
         <div>我的推荐企业</div>
         <div class="myshop-list" v-for="(item, index) in pushList" :key="index">
           <div class="myshop-list-left">
             <img :src="item.companyLogo" />
             <span>{{item.inviteCount}}人</span>
           </div>
-          <div>
+          <div class="myshop-list-right">
+            <div class="myshop-list-right-title">
+              <span>{{item.officeName}}</span>
+              <span>{{item.salaryStart}}元-{{item.salayEnd}}元/{{checkTime(item.salayUnit)}}</span>
+            </div>
+            <!-- <div class="myshop-list-right-money" v-if="item.">
+
+            </div> -->
             <div>
-              <span>{{item.officeName}}</span>
-              <span>{{item.officeName}}</span>
+              {{item.companyName}}
             </div>
           </div>
         </div>
+      </div>
+      <div class="code-image" v-show="codeStatus === true">
+        <div><img src="@/assets/person/close.png" @click="showCode(false)"></div>
+        <p>长安保存二维码</p>
+        <img :src="userMap.investCodeImage">
       </div>
   </div>
 </template>
@@ -58,7 +70,8 @@ export default {
   data(){
     return{
       userMap:{},
-      pushList:[]
+      pushList:[],
+      codeStatus: false
     }
   },
   created(){
@@ -78,6 +91,7 @@ export default {
         }
       }).then((res) => {
         if (res.data.code == 200) {
+          console.log(res.data.data.pushList);
           this.userMap = res.data.data.userMap;
           this.pushList = res.data.data.pushList;
         }
@@ -87,6 +101,55 @@ export default {
           message: res.data.msg,
         })
       })
+    },
+    // 判断时、日、月
+    checkTime(time){
+      if (time === "0") return "月"
+      else if (time === "1") return "天"
+      else return "时"
+    },
+    // 设置显隐二维码图片呢
+    showCode(value){
+      this.codeStatus = value
+    },
+    // 复制功能
+    copyUrl2(ids){
+      var Url2=document.getElementById(ids).innerText;
+        var oInput = document.createElement('input');
+        oInput.value = Url2;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        oInput.className = 'oInput';
+        oInput.style.display='none';
+ 
+    },
+    // 判断是什么标签
+    tags(ids){
+      const data=[
+        {index:"0",name:"穿无尘服"},
+        {index:"1",name:"包吃"},
+        {index:"2",name:"包住"},
+        {index:"3",name:"餐补"},
+        {index:"4",name:"房补"},
+        {index:"5",name:"五险"},
+        {index:"6",name:"五险一金"},
+        {index:"7",name:"交通补助"},
+        {index:"8",name:"话补"},
+        {index:"9",name:"周末双休"},
+        {index:"10",name:"年底双薪"},
+        {index:"11",name:"长白班"},
+        {index:"12",name:"免费商业险"},
+        {index:"13",name:"站姿上班"},
+        {index:"14",name:"加班多"},
+        {index:"15",name:"妹子多"},
+        {index:"16",name:"周围热闹"},
+        {index:"17",name:"吃住好"},
+        {index:"18",name:"年龄要求低"},
+        {index:"19",name:"日多薪"}
+      ];
+      
+
     }
   }
 }
@@ -151,11 +214,21 @@ export default {
       span{
         font-size:0.3rem;
         color:#323232;
+        display: inline-block;
+        width: 2.3rem;
+      }
+      .myshop-list-link{
+        color:#969696;
+        display: inline-block;
+        width: 55%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        vertical-align: bottom;
       }
       div{
         float:right;
         img{
-          display: inline-block;
           width: 0.63rem;
           height: 0.63rem;
           float: left;
@@ -193,5 +266,65 @@ export default {
     height:2rem;
     background:red;
     display:inline-block;
+    position:relative;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-right: 0.1rem;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+    span{
+      display: inline-block;
+      width: 100%;
+      background:rgba(230,160,60,0.8);;
+      position: absolute;
+      bottom: 0;
+      height: 0.5rem;
+      color: #fff;
+      text-align: center;
+    }
+  }
+  .myshop-list-right{
+    display:inline-block;
+    vertical-align: top;
+    .myshop-list-right-title{
+      &>span:first-child{
+        display:block;
+        font-size: 0.48rem;
+        font-weight: bold;
+      }
+    }
+  }
+  .code-image{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.3);
+    height: 100%;
+    padding: 0 1.5rem;
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+    padding-top: 27%;
+    div{
+      overflow: hidden;
+      img{
+        width: 1rem;
+        height: 1rem;
+        float: right;
+      }
+    }
+    &>img{
+      width: 5rem;
+      height: 5rem;
+    }
+    p{
+      color: #fff;
+      font-size: 0.5rem;
+    }
+  }
+  .el-button:focus, .el-button:hover{
+    background: #fff;
   }
 </style>

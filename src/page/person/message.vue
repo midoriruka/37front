@@ -1,20 +1,16 @@
 <template>
   <div class="person-message">
-    <div v-title>我的消息</div>
+    <div v-title>消息中心</div>
     <div>
-      <div v-for="(item, index) in shopList" :key="index" @click="showDetail(item)">
+      <div v-for="(item, index) in shopList" :key="index" @click="showDetail(item,index)">
         <span class="message-time">{{item.creatTime | time}}</span>
         <div class="message-item">
-          <div :class="{'item-title':true,'no-read':info}">
-            <span class="no-read-icon" v-if="info"></span>
-            <span>欢迎成为本站会员</span>
+          <div :class="{'item-title':true,'no-read':item.isRead == 0}">
+            <span class="no-read-icon" v-if="item.isRead == 0"></span>
+            <span>{{item.msgTitle}}</span>
           </div>
-          <div :class="{'text-cil':info}">
-            工资待遇高，工作环境不错，节假日发放福利工资待遇高， 工作环境不错，节假日发放福利
-            工资待遇高，工作环境不错，节假日发放福利工资待遇高， 工作环境不错，节假日发放福利
-            工资待遇高，工作环境不错，节假日发放福利工资待遇高， 工作环境不错，节假日发放福利
-            工资待遇高，工作环境不错，节假日发放福利工资待遇高， 工作环境不错，节假日发放福利
-          </div>
+          <div v-if="!item.isExpand">{{item.msgSimple}}</div>
+          <div v-if="item.isExpand">{{item.msgContext}}</div>
         </div>
       </div>
     </div>
@@ -26,8 +22,8 @@ import { MessageBox, Badge } from "mint-ui";
 export default {
   data() {
     return {
-      shopList: [1,2],
-      info: true
+      shopList: [],
+      userId: ''
     };
   },
   filters: {
@@ -36,7 +32,11 @@ export default {
     }
   },
   created() {
-    // this.getShopList();
+    if (window.localStorage.getItem('userMsg')) {
+      var info = JSON.parse(window.localStorage.getItem('userMsg'))
+      this.userId = info.users.userId
+      this.getShopList();
+    }
   },
   methods: {
     getShopList() {
@@ -47,18 +47,32 @@ export default {
           "Content-type": "application/json;charset=UTF-8"
         },
         data:{
-          userId:''
+          userId:this.userId
         }
       })
         .then(res => {
           if (res.data.code == 200) {
-            this.shopList = res.data.data;
+            this.shopList = [];
+            res.data.data.forEach(item => {
+              const len = item.msgContext;
+              const simple = len.substring(0,20)
+              this.shopList.push({
+                ...item, 
+                msgSimple:simple+'（点击查看）',
+                isExpand:false
+                })
+            });;
+          } else {
+            MessageBox({
+              title: "提示",
+              message: res.data.msg || '获取消息列表失败'
+            });
           }
         })
         .catch(res => {
           MessageBox({
-            title: "小提示",
-            message: res.data.msg
+            title: "提示",
+            message: res.data.msg 
           });
         });
     },
@@ -77,6 +91,11 @@ export default {
           if (res.data.code == 200) {
             this.getShopList();
           }
+          MessageBox({
+            title: "小提示",
+            message: res.data.msg
+          });
+          
         })
         .catch(res => {
           MessageBox({
@@ -85,8 +104,12 @@ export default {
           });
         });
     },
-    showDetail(data) {
-      this.info = !this.info;
+    showDetail(item,index) {
+      if(item.isRead == 0){
+        this.changeRead(item)
+      }
+      this.shopList[index].isExpand = !item.isExpand
+      this.$emit('shopList', this.shopList)
     }
   }
 };

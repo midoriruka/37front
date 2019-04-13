@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="index" style="background: rgb(255, 255, 255);">
     <div v-title>我要招聘</div>
     <div class="index-banner">
       <mt-swipe :auto="4000" style="height: 200px">
@@ -67,7 +67,7 @@
       },
       jumpTo(value){
         if(value===1){
-          this.$router.push('/recruitment/wtRecruitment')
+          this.$router.push('/recruitment/wtRecruitment/qiye')
         }
         else{
           this.$router.push('/recruitment/qyRecruitment')
