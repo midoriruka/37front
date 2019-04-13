@@ -49,7 +49,7 @@
         <el-row>
           <el-col :span="18">
             <el-form-item label="企业LOGO">
-              <el-input v-model="imgUrl"></el-input>
+              <el-input v-model="fieldData.companyLogo"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -92,19 +92,64 @@
         <el-form-item label="企业介绍" class="item" >
           <el-input type="textarea" v-model="fieldData.companyDes" placeholder="请输入企业介绍"></el-input>
         </el-form-item>
+        <el-form-item label="厂区" class="item" >
+        </el-form-item>
+        <div class="imgs-box">
+          <div v-for="(img,i) in imgs" class="img-wrapper">
+            <img class="box-item img" :class="{uploading:img.uploading}" :src="img.url" :preview="i">
+            <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
+          </div>
+          <el-upload action="" class="upload-demo" :on-change="handleChange" :auto-upload="false" :show-file-list="false">
+            <div class="add-btn box-item" slot="trigger" v-show="imgs.length <8">+</div>
+          </el-upload>
+        </div>
+        <el-form-item label="餐厅" class="item" >
+        </el-form-item>
+        <div class="imgs-box">
+          <div v-for="(img,i) in imgs" class="img-wrapper">
+            <img class="box-item img" :class="{uploading:img.uploading}" :src="img.url" :preview="i">
+            <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
+          </div>
+          <el-upload action="" class="upload-demo" :on-change="handleChange" :auto-upload="false" :show-file-list="false">
+            <div class="add-btn box-item" slot="trigger" v-show="imgs.length <8">+</div>
+          </el-upload>
+        </div>
+        <el-form-item label="宿舍" class="item" >
+        </el-form-item>
+        <div class="imgs-box">
+          <div v-for="(img,i) in imgs" class="img-wrapper">
+            <img class="box-item img" :class="{uploading:img.uploading}" :src="img.url" :preview="i">
+            <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
+          </div>
+          <el-upload action="" class="upload-demo" :on-change="handleChange" :auto-upload="false" :show-file-list="false">
+            <div class="add-btn box-item" slot="trigger" v-show="imgs.length <8">+</div>
+          </el-upload>
+        </div>
+        <el-form-item label="工资条" class="item" >
+        </el-form-item>
+        <div class="imgs-box">
+          <div v-for="(img,i) in imgs" class="img-wrapper">
+            <img class="box-item img" :class="{uploading:img.uploading}" :src="img.url" :preview="i">
+            <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
+          </div>
+          <el-upload action="" class="upload-demo" :on-change="handleChange" :auto-upload="false" :show-file-list="false">
+            <div class="add-btn box-item" slot="trigger" v-show="imgs.length <8">+</div>
+          </el-upload>
+        </div>
       </el-form>
       <mt-button class="index-btn" type="primary" @click="submit()">保存</mt-button>
     </div>
 </template>
 
 <script>
+  const acceptType = ['image/png', 'image/jpg', 'image/jpeg'];
   import {InduOption, NatureOption, ScaleOption} from '@/assets/addNewCorporate.js'
   import { MessageBox } from 'mint-ui'
     export default {
       name: "companyInfo",
       data(){
         return{
-          imgUrl:null,
+          imgs: [],
           companyId:null,
           companyIndus:InduOption,
           companyNatures:NatureOption,
@@ -141,7 +186,7 @@
             })
           })
         },
-        submit(){
+        async submit(){
           this.fieldData.companyFrom= this.$route.query.type =='委托招聘'?'1':'2';
           this.axios({
             method: 'post',
@@ -190,7 +235,7 @@
                 }
               }).then((res) => {
                 if (res.data.code == 200) {
-                  return;
+                  this.fieldData.companyLogo=res.data.data
                 } else {
                   MessageBox({
                     title: 'error',
@@ -216,6 +261,7 @@
 </script>
 
 <style scoped lang="scss">
+  @import '~@/styles/imgUpload.scss';
 .index-form{
   min-height: 100vh;
   background: #fff;
