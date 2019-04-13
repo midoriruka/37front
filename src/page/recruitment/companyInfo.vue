@@ -110,7 +110,7 @@
           companyNatures:NatureOption,
           companyScales:ScaleOption,
           fieldData:{
-            companyUserId:JSON.parse(window.localStorage.getItem('userMsg')).users.userId
+            companyUserId:JSON.parse(window.localStorage.getItem('userMsg')).users.company_user_id,
           }
         }
       },
@@ -128,11 +128,10 @@
               'Content-type': 'application/json;charset=UTF-8'
             },
             data:{
-              companyUserId:JSON.parse(window.localStorage.getItem('userMsg')).users.userId,
+              companyUserId:JSON.parse(window.localStorage.getItem('userMsg')).users.company_user_id,
             }
           }).then((res) => {
-            console.log(JSON.parse(window.localStorage.getItem('userMsg')).users.userId);
-            if (res.code == 200 && res.data.data) {
+            if (res.data.code == 200 && res.data.data) {
               console.log(res.data.data);
               this.fieldData = res.data.data;
             }
@@ -144,7 +143,6 @@
           })
         },
         submit(){
-          // this.fieldData.companyUserId=JSON.parse(window.localStorage.getItem('userMsg')).users.userId;
           this.axios({
             method: 'post',
             url: '/api/h5/addEntrust',
@@ -176,7 +174,6 @@
           console.log(fileType);
           let typeArr = ['.png', '.jpg', '.jpeg'];
           if (typeArr.indexOf(fileType) > -1) {
-            // 上传文件地址，然后赋值给fileForm.waterFile
             let reader = new FileReader();
             reader.readAsDataURL(file.raw);
             reader.onload = () => {
@@ -220,6 +217,8 @@
 
 <style scoped lang="scss">
 .index-form{
+  min-height: 100vh;
+  background: #fff;
   padding-left: 0.5rem;
   padding-top: 0.5rem;
   .item{
@@ -228,8 +227,7 @@
   .index-btn{
     width: 3.2rem;
     height: 1.067rem;
-    margin-top: 1rem;
-    margin-left: 3rem;
+    margin: 1rem 0 1rem 3rem;
     background-color: #e6a03c;
     font-size: 0.32rem;
   }
