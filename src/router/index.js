@@ -14,6 +14,7 @@ import Recruitment from './recruitment'
 import Recommend from "./recommend";
 import RecruitDetail from '@/page/reward/recruitDetail';
 import ImgUpload from '@/page/reward/imgUpload';
+import Sign from './sign'
 
 Vue.use(Router);
 
@@ -59,16 +60,16 @@ let menu = new Router({
       component: News
     },
     {
-      path:'/recruitDetail',
-      name:'招聘详情',
-      component:RecruitDetail,
+      path: '/recruitDetail',
+      name: '招聘详情',
+      component: RecruitDetail
     },
     {
-      path:'/reward/imgUpload',
-      name:'招聘详情',
-      component:ImgUpload,
+      path: '/reward/imgUpload',
+      name: '招聘详情',
+      component: ImgUpload
     }
-  ].concat(Person, LoginRegister, Recruitment, Recommend)
+  ].concat(Person, LoginRegister, Recruitment, Recommend, Sign)
 })
 
 export default menu;
