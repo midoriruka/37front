@@ -10,12 +10,15 @@ import App from './App'
 import router from './router'
 import store from './store';
 import axios from 'axios'
+import preview from 'vue-photo-preview';
+import 'vue-photo-preview/dist/skin.css';
 import mockdata from './mock'
 import 'lib-flexible/flexible'
 import 'font-awesome/scss/font-awesome.scss'
 import './styles/index.scss'
 
-Vue.use(ElementUI)
+Vue.use(preview);
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 

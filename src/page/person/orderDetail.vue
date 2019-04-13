@@ -21,7 +21,6 @@
         </div>
       </div>
       <div class="goods-detail">
-        <!--<img class="goods-img" :src="require(orderDetail.sale_image_url)">-->
         <img class="goods-img" :src="orderDetail.sale_image_url">
         <div class="detail-item">
           <p>{{orderDetail.sale_name}}</p>
@@ -33,6 +32,7 @@
   </div>
 </template>
 <script>
+import {mapState} from 'vuex';
 export default {
   name: '',
   data() {
@@ -44,28 +44,24 @@ export default {
   },
   mounted() {
     this.$nextTick().then(() => {
-      //获取订单ID
-      //const exId = window.location.hash
-      //getOrderDetail(exId);
+      //获取订单详情
+      getOrderDetail();
     })
   },
   methods: {
-    async getOrderDetail(exId) {
+    async getOrderDetail() {
       const { data } = await this.axios.post('/api/h5/exchangeInfo', {
-        exId,
+        exId:this.exId,
       });
-      this.orderDetail = data.data;
-
+      if(data.code === 200){
+        this.orderDetail = data.data;
+      }
     }
   },
   computed: {
-
-  },
-  watch: {
-
-  },
-  components: {
-
+    ...mapState('person',[
+      'exId',
+    ])
   },
 
 }

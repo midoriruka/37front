@@ -82,7 +82,8 @@ export default {
   },
   methods: {
     ...mapMutations('person', [
-      'setSubmitSuccess'
+      'setSubmitSuccess',
+      'setExId',
     ]),
     //编辑我的地址
     editAddress() {
@@ -104,6 +105,7 @@ export default {
         addressId: this.address.addressId,
       });
       this.setSubmitSuccess(data.code === 200);
+      this.setExId(data.data);
       this.$router.push('/person/shop/orderSubmit');
 
 
@@ -132,12 +134,6 @@ export default {
     ...mapState('person', [
       'chosenAddress'
     ])
-  },
-  watch: {
-
-  },
-  components: {
-
   },
 
 }

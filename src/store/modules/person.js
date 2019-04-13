@@ -5,6 +5,7 @@ export default {
     editingAddress:null,
     chosenAddress:null,
     isSubmitSuccess:false,
+    exId:0,
   },
   mutations: {
    setAddressEditType(state, type){
@@ -18,6 +19,9 @@ export default {
    },
    setSubmitSuccess(state, isSubmitSuccess){
     state.isSubmitSuccess = isSubmitSuccess;
+   },
+   setExId(state, exId){
+    state.exId = exId;
    }
   },
   actions: {
