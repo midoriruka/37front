@@ -132,7 +132,7 @@
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div>
                 <div class="button-box">
                   <img src="@/assets/index/jing.png" alt="">
                 </div>
