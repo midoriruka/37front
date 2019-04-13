@@ -3,9 +3,20 @@ span {
   margin: 0;
 }
 
+.map {
+  height: 100%;
+}
+
 .img-box {
   position: relative;
+
+
+}
+
+.img-box-item {
   height: 4.8rem;
+  width: 100%;
+  object-fit: contain;
 
 }
 
@@ -21,6 +32,7 @@ span {
   font-size: 0.32rem;
   color: #fff;
   text-align: center;
+  z-index: 2;
 }
 
 .img-type-box {
@@ -30,6 +42,7 @@ span {
   bottom: 0.293333rem;
   left: 0;
   right: 0;
+  z-index: 2;
 }
 
 .img-type-item {
@@ -42,7 +55,7 @@ span {
   border-radius: 0.226667rem;
   color: #323232;
   margin: 0 0.266667rem;
-  transition: color .3s;
+  transition: all .3s;
 
   &.active {
     background: rgba(230, 160, 60, .8);
@@ -278,6 +291,7 @@ span {
 
 .share-span {
   margin-right: 0.36rem;
+  font-size: 0.32rem;
 }
 
 .share-img {
@@ -296,6 +310,7 @@ span {
 
 .user-comment-title {
   font-size: 0.4rem;
+  font-weight: bold;
   margin-bottom: 0.533333rem;
 }
 
@@ -350,82 +365,135 @@ span {
   text-align: center;
   border-radius: 0.133333rem;
   background-color: #e3e3e3;
-  margin:0 0.44rem 0.986667rem;
+  margin: 0 0.44rem 0.986667rem;
+
   &.more {
     color: #fff;
     background-color: #e6a03c;
   }
 
 }
-.guess-ur-fav{
-	padding: 0 0.493333rem;
-	margin-bottom:2.013333rem;
+
+.guess-ur-fav {
+  padding: 0 0.493333rem;
+  margin-bottom: 2.013333rem;
 }
 
-.guess-ur-fav-title{
-	font-size: 0.4rem;
-	font-weight: bold;
-	color:#323232;
-	margin-bottom: 0.586667rem;
-}
-.guf-item{
-	display: flex;
-	padding-bottom: 0.32rem;
-	border-bottom: 0.013333rem solid #f5f5f9;
-	margin-bottom: 0.333333rem;
-}
-.guf-l{
-	flex:0 0 auto;
-}
-.guf-l-img{
-	width: 2.133333rem;
-	height: 2.213333rem;
-	background-color: #323232;
-	border-radius: 0.133333rem;
-	margin-right: 0.253333rem;
-}
-.guf-r{
-	display:flex;
-	flex:auto;
-	flex-direction:column;
-	justify-content: space-between;
-}
-.guf-r-t{
-	display:flex;
-	align-items: center;
-	justify-content: space-between;
-}
-.basic-info-title{
-	font-size: 0.453333rem;
-	font-weight: bold;
-	margin-bottom: 0.066667rem;
+.guess-ur-fav-title {
+  font-size: 0.4rem;
+  font-weight: bold;
+  color: #323232;
+  margin-bottom: 0.586667rem;
 }
 
-.guf-r-b-labels{
-	margin-bottom: 0.213333rem;
-}
-.guf-r-b-label-item{
-	display:inline-block;
-	color: #969696;
-	background-color: #f5f5f9;
-	border-radius: 0.226667rem;
-	padding: 0.08rem 0.173333rem 0.066667rem;
-	margin-right:0.146667rem;
+.guf-item {
+  display: flex;
+  padding-bottom: 0.32rem;
+  border-bottom: 0.013333rem solid #f5f5f9;
+  margin-bottom: 0.333333rem;
+  align-items: center;
 }
 
-.guf-r-b-footer{
-	display:flex;
-	justify-content: space-between;
-}
-.footer{
-	text-align: center;
-	color: #969696;
+.guf-l {
+  position: relative;
+  flex: 0 0 auto;
+  margin-right: 0.253333rem;
 }
 
-.footer-main{
-	margin-bottom: 0.773333rem;
+.guf-l-img {
+  width: 2.133333rem;
+  height: 2.213333rem;
+  background-color: #323232;
+  border-radius: 0.133333rem;
+  vertical-align: middle;
+  object-fit: contain;
 }
 
-.no-more{
-	padding-bottom:0.96rem;
+.guf-l-img-desc {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 0.533333rem;
+  line-height: 0.533333rem;
+  text-align: center;
+  font-size: 0.28rem;
+  color: #fff;
+  background-color: #e6a03c;
+  border-radius: 0 0 0.133333rem 0.133333rem;
+  opacity: 0.8;
+}
+
+.guf-r {
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.guf-r-t {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.basic-info-title {
+  font-size: 0.453333rem;
+  font-weight: bold;
+  margin-bottom: 0.066667rem;
+}
+
+.guf-r-b-labels {
+  margin-bottom: 0.213333rem;
+}
+
+.guf-r-b-label-item {
+  display: inline-block;
+  color: #969696;
+  background-color: #f5f5f9;
+  border-radius: 0.226667rem;
+  padding: 0.08rem 0.173333rem 0.066667rem;
+  margin-right: 0.146667rem;
+}
+
+.guf-r-b-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer {
+  text-align: center;
+  color: #969696;
+}
+
+.footer-main {
+  margin-bottom: 0.773333rem;
+}
+
+.no-more {
+  padding-bottom: 0.96rem;
+}
+
+.flexauto {
+  flex: auto;
+}
+
+.reward {
+  width: 2.4rem;
+  height: 1.066667rem;
+  background: url('~@/assets/icon/最高奖励/入职奖励.png');
+  background-size: cover;
+  color: #fff;
+  font-size: 0.48rem;
+  padding-left: 0.266667rem;
+}
+
+.reward-num {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.reward-unit {
+  font-size: 0.28rem;
 }
