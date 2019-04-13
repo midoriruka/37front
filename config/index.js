@@ -15,13 +15,21 @@ module.exports = {
         target: 'http://121.42.242.126:95/', // 设置你调用的接口域名和端口号
         changeOrigin: true,     // 跨域
         pathRewrite: {
-          '^/api': '/api'        
+          '^/api': '/api'
         }
+      },
+      '/aaa1': {
+        target: 'http://api.map.baidu.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/aaa1': ''
+        }
+
       }
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '192.168.0.4', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
