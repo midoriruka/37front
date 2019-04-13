@@ -1,6 +1,6 @@
 <!-- 确认订单 -->
 <template>
-  <div style="background:#fff;">
+  <div style="background:#fff;min-height: 100vh;">
     <div v-title>{{'商品名称'}}</div>
     <!-- 收件地址栏 -->
     <div class="address-bar" @click="editAddress">

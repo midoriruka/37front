@@ -1,6 +1,6 @@
 <!-- 订单详情 -->
 <template>
-  <div style="background:#fff;">
+  <div style="background:#fff;min-height: 100vh;">
     <div v-title>订单详情</div>
     <div>
       <img class="bg" src="@/assets/icon/个人中心/order-detail-bg.png">

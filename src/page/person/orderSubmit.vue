@@ -1,6 +1,6 @@
 <!-- 订单提交 -->
 <template>
-  <div style="background: #fff;">
+  <div style="background: #fff;min-height: 100vh;">
     <div v-title>订单提交</div>
     <div class="main">
       <img class="main-img" :src="isSubmitSuccess?successImg:failImg">

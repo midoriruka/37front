@@ -14,6 +14,7 @@ import Recruitment from './recruitment'
 import Recommend from "./recommend";
 import RecruitDetail from '@/page/reward/recruitDetail';
 import ImgUpload from '@/page/reward/imgUpload';
+import MoreComments from '@/page/reward/moreComments';
 
 Vue.use(Router);
 
@@ -65,9 +66,13 @@ let menu = new Router({
     },
     {
       path:'/reward/imgUpload',
-      name:'招聘详情',
+      name:'企业图片上传',
       component:ImgUpload,
-    }
+    },{
+      path:'/reward/moreComments',
+      name:'更多点评',
+      component:MoreComments,
+    },
   ].concat(Person, LoginRegister, Recruitment, Recommend)
 })
 
