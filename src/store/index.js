@@ -6,12 +6,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    person,
+    person
   },
   state: {
-
+    companyId: null
   },
-  mutations: {},
+  mutations: {
+    setCompanyId(state, companyId) {
+      state.companyId = companyId;
+    }
+  },
   actions: {
 
   }
