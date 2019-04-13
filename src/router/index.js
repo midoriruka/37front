@@ -11,8 +11,9 @@ import position from '../page/positionSignInAddPrice/position.vue'
 import addPrice from '../page/positionSignInAddPrice/addPrice.vue'
 import Activity from '@/page/activity/index';
 import Recruitment from './recruitment'
-
 import Recommend from "./recommend";
+import RecruitDetail from '@/page/reward/recruitDetail';
+import ImgUpload from '@/page/reward/imgUpload';
 
 Vue.use(Router);
 
@@ -56,6 +57,16 @@ let menu = new Router({
       path: "/news",
       name: '薪资讯',
       component: News
+    },
+    {
+      path:'/recruitDetail',
+      name:'招聘详情',
+      component:RecruitDetail,
+    },
+    {
+      path:'/reward/imgUpload',
+      name:'招聘详情',
+      component:ImgUpload,
     }
   ].concat(Person, LoginRegister, Recruitment, Recommend)
 })

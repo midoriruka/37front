@@ -8,7 +8,7 @@
         <p class="main-text">订单提交{{isSubmitSuccess?'成功':'失败'}}</p>
         <p>{{isSubmitSuccess?'我们已经收到来自你的订单，将尽快安排发货':'抱歉您的订单提交失败，请返回仔细检查'}}</p>
         <div class="btn-group">
-          <div class="btn" @click="$router.push('')">商城首页</div>
+          <div class="btn" @click="$router.push('/person/shop')">商城首页</div>
           <div class="btn" @click="onSecondBtnClick">{{isSubmitSuccess?'查看订单':'返回'}}</div>
         </div>
       </div>

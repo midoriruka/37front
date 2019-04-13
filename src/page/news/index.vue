@@ -21,9 +21,9 @@
       </ul>
      <div class="list-content" v-for="(item, index) in tabLIst" :key="index">
       <div class="list"><span class="list-title">{{item.className}}</span><span class="list-more">更多</span></div>
-      <div v-for="(item, index) in data['list'+index]">
+      <div v-for="(item, index) in data['list'+index]" :key="index" @click="toDetail(item.articleUrl)">
         <img :src="item.articleImage" class="list-img">
-        <span class="list-des">{{item.articleDes}}</span>
+        <span class="list-des">{{item.articleTitle}}</span>
       </div>
       </div>
     </div>
@@ -66,6 +66,9 @@ export default{
           message: res.data.msg,
         })
       })
+    },
+    toDetail(url){
+      window.location.href=url;
     }
   }
 };
@@ -108,15 +111,14 @@ window.onscroll = function(){
   margin-top:20px;
   background:#fff;
   .list-img{
-    display: inline-block;
-    width: 30%;
-    height: 50px;
-    background: red;
+    width: 2rem;
+    height: 1rem;
   }
   .list-des{
     vertical-align: top;
     display: inline-block;
     margin-left: 10px;
+    width: 72%;
   }
 }
 .list{
@@ -139,5 +141,9 @@ window.onscroll = function(){
   z-index:1;
   width:100%;
 }
-
+.banner-img {
+  // border: 1px solid #ccc;
+  width: 100%;
+  height: 200px;
+}
 </style>
