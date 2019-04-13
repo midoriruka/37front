@@ -3,8 +3,8 @@
     <div v-title>发表评论</div>
     <div class="commit-submit">
       <mt-field placeholder="亲，分享环境，人员素质，餐厅等方面的体验" type="textarea" rows="4" v-model="introduction"></mt-field>
-      <div class="anonymous-review">
-        <img :src="isAnonymous ? icon : iconActive" alt class="anonymous-icon" @click="changeImg()">
+      <div class="anonymous-review" @click="changeImg()">
+        <img :src="isAnonymous ? icon : iconActive" alt class="anonymous-icon" >
         <span style="font-size:0.32rem;color:#323232;">匿名</span>
         <span class="anonymous-info">您的评论将以匿名的形式展示</span>
       </div>
@@ -23,7 +23,7 @@ export default {
       isAnonymous: true,
       icon: require("@/assets/recommend/anonymous.png"),
       iconActive: require("@/assets/recommend/anonymous_s.png"),
-      officeId: '',
+      officeId: 8,
       userId: ''
     };
   },
@@ -65,9 +65,10 @@ export default {
         },
         data: {
           feedContext: this.introduction,
-          feedType: this.isAnonymous,
+          feedType: this.isAnonymous ? 1 : 0,
           userId: this.userId,
-          officeId: this.officeId
+          officeId: this.officeId,
+          isHead: !this.isAnonymous
         }
       })
         .then(res => {
