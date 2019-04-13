@@ -12,7 +12,7 @@ const recruitment = [{
 },
   {
     path: '/recruitment/wtRecruitment',
-    name: '委托招聘',
+    name: '招聘',
     component: wt,
     children: [
       {name: '企业信息', path: 'qiye', component: comInfo},

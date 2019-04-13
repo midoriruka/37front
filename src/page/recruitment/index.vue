@@ -15,11 +15,11 @@
       </mt-swipe>
     </div>
     <div class="index-zhaopin">
-      <div class="zhaopin" @click="jumpTo(1)">
+      <div class="zhaopin" @click="jumpTo('委托招聘')">
         <img :src="weituo.imgUrl" alt="">
         <p>{{weituo.name}}</p>
       </div>
-      <div class="zhaopin" @click="jumpTo(2)">
+      <div class="zhaopin" @click="jumpTo('企业招聘')">
         <img :src="qiye.imgUrl" alt="">
         <p>{{qiye.name}}</p>
       </div>
@@ -65,20 +65,18 @@
           })
         })
       },
-      jumpTo(value){
-        if(value===1){
-          this.$router.push('/recruitment/wtRecruitment/qiye')
-        }
-        else{
-          this.$router.push('/recruitment/qyRecruitment')
-        }
+      jumpTo(type){
+          this.$router.push({
+            path: '/recruitment/wtRecruitment/qiye',query:{ type:`${type}`}
+          })
       }
     }
   }
 </script>
 <style lang="scss">
 .index{
-  background-color: white;
+  min-height: 100vh;
+  background: #fff;
   .index-banner {
     padding: 0.2667rem;
     .banner-img {
