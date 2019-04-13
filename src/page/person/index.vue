@@ -428,6 +428,43 @@
       </span>
     </el-dialog>
 
+    <el-dialog
+      title="提现"
+      :visible.sync="tixianDialogVisible"
+      width="90%"
+      center
+      :before-close="handleClose">
+      <div>
+        <div v-if="isCompanyUser">
+          <div v-if="this.companyUserInfo.userName">
+            {{this.companyUserInfo.userName}}
+            <el-row style="margin: 0">
+              <el-col :span="12">{{this.companyUserInfo.userName}}</el-col>
+              <el-col :span="12">{{this.companyInfo.userPhone}}</el-col>
+            </el-row>
+          </div>
+          <div v-else>
+            暂无经纪人
+          </div>
+        </div>
+        <div v-else>
+          <div v-if="this.personUserInfo.ecoName">
+            <el-row style="margin: 0">
+              <el-col :span="12">{{this.personUserInfo.ecoName}}</el-col>
+              <el-col :span="12">{{this.personUserInfo.ecoPhone}}</el-col>
+            </el-row>
+          </div>
+          <div v-else>
+            暂无经纪人
+          </div>
+        </div>
+
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="tixianDialogVisible = false" style="background: #e6a03c; border: none">知道了</el-button>
+      </span>
+    </el-dialog>
+
     
     <tabbar tarname="person" :iconarr="iconArr"></tabbar>
   </div>
@@ -450,7 +487,8 @@ export default {
       isInfo: false,
       userInteDialogVisible: false,
       inteList: [],
-      ecoDialogVisible: false
+      ecoDialogVisible: false,
+      tixianDialogVisible: false
     }
   },
   components: {tabbar},
