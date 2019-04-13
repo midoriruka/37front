@@ -39,14 +39,14 @@
         </div>
         <!-- 报名 -->
         <div class="signup-block">
-          <p class="su-title">已报名：500人</p>
+          <p class="su-title">已报名：{{partCount}}人</p>
           <div class="signups">
-            <div class="signup-item" v-for="(item,i) in 5" :key="i">
+            <div class="signup-item" v-for="(item,i) in partList" :key="i">
               <div class="su-user-l">
-                <img class="su-user-portrait-img">
-                <span class="su-user-name">大王找我来巡山</span>
+                <img class="su-user-portrait-img" :src="item.user_image_url">
+                <span class="su-user-name">{{item.nick_name}}</span>
               </div>
-              <span class="su-user-r">18888888888</span>
+              <span class="su-user-r">{{item.left_phone}}****{{item.right_phone}}</span>
             </div>
           </div>
           <div class="signup-btn" @click="signUp">
@@ -61,7 +61,7 @@
             {{item}}
           </div>
         </div>
-        <div class="detail-title"><span>{{activeTab}}</span><span class="detail-mod-btn">我要纠错</span></div>
+        <div class="detail-title"><span>{{activeTab}}</span><span class="detail-mod-btn" @click="$router.push('/errorCorrection')">我要纠错</span></div>
         <div class="detail-content">
           <!-- 工资说明 -->
           <div v-show="'工资说明' === activeTab" class="sal-detail" v-html="officeInfo.officeDes">
@@ -255,23 +255,27 @@ export default {
       backInfo: {}, //
       companyInfo: {}, //企业信息
       officeInfo: {}, //职位信息
-      hotOfficeList: [{
-        officeTags: '3,4,7',
-        companyLogo: 'http://p6.qhimg.com/dmfd/160_90_/t01f88419b151733f1c.jpg'
-      }], //热门职位
+      hotOfficeList: [
+        /*{
+                officeTags: '3,4,7',
+                companyLogo: 'http://p6.qhimg.com/dmfd/160_90_/t01f88419b151733f1c.jpg'
+              }*/
+      ], //热门职位
       swiperOption: {
         pagination: {
           el: '.swiper-pagination'
         }
       },
       swiperSlides: [],
+      partCount: 0, //报名人数
+      partList: [], //报名列表
       isUploadBtnShow: false, //是否显示上传按钮
     }
   },
   mounted() {
     this.$nextTick().then(async () => {
       const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
-      const officeId = JSON.parse(window.localStorage.getItem('officeId'));
+      const officeId = this.officeId = JSON.parse(window.localStorage.getItem('officeId'));
       this.isUploadBtnShow = (userMsg && userMsg.users.userId);
       //请求数据
       const { data } = await this.axios.post('/api/h5/getOfficeInfo', {
@@ -297,6 +301,8 @@ export default {
         if (hotOfficeList) {
           this.hotOfficeList = hotOfficeList;
         }
+        this.partCount = result.partCount ? result.partCount : 0;
+        this.partList = result.partList ? result.partList : [];
         //加载地图
         this.initMap();
       }
@@ -330,13 +336,29 @@ export default {
       this.local.search(this.companyInfo.companyAddress);
     },
 
-    signUp() {
+    async signUp() {
       const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
       if (userMsg && userMsg.users.userId) {
         //直接报名
+        const { data } = await this.axios.post('/api/h5/partOfiice', {
+          companyId: this.companyInfo.companyId,
+          userId: userMsg.users.userId,
+          officeId: Number(this.officeId)
+        })
+        if (data.code === 200) {
+          //跳转到报名成功页面
+          window.localStorage.removeItem('signCanvas');
+          window.localStorage.setItem('officeId', officeId);
+          this.$router.push('/sign');
+        } else {
+          MessageBox.alert('报名失败:' + data.msg);
+        }
       } else {
+        //跳转到登录页
+        this.$router.push('/login')
         //弹出对话框
-        this.dialogTableVisible = true;
+
+        // this.dialogTableVisible = true;
       }
     }
   },

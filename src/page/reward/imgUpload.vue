@@ -44,10 +44,10 @@ export default {
         img.uploading = true;
         img.submited = true;
         const { data } = await this.axios.post('/api/h5/myOfficeUpload', {
-          // officeId: this.officeId,
-          // userId: this.userId, 
-          officeId: 1,
-          userId: 3,
+          officeId: this.officeId,
+          userId: this.userId, 
+          // officeId: 1,
+          // userId: 3,
           uploadImg: img.url,
         })
         img.uploading = false;
