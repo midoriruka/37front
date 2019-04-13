@@ -34,6 +34,7 @@
       },
       mounted(){
         this.$nextTick().then(() => {
+          console.log(this.$store.state.companyId);
           // this.getJobInfo();
         })
       },
