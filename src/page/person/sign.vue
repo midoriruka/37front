@@ -53,25 +53,25 @@
   <el-row style="margin-bottom: 10px;">
     <el-col :span="12" style="padding-left: 20px;">每日签到:</el-col>
     <el-col :span="12">
-      <span style="color:#e6a03c">+5</span>积分
+      <span style="color:#e6a03c">+{{signruleData.signDay}}</span>积分
     </el-col>
   </el-row>
   <el-row style="margin-bottom: 10px;">
     <el-col :span="12" style="padding-left: 20px;">每邀请一人:</el-col>
     <el-col :span="12">
-      <span style="color:#e6a03c">+5</span>积分
+      <span style="color:#e6a03c">+{{signruleData.investPerson}}</span>积分
     </el-col>
   </el-row>
   <el-row style="margin-bottom: 10px;">
     <el-col :span="12" style="padding-left: 20px;">意见反馈通过审核:</el-col>
     <el-col :span="12">
-      <span style="color:#e6a03c">+5</span>积分
+      <span style="color:#e6a03c">+{{signruleData.feedBack}}</span>积分
     </el-col>
   </el-row>
   <el-row style="margin-bottom: 10px;">
     <el-col :span="12" style="padding-left: 20px;">成功入职:</el-col>
     <el-col :span="12">
-      <span style="color:#e6a03c">+100</span>积分
+      <span style="color:#e6a03c">+{{signruleData.offerIn}}</span>积分
     </el-col>
   </el-row>
   
@@ -92,7 +92,13 @@ export default {
       isSign: false,
       userInte: 0,
       signMsg: {},
-      dialogVisible: false
+      dialogVisible: false,
+      signruleData: {
+        feedBack: 0,
+        investPerson: 0,
+        offerIn: 0,
+        signDay: 0
+      }
     }
   },
   created() {
@@ -109,7 +115,7 @@ export default {
           'Content-type': 'application/json;charset=UTF-8'
         },
         data: {
-          userId: this.user.userId
+          userId: this.user.loginType == 'person' ? this.user.userId : this.user.company_user_id
         }
       }).then((res) => {
         if (res.data.code == 200) {
@@ -132,7 +138,7 @@ export default {
           'Content-type': 'application/json;charset=UTF-8'
         },
         data: {
-          userId: this.user.userId
+          userId: this.user.loginType == 'person' ? this.user.userId : this.user.company_user_id
         }
       }).then((res) => {
         if (res.data.code == 200) {
@@ -153,7 +159,7 @@ export default {
           'Content-type': 'application/json;charset=UTF-8'
         },
         data: {
-          userId: this.user.userId
+          userId: this.user.loginType == 'person' ? this.user.userId : this.user.company_user_id
         }
       }).then((res) => {
         if (res.data.code == 200) {
@@ -179,6 +185,22 @@ export default {
     },
     signRule() {
       this.dialogVisible = true
+      this.axios({
+        method: 'post',
+        url: '/api/h5/getInteRule',
+        headers: {
+          'Content-type': 'application/json;charset=UTF-8'
+        },
+      }).then((res) => {
+        if (res.data.code == 200) {
+          this.signruleData = res.data.data
+        }
+      }).catch((res) => {
+        MessageBox({
+          title: '小提示',
+          message: res.data.msg,
+        })
+      })
     }
   }
 }

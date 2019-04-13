@@ -7,24 +7,11 @@
           <mt-field label="姓名" placeholder="请输入用户名" v-model="userInfo.nickName"></mt-field>
           <mt-field label="昵称" placeholder="请输入昵称" v-model="userInfo.userName"></mt-field>
           <mt-field label="性别" placeholder="请输入性别" v-model="userInfo.userSex"></mt-field>
-          <mt-field label="手机号" placeholder="请输入手机号" v-model="userInfo.userPhone"></mt-field>
-          <!--<div style="padding:0 10px;display: flex;font-size: 16px;color: #2c3e50;height: 48px;align-items: center;">-->
-            <!--<div style="width: 105px;flex: none;">生日</div>-->
-            <!--<div style="flex:1;box-sizing: border-box;" @click="seleBirthday">-->
-              <!--<div style="border-bottom: 1px solid #f5f5f9;color: #000;">-->
-                <!--asdfasdf-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<mt-datetime-picker-->
-            <!--ref="picker"-->
-            <!--type="date"-->
-            <!--v-model="pickerValue">-->
-          <!--</mt-datetime-picker>-->
-          <!--<mt-field label="生日" placeholder="请选择生日" v-model="userInfo.userBrith"></mt-field>-->
+          <EditPhone label="手机号" :companyContactPhone="userInfo.userPhone" @callBack="callBack"></EditPhone>
           <Selector label="生日"
                     type="userBrith"
-                    :seleValuePro="{name:' '}"
+                    v-if="userInfo.userBrith"
+                    :seleValuePro="{name:userInfo.userBrith}"
                     @changeValue="changeValue"
                     ></Selector>
           <Selector label="民族"
@@ -58,6 +45,7 @@
 <script>
   //17600000000 验证码  888888-->
   import EditHead from '../../components/editHead.vue'
+  import EditPhone from '../../components/editPhone.vue'
   import Selector from '../../components/selector.vue'
   import UploadImg from '../../components/uploadHeadImg.vue'
   import configData from '../../assets/dataConfig/index'
@@ -92,14 +80,17 @@
             }
         },
       methods:{
+        callBack(data){
+          this.userInfo.userPhone = data;
+        },
         callBackUpload(data){
-          console.log(data);
           this.userInfo.userImageUrl = data
         },
         seleBirthday(){
           this.pickerValue = true;
         },
         changeValue(data){
+          console.log(data,123123)
           this.userInfo[data.type] = data.value;
         },
         submit(){
@@ -115,7 +106,6 @@
             data: this.userInfo,
           }).then((res) => {
             if (res.data.code == 200) {
-              console.log('updateUserInfo')
             } else {
               this.$toast({
                 message: res.data.msg || '请求出错',
@@ -129,32 +119,6 @@
             });
           })
         },
-//        getCompanyUserInfo(id) {
-//          this.axios({
-//            method: 'post',
-//            url: '/api/h5/getCompanyUserInfo',
-//            headers: {
-//              'Content-type': 'application/json;charset=UTF-8'
-//            },
-//            data: {
-//              userId: id,
-//            }
-//          }).then((res) => {
-//            if (res.data.code == 200) {
-//              console.log('getCompanyUserInfo')
-//            } else {
-//              this.$toast({
-//                message: res.data.msg || '请求出错',
-//                duration: 1000,
-//              });
-//            }
-//          }).catch((res) => {
-//            this.$toast({
-//              message: res.data.msg || '请求出错',
-//              duration: 1000,
-//            });
-//          })
-//        },
         getAllUserInfo(id) {
           this.axios({
             method: 'post',
@@ -168,16 +132,15 @@
           }).then((res) => {
             if (res.data.code == 200) {
               this.userInfo = res.data.data;
+              console.log(this.userInfo)
               this.finduserCityIndex(res.data.data.userNation,'userNation','defaultIndexProNation');
               this.finduserCityIndex(res.data.data.userEdu,'userEdu','defaultIndexProUserEdu');
-              this.finduserCityIndex(res.data.data.userProvince,'userProvince','defaultIndexProUserProvince',res.data.data.userCity,'defaultIndexProUserCity',res.data.data.userArea,'defaultIndexProUserArea');
+              this.finduserCityIndex(res.data.data.userProvince,'userCity','defaultIndexProUserProvince',res.data.data.userCity,'defaultIndexProUserCity',res.data.data.userArea,'defaultIndexProUserArea');
 //              this.finduserCityIndex(res.data.data.userCity,'userCity','defaultIndexProUserCity');
 
             } else {
               this.$store.commit('showToast',res.data?res.data.msg:'请求出错' || '请求出错');
             }
-          }).catch((res) => {
-            this.$store.commit('showToast',res.data?res.data.msg:'请求出错' || '请求出错');
           })
         },
         finduserCityIndex(data,arrType,type,dataChildren,childrenIndex,dataChildrenAfter,childrenIndexIndex){
@@ -218,7 +181,8 @@
       components: {
           EditHead,
           Selector,
-          UploadImg
+          UploadImg,
+        EditPhone
       }
     }
 </script>

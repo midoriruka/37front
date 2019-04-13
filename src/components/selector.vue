@@ -93,14 +93,14 @@
           handleConfirm (data) {
             const time = new Date(data);
             this.seleValue = {name:time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDay()}
-            console.log(time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDay())
+            this.$emit('changeValue',{type:this.type,value:this.seleValue.name})
           },
         },
         created(){
-
           this.seleValue = this.seleValuePro;
+          console.log(this.seleValuePro)
           if(this.type == 'userBrith'){
-
+            this.value = new Date(this.seleValuePro.name);
             return
           }
           this.slots[0].defaultIndex = this.defaultIndexPro;

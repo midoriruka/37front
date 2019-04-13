@@ -1,11 +1,16 @@
 <template>
     <div class="page">
       <div class="mint-searchbar">
+        <div>
+          <img src="../../assets/icon/最高奖励/关闭.png" alt="" style="width: 20px;display: block;margin-right: 20px;" @click="goTo">
+        </div>
         <div class="mint-searchbar-inner">
           <i class="mintui mintui-search"></i>
-          <input type="search" placeholder="搜索" class="mint-searchbar-core">
+          <input type="search" placeholder="搜索"
+                 class="mint-searchbar-core"
+                 v-model="value">
         </div>
-        <a class="mint-searchbar-cancel" style="display: none;">取消</a>
+        <!--<a class="mint-searchbar-cancel" style="display: none;">取消</a>-->
       </div>
       <div style="display: flex;align-items: center;justify-content: space-between;padding: 0 10px;font-size: 14px;background: #ffffff;height: 44px;line-height: 44px;">
           <div>
@@ -23,6 +28,9 @@
           </div>
         </div>
       </div>
+      <div style="margin-top: 20px;">
+        <div v-for="item in computedCompany" style="height: 44px;background: #ffffff;line-height: 44px;padding: 0 10px;margin-top: 1px;" @click="seleCity(item)">{{item.companyCity}}</div>
+      </div>
     </div>
 </template>
 <style scoped>
@@ -37,13 +45,39 @@
         data(){
             return {
               gps:'',
-              value: 'hello vue',
+              value: '',
               hotCity:[],
+              companyCity:[],
+              currentSeleCity:''
             }
         },
         methods:{
           seleCity(data){
-            console.log(data)
+            this.currentSeleCity = data.companyCity
+          },
+          getCompanyCity(){
+            this.axios({
+              method: 'post',
+              url: '/api/h5/getCompanyCity',
+              headers: {
+                'Content-type': 'application/json;charset=UTF-8'
+              },
+            }).then((res) => {
+              console.log(res)
+              if (res.data.code == 200) {
+                this.companyCity = res.data.data
+              } else {
+                this.$toast({
+                  message: res.data.msg || '请求出错',
+                  duration: 1000,
+                });
+              }
+            }).catch((res) => {
+              this.$toast({
+                message: res.data.msg || '请求出错',
+                duration: 1000,
+              });
+            })
           },
           getCompanyHotCity(){
             this.axios({
@@ -52,7 +86,6 @@
               headers: {
                 'Content-type': 'application/json;charset=UTF-8'
               },
-              data: this.userInfo,
             }).then((res) => {
               if (res.data.code == 200) {
                 this.hotCity = res.data.data
@@ -131,16 +164,33 @@
               });
             })
           },
+          goTo(){
+            this.$router.push('/person')
+          }
+        },
+        computed:{
+          computedCompany(){
+            if(!this.value){
+              return this.companyCity;
+            }else {
+              let arr = [];
+              for(var i = 0;i<this.companyCity.length;i++){
+                if(this.companyCity[i].companyCity.indexOf(this.value) != -1){
+                  arr.push(this.companyCity[i])
+                }
+              }
+              return arr
+            }
+          }
         },
         created(){
-          this.getCompanyHotCity()
+          this.getCompanyHotCity();
+          this.getCompanyCity();
           if(!sessionStorage.getItem('longitude')){
             this.getLocation()
           }else{
             this.baiduApi();
           }
-        },
-        components: {
         }
     }
 </script>

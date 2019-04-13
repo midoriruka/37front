@@ -20,7 +20,7 @@
         </div>
         
       </li>
-      <li class="myshop-user-list">
+      <li class="myshop-user-list" @click="dialogFormVisible = true">
         <span>推荐好友</span>
         <i class="el-icon-arrow-right"></i>
       </li>
@@ -37,7 +37,7 @@
       </li>
       </ul>
       <div v-if=" pushList !== null " style="background:#fff;">
-        <div>我的推荐企业</div>
+        <div class="myshop-list-title">我的推荐企业</div>
         <div class="myshop-list" v-for="(item, index) in pushList" :key="index">
           <div class="myshop-list-left">
             <img :src="item.companyLogo" />
@@ -48,12 +48,26 @@
               <span>{{item.officeName}}</span>
               <span>{{item.salaryStart}}元-{{item.salayEnd}}元/{{checkTime(item.salayUnit)}}</span>
             </div>
-            <!-- <div class="myshop-list-right-money" v-if="item.">
-
-            </div> -->
-            <div>
+            <div class="tb-labels">
+              <span class="tb-label-i" v-for="(items,i) in officeTags(item.officeTags)" :key="i">{{items}}</span>
+            </div>
+          
+            <div class="myshop-list-company">
               {{item.companyName}}
             </div>
+                        <div style="text-align: center" class="money">
+                <el-row>
+                  <el-col style="background: #e65032; color: #fff; border-top-left-radius: 5px;border-bottom-left-radius: 5px; padding: 5px; height: 1rem;width:2rem;">
+                    <span class="item-content-jiang">{{item.amount}}</span>元
+                  </el-col>
+                  <el-col  style="background: #eaebed;border-top-right-radius: 5px;border-bottom-right-radius: 5px;height: 1rem;width:1rem;">
+                    {{item.onMode | mode}}
+                  </el-col>
+                </el-row>
+              </div>
+              <div class="myshop-list-time">
+                {{item.createTime | time}}
+              </div>
           </div>
         </div>
       </div>
@@ -62,17 +76,99 @@
         <p>长安保存二维码</p>
         <img :src="userMap.investCodeImage">
       </div>
+      <div class="myshop-friend" v-show="dialogFormVisible===true">
+        <el-dialog title="推荐好友" :visible.sync="dialogFormVisible">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+            <el-form-item prop="name">
+              <img src="@/assets/recommend/user.png" alt class="commit-form-input-icon">
+              <el-input v-model="ruleForm.name" placeholder="请输入好友姓名" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item prop="phone">
+              <img src="@/assets/recommend/phone.png" alt class="commit-form-input-icon">
+             <el-input v-model="ruleForm.phone" placeholder="请输入好友手机号" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="submitForm('ruleForm')">确认推荐</el-button>
+          </div>
+        </el-dialog>
+      </div>
   </div>
 </template>
 <script>
+import { MessageBox } from "mint-ui";
+import { OFFICE_TAGS } from '@/assets/constant.js';
+import moment from 'moment'
 export default {
   name:"myshop",
   data(){
+      var checkPhone = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('手机号不能为空'));
+        } else {
+          const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
+          if (reg.test(value)) {
+            callback();
+          } else {
+            return callback(new Error('请输入正确的手机号'));
+          }
+        }
+      };
     return{
       userMap:{},
       pushList:[],
-      codeStatus: false
+      codeStatus: false,
+      dialogFormVisible: false,
+      ruleForm: {
+        name: '',
+        phone: '',
+      },
+      rules:{
+        name: [
+            { required: true, message: '请输入好友姓名', trigger: 'blur' }
+          ],
+        phone:[
+          
+            {validator: checkPhone, trigger: 'blur'}
+        ]
+      }
     }
+  },
+    filters: {
+    time: (value) => {
+      return moment(value).format('YYYY-MM-DD')
+    },
+    unit: (value) => {
+      let text = ''
+      switch(value) {
+        case '0':
+          text = '元/月';
+          break;
+        case '1':
+          text = '元/天';
+          break;
+        case '2':
+          text = '元/小时';
+          break;
+        default:
+          text = '无'
+      }
+      return text
+    },
+    mode: (value) => {
+      let text = ''
+      switch(value) {
+        case '1':
+          text = '打卡';
+          break;
+        case '0':
+          text = '入职奖励';
+          break;
+        default:
+          text = '无'
+      }
+      return text
+    },
   },
   created(){
     this.getData();
@@ -124,33 +220,69 @@ export default {
         oInput.style.display='none';
  
     },
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.commit(this.ruleForm.name,this.ruleForm.phone)
+          } else {
+            return false;
+          }
+        });
+      },
+    commit(name,phone) {
+      const info = JSON.parse(window.localStorage.getItem('userMsg'))
+      const userId = info.users.userId
+      this.axios({
+        method: "post",
+        url: "/api/h5/pushFriend",
+        headers: {
+          "Content-type": "application/json;charset=UTF-8"
+        },
+        data: {
+          pushMobile: phone,
+          pushName: name,
+          userId: userId
+        }
+      })
+        .then(res => {
+          if(res.data.code === 200 ){
+            this.dialogFormVisible = false;
+            
+             this.$message({
+                message: "推荐成功",
+                type: 'success'
+              });
+              this.ruleForm.name = "";
+              this.ruleForm.phone = "";
+          } else{
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            });
+            this.ruleForm.name = "";
+            this.ruleForm.phone = "";
+          }
+        })
+        .catch(res => {
+          MessageBox({
+            title: "提示",
+            message: res.data.msg
+          });
+        });
+    },
     // 判断是什么标签
-    tags(ids){
-      const data=[
-        {index:"0",name:"穿无尘服"},
-        {index:"1",name:"包吃"},
-        {index:"2",name:"包住"},
-        {index:"3",name:"餐补"},
-        {index:"4",name:"房补"},
-        {index:"5",name:"五险"},
-        {index:"6",name:"五险一金"},
-        {index:"7",name:"交通补助"},
-        {index:"8",name:"话补"},
-        {index:"9",name:"周末双休"},
-        {index:"10",name:"年底双薪"},
-        {index:"11",name:"长白班"},
-        {index:"12",name:"免费商业险"},
-        {index:"13",name:"站姿上班"},
-        {index:"14",name:"加班多"},
-        {index:"15",name:"妹子多"},
-        {index:"16",name:"周围热闹"},
-        {index:"17",name:"吃住好"},
-        {index:"18",name:"年龄要求低"},
-        {index:"19",name:"日多薪"}
-      ];
-      
-
-    }
+    officeTags(rawTags) {
+        if (rawTags) {
+          const tags = rawTags.split(',');
+          if (tags.length > 0) {
+            return OFFICE_TAGS.filter(t => tags.includes(t.index)).map(t => t.name);
+          } else {
+            return [];
+          }
+        } else {
+          return [];
+        }
+    },
   }
 }
 </script>
@@ -168,6 +300,8 @@ export default {
       width:1.333rem;
       height:1.333rem;
       border-radius:50px;
+      position: relative;
+      top: 0.3rem;
     }
     .myshop-header-user {
       display: inline-block;
@@ -260,6 +394,7 @@ export default {
   }
   .myshop-list{
     padding:0.3rem 0.5rem;
+    border-bottom: 1px solid #f5f5f9;
   }
   .myshop-list-left{
     width:2rem;
@@ -288,6 +423,13 @@ export default {
   .myshop-list-right{
     display:inline-block;
     vertical-align: top;
+    width: 75%;
+    position: relative;
+    .money{
+      position: absolute;
+      top: 0;
+      right:0;
+    }
     .myshop-list-right-title{
       &>span:first-child{
         display:block;
@@ -327,4 +469,87 @@ export default {
   .el-button:focus, .el-button:hover{
     background: #fff;
   }
+  .myshop-friend{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width:100%;
+    background:  rgba(0,0,0,0.3);
+    z-index: 2003;
+
+  }
+  .commit-form-input-icon{
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    left: 10%;
+    z-index: 1;
+  }
+  .tb-labels {
+    margin-top: 0.3rem;
+    margin-bottom: 0.1rem;
+  }
+
+.tb-label-i {
+  background-color: #f5f5f9;
+  border-radius: 0.226667rem;
+  color: #969696;
+  padding: 0.08rem 0.173333rem;
+  margin-right: 0.146667rem;
+}
+.myshop-list-company{
+  display: inline-block;
+    width: 67%;
+  color: #969696;
+}
+.myshop-list-time{
+    float: right;
+    margin-top: 0.1rem;
+    color: #969696;
+}
+.myshop-list-title{
+    font-size: 0.48rem;
+    font-weight: bold;
+    padding-left: 0.5rem;
+    padding: 0.3rem 0.5rem;
+}
+</style>
+<style lang="less">
+.myshop-friend{
+    .el-dialog{
+      margin: 0 auto 0;
+      width:90%;
+    }
+  .el-dialog__body{
+    padding:30px 0;
+  }
+  .el-dialog__header{
+    text-align:center;
+  }
+  .el-input{
+    text-align:center;
+  }
+  .el-input__inner{
+    width:80%;
+    border:none;
+    border-bottom:1px solid #e3e3e3;
+    border-radius:0;
+    padding-left: 1.2rem;
+    &::-webkit-input-placeholder{
+      margin-left:1rem;
+      display:inline-block;
+    }
+  }
+  .el-dialog__footer{
+    text-align:center;
+    .el-button--primary{
+      background:#e6a03c;
+      border-color:#e6a03c;
+    }
+  }
+  .el-form-item__error{
+    left:10%;
+  }
+}
 </style>
