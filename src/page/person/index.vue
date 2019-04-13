@@ -344,7 +344,7 @@
       :visible.sync="userInteDialogVisible"
       width="90%"
       center
-      :before-close="handleClose">
+      >
       <div>
         <div v-if="inteList.length == 0">
           暂无积分记录
@@ -396,7 +396,7 @@
       :visible.sync="ecoDialogVisible"
       width="90%"
       center
-      :before-close="handleClose">
+      >
       <div>
         <div v-if="isCompanyUser">
           <div v-if="this.companyUserInfo.userName">
@@ -433,31 +433,9 @@
       :visible.sync="tixianDialogVisible"
       width="90%"
       center
-      :before-close="handleClose">
+    >
       <div>
-        <div v-if="isCompanyUser">
-          <div v-if="this.companyUserInfo.userName">
-            {{this.companyUserInfo.userName}}
-            <el-row style="margin: 0">
-              <el-col :span="12">{{this.companyUserInfo.userName}}</el-col>
-              <el-col :span="12">{{this.companyInfo.userPhone}}</el-col>
-            </el-row>
-          </div>
-          <div v-else>
-            暂无经纪人
-          </div>
-        </div>
-        <div v-else>
-          <div v-if="this.personUserInfo.ecoName">
-            <el-row style="margin: 0">
-              <el-col :span="12">{{this.personUserInfo.ecoName}}</el-col>
-              <el-col :span="12">{{this.personUserInfo.ecoPhone}}</el-col>
-            </el-row>
-          </div>
-          <div v-else>
-            暂无经纪人
-          </div>
-        </div>
+        
 
       </div>
       <span slot="footer" class="dialog-footer">
