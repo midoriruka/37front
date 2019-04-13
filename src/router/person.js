@@ -7,9 +7,10 @@ import MyAddress from '@/page/person/myAddress';
 import AddressEdit from '@/page/person/addressEdit';
 import OrderSubmit from '@/page/person/orderSubmit';
 import OrderDetail from '@/page/person/orderDetail';
-import MyShop from '@/page/person/myshop'
+import MyShop from '@/page/person/myshop';
 import Suggest from '@/page/person/suggest';
-import Message from '@/page/person/message'
+import Message from '@/page/person/message';
+import FocusCompany from '@/page/person/focusCompany';
 
 const user = [{
   path: '/person',
@@ -59,6 +60,10 @@ const user = [{
   path: '/person/message',
   name: '消息中心',
   component: Message
+},{
+  path:"/person/focusCompany",
+  name:"关注企业",
+  component:FocusCompany
 }]
 
 export default user

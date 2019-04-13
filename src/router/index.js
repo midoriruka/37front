@@ -14,6 +14,7 @@ import Recruitment from './recruitment'
 import Recommend from "./recommend";
 import RecruitDetail from '@/page/reward/recruitDetail';
 import ImgUpload from '@/page/reward/imgUpload';
+import UnderLine from "./underline"
 
 Vue.use(Router);
 
@@ -68,7 +69,7 @@ let menu = new Router({
       name:'招聘详情',
       component:ImgUpload,
     }
-  ].concat(Person, LoginRegister, Recruitment, Recommend)
+  ].concat(Person, LoginRegister, Recruitment, Recommend,UnderLine)
 })
 
 export default menu;

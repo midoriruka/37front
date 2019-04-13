@@ -16,10 +16,10 @@
     <div>
     <ul class="tabList" id="tabList">
         <li v-for="(item, index) in tabLIst" :key="index">
-          <span tabId={item.classId}>{{item.className}}</span>
+          <span><a :href="'#'+index"></a>{{item.className}}</span>
         </li>
       </ul>
-     <div class="list-content" v-for="(item, index) in tabLIst" :key="index">
+     <div  class="list-content" v-for="(item, index) in tabLIst" :id="index" :key="index">
       <div class="list"><span class="list-title">{{item.className}}</span><span class="list-more">更多</span></div>
       <div v-for="(item, index) in data['list'+index]" :key="index" @click="toDetail(item.articleUrl)">
         <img :src="item.articleImage" class="list-img">
@@ -55,7 +55,6 @@ export default{
         }
       }).then((res) => {
         if (res.data.code == 200) {
-          console.log(res.data.data.bannerInfo);
           this.data = res.data.data;
           this.bannerList = res.data.data.bannerInfo;
           this.tabLIst = res.data.data.classList;

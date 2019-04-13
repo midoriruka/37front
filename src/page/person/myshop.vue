@@ -38,7 +38,7 @@
       </ul>
       <div v-if=" pushList !== null " style="background:#fff;">
         <div class="myshop-list-title">我的推荐企业</div>
-        <div class="myshop-list" v-for="(item, index) in pushList" :key="index">
+        <div class="myshop-list" v-for="(item, index) in pushList" :key="index" @click="jumpto(item.officeId)">
           <div class="myshop-list-left">
             <img :src="item.companyLogo" />
             <span>{{item.inviteCount}}人</span>
@@ -187,7 +187,6 @@ export default {
         }
       }).then((res) => {
         if (res.data.code == 200) {
-          console.log(res.data.data.pushList);
           this.userMap = res.data.data.userMap;
           this.pushList = res.data.data.pushList;
         }
@@ -283,6 +282,13 @@ export default {
           return [];
         }
     },
+    jumpto(item){
+      console.log(item);
+      window.localStorage.setItem('officeId', item);
+      this.$router.push({
+        path: "/recruitDetail"
+      })
+    }
   }
 }
 </script>
@@ -500,8 +506,11 @@ export default {
 }
 .myshop-list-company{
   display: inline-block;
-    width: 67%;
+  width: 67%;
   color: #969696;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .myshop-list-time{
     float: right;
