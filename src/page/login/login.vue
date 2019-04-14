@@ -136,8 +136,11 @@ export default {
         }
       }).then((res) => {
         if (res.data.code == 200 || res.data.code == '200') {
+          if (res.data.data.users.loginType !== 'person') {
+            res.data.data.users.userId = res.data.data.users.company_user_id
+          }
             window.localStorage.setItem('userMsg', JSON.stringify(res.data.data));
-           window.localStorage.setItem('loginType', this.loginType);
+            window.localStorage.setItem('loginType', this.loginType);
             this.$router.push({
               path: '/'
             })
