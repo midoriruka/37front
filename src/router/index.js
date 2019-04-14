@@ -24,8 +24,16 @@ Vue.use(Router);
 
 Vue.use(Router)
 
+
 let menu = new Router({
   mode: 'history',
+  srcollBehavior(to,from,savedPosition){
+    if(to.hash){
+      return {
+        selector:to.hash
+      }
+    }
+  },
   routes: [
     {
       path: '/editPerson',

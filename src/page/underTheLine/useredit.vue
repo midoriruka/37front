@@ -1,31 +1,33 @@
 <template>
   <div>
     <div v-title>资料编辑</div>
-    <div>
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+    <div class="user-edit-form">
+      <el-form :model="ruleForm" ref="ruleForm" :inline="true">
         <el-form-item label="姓名" prop="userName">
-          <el-input v-model="ruleForm.userName"></el-input>
+          <el-input v-model="ruleForm.userName" readonly></el-input>
         </el-form-item>
         <el-form-item label="联系电话" prop="userPhone">
-          <el-input v-model="ruleForm.userPhone"></el-input>
+          <el-input v-model="ruleForm.userPhone" readonly></el-input>
         </el-form-item>
         <el-form-item  prop="offlineStatus">
           <el-radio v-model="ruleForm.offlineStatus" v-for="(item,index) in userStatus" :key="index" :label="item.index">{{item.name}}</el-radio>
         </el-form-item>
-        <el-form-item label="入职日期" prop="offerTime">
-          <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.offerTime" style="width: 100%;"></el-date-picker>
+        <el-form-item label="入职日期" prop="offerTime" class="offertime">
+          <el-date-picker class="select-date" :disabled="ruleForm.offlineStatus!== '32'" type="date" placeholder="选择日期" v-model="ruleForm.offerTime"  style="width: 100%;"></el-date-picker>
         </el-form-item>
-        <el-form-item label="身份证号" prop="certNo">
+        <el-form-item label="身份证号" prop="certNo" class="offertime">
           <el-input v-model="ruleForm.certNo"></el-input>
-          <el-button>拍照识别</el-button>
+          <el-upload action="https://jaf" class="upload-demo" :show-file-list="false" :before-upload="beforeAvatarUpload">
+            <el-button @click="cardtype='cer'">上传图片</el-button>
+          </el-upload>
         </el-form-item>
-        <el-form-item label="银行卡号" prop="bankNo">
+        <el-form-item label="银行卡号" prop="bankNo" class="offertime">
           <el-input v-model="ruleForm.bankNo"></el-input>
-          <el-upload action="" class="upload-demo" :on-change="handleChange" :auto-upload="false" :show-file-list="false">
-            <div class="add-btn box-item" slot="trigger">上传文件</div>
+          <el-upload action="https://jaf" class="upload-demo" :show-file-list="false" :before-upload="beforeAvatarUpload">
+            <el-button @click="cardtype='bank'">上传图片</el-button>
           </el-upload>
         </el-form-item>    
-        <el-form-item>
+        <el-form-item class="buttons">
           <el-button @click="resetForm('ruleForm')">取消</el-button>
           <el-button type="primary" @click="submitForm('ruleForm')">保存提交</el-button>
         </el-form-item>    
@@ -37,7 +39,7 @@
 <script>
 import { MessageBox } from "mint-ui";
 import { userStatus } from '@/assets/constant.js';
-const acceptType = ['image/png', 'image/jpg', 'image/jpeg'];
+import moment from 'moment';
 export default {
   name:"useredit",
   data(){
@@ -57,6 +59,7 @@ export default {
       userStatus,
       userInfo:{},
       orderInfo:{},
+      cardtype:"",
       ruleForm:{
         certNo:"",
         bankNo:"",
@@ -64,15 +67,6 @@ export default {
         offerTime:"",
         userName:"",
         userPhone:""
-      },
-      rules:{
-        userName: [
-            { required: true, message: '请输入好友姓名', trigger: 'blur' }
-          ],
-        userPhone:[
-          
-            {validator: checkPhone, trigger: 'blur'}
-        ]
       }
     }
   },
@@ -80,38 +74,44 @@ export default {
     this.getData();
   },
   methods:{
-        handleChange(f) {
-      const type = f.raw.type;
-      if (!acceptType.includes(type)) {
-        MessageBox.alert('只支持png和jpg格式的图片', '提示');
-        return;
-      }
-      const size = f.size;
-      if (size > 2000000) {
-        MessageBox.alert('图片大小不得2M', '提示');
-        return;
-      }
-      const event = event || window.event;
-      const file = event.target.files[0];
-      this.axios({
-        method: 'post',
-        url: '/api/off/certOcr',
-        headers: {
-          'Content-type': 'application/json;charset=UTF-8'
-        },
-        data:{
-          certImage:file
+    beforeAvatarUpload(file) {
+      var testmsg=file.name.substring(file.name.lastIndexOf('.'));	
+      let typeArr = ['.png', '.jpg', '.jpeg'];
+      if (typeArr.indexOf(testmsg) > -1) {
+        // 上传文件地址，然后赋值给fileForm.waterFile
+        const paperType = this.cardtype;
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+          let _base64 = reader.result
+
+          this.axios({
+            method: 'post',
+            url:paperType==="cer" ? '/api/off/certOcr': "/api/off/bankOcr",
+            headers: {
+              'Content-type': 'application/json;charset=UTF-8'
+            },
+            data: {
+              [paperType==="cer" ? 'certImage' : 'bankImage']: _base64,
+            }
+          }).then((res) => {
+            if (res.data.code == 200) {
+              paperType==="cer" ? this.ruleForm.certNo = res.data.data.num :this.ruleForm.bankNo = res.data.data.card_num;
+              
+            } else {
+              this.$message.error('上传失败，请重试')
+            }
+          }).catch(() => {
+            this.$message.error('上传失败，请重试')
+          })
         }
-      }).then((res) => {
-        if (res.data.code == 200) {
-          console.log(res.data.data)
-        }
-      }).catch((res) => {
-        MessageBox({
-          title: '小提示',
-          message: res.data.msg,
+      } else {
+        this.$message({
+          type: 'error',
+          message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
         })
-      })
+        return 
+      }
     },
    getData() {
       const orderId = JSON.parse(window.localStorage.getItem('orderId'));
@@ -128,7 +128,6 @@ export default {
         }
       }).then((res) => {
         if (res.data.code == 200) {
-          console.log(res.data.data)
           const userInfo = res.data.data.userInfo;
           const orderInfo = res.data.data.orderInfo;
           this.ruleForm={
@@ -150,10 +149,43 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
-          console.log(this.ruleForm)
+          this.axios({
+            method: 'post',
+            url: '/api/off/editUserInfo',
+            headers: {
+              'Content-type': 'application/json;charset=UTF-8'
+            },
+            data: {
+              userId:JSON.parse(window.localStorage.getItem('userId')),
+              certNo:this.ruleForm.certNo,
+              bankNo:this.ruleForm.bankNo,
+              orderId:JSON.parse(window.localStorage.getItem('orderId')),
+              offlineStatus:this.ruleForm.offlineStatus,
+              offerTime:moment(this.ruleForm.offerTime).format('YYYY-MM-DD'),
+            }
+          }).then((res) => {
+            if (res.data.code == 200 || res.data.code == '200') {
+                
+                // this.$message({
+                //   message: "提交成功",
+                //   type: 'success',
+                // });
+                this.$router.push({
+                  path: "/underline/userlist"
+                })
+              } else {
+                this.$message({
+                  message: res.data.msg,
+                  type: 'error'
+                });
+              }
+          }).catch((res) => {
+            MessageBox({
+              title: '小提示',
+              message: res.data.msg,
+            })
+          })
         } else {
-          console.log('error submit!!');
           return false;
         }
       });
@@ -165,6 +197,103 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+  .user-edit-form{
+    padding: 0.5rem;
+    background: #fff;
 
+  }
 </style>
+<style lang="less">
+.user-edit-form{
+  .el-form--inline .el-form-item__label{
+    width: 1.887rem;;
+    font-size: 0.32rem;
+    color:#969696;
+  }
+  .el-radio{
+    width: 2.133rem;
+    height: 0.8rem;
+    background: #f5f5f9;
+    text-align: center;
+    line-height: 0.8rem;
+    color: #969696;
+    margin-right:0.1rem;
+    border-radius:0.133rem;
+    .el-radio__input{
+      display:none;
+    }
+    .el-radio__label{
+      padding:0;
+      font-size:0.32rem;
+    }
+  }
+  .el-form--inline .el-form-item{
+    margin-right:0;
+  }
+  .el-radio__input.is-checked+.el-radio__label{
+    color:#e6a03c;
+  }
+  .is-checked{
+    background:#fae3c1;
+  }
+  .el-input__inner{
+    border: none;
+    border-bottom: 1px solid #f5f5f9;
+    border-radius: 0;
+    color: #323232;
+    padding-left: 10px;
+  }
+  .el-form-item.is-success .el-input__inner{
+    border-color:#f5f5f9;
+  }
+  .buttons{
+    margin-top: 0.7rem;
+    margin-bottom: 1rem;
+    .el-button{
+      width: 4rem;
+      height: 1.173rem;
+    }
+    .el-button--default{
+      background:#f5f5f9;
+      color:#969696;
+    }
+    .el-button--primary{
+      background:#e6a03c;
+      color:#fff;
+      border:1px solid #e6a03c;
+    }
+  }
+}
+.offertime{
+  width:100%;
+  position: relative;
+  .el-form-item__content{
+    width:75%;
+  }
+  .el-button--default{
+    width: 1.867rem;
+    height: 0.8rem;
+    border-radius: 0.133rem;
+    border: solid 0.013rem #e6a03c;
+    color: #e6a03c;
+    font-size: 0.32rem;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 10px;
+  }
+  .upload-demo{
+    height:0;
+  }
+  .select-date{
+    .el-input__inner{
+      padding-left:30px;
+    }
+  }
+}
+.el-message{
+  min-width: 0;
+}
+</style>
+
 

@@ -7,11 +7,13 @@
       <el-table-column
         prop="userName"
         label="姓名"
+        width="60"
       >
       </el-table-column>
       <el-table-column
         prop="userPhone"
         label="电话"
+        width="110"
       >
       </el-table-column>
       <el-table-column
@@ -43,7 +45,13 @@ export default {
     }
   },
   created(){
-    this.getData();
+    if(JSON.parse(window.localStorage.getItem('underLineUserMsg')) === null){
+      this.$router.push({
+        path: "/underline/login"
+      })   
+    }else{
+      this.getData();
+    }
   },
   methods:{
     getStatus(id){
@@ -57,7 +65,7 @@ export default {
       })    
     },
     getData() {
-      const userId = JSON.parse(window.localStorage.getItem('userMsg')).userInfo.userId;
+      const userId = JSON.parse(window.localStorage.getItem('underLineUserMsg')).userInfo.userId;
       this.axios({
         method: 'post',
         url: '/api/off/OfflineUserLiset',
@@ -100,9 +108,7 @@ export default {
   background: #fff;
   padding: 0.5rem;
 }
-.userlist-table-heade{
-  background: red;
-}
+
 </style>
 <style lang="less">
 .underline-userlist {
@@ -112,9 +118,21 @@ export default {
   .el-table
   .el-table__header{
     width:98% !important;
-    tr{
-      background:red;
-    }
   }
+  .el-table--scrollable-x .el-table__body-wrapper{
+    overflow: hidden;
+  }
+  .el-table__row td{
+    font-size: 0.3rem;
+  }
+  .el-table__body{
+    width:98% !important;
+  }
+}
+.userlist-table-heade th{
+  background: #f5f5f9;
+  color:#323232;
+  font-size: 0.3rem;
+  font-weight: normal;
 }
 </style>

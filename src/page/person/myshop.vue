@@ -6,8 +6,9 @@
       <div class="myshop-header-content">
         <div class="myshop-header-name">{{userMap.nickName}}</div>
         <div class="myshop-header-user">
-          <img src="@/assets/person/star-level.png" alt="" style="position:relative;zIndex:1;width:1.08rem;height:1.08rem;" /><span class="myshop-header-level">V{{userMap.skLevel}}</span>
-          <span class="myshop-header-count">推荐人数{{userMap.investCount}}</span>
+          <img src="@/assets/person/star-level.png" alt="" style="position:relative;zIndex:1;width: 0.68rem;
+    height: 0.68rem;" /><span class="myshop-header-level">V{{userMap.skLevel}}</span>
+          <span class="myshop-header-count">推荐人数：{{userMap.investCount}}</span>
         </div>
       </div>
     </div>
@@ -77,7 +78,7 @@
         <img :src="userMap.investCodeImage">
       </div>
       <div class="myshop-friend" v-show="dialogFormVisible===true">
-        <el-dialog title="推荐好友" :visible.sync="dialogFormVisible">
+        <el-dialog title="推荐好友" :visible.sync="dialogFormVisible" :modal-append-to-body="false">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
             <el-form-item prop="name">
               <img src="@/assets/recommend/user.png" alt class="commit-form-input-icon">
@@ -246,7 +247,6 @@ export default {
         .then(res => {
           if(res.data.code === 200 ){
             this.dialogFormVisible = false;
-            
              this.$message({
                 message: "推荐成功",
                 type: 'success'
@@ -283,7 +283,6 @@ export default {
         }
     },
     jumpto(item){
-      console.log(item);
       window.localStorage.setItem('officeId', item);
       this.$router.push({
         path: "/recruitDetail"
@@ -300,6 +299,7 @@ export default {
       display:inline-block;
       vertical-align: top;
       margin-left: 8px;
+      margin-top: 0.2rem;
     }
     .myshop-header-img {
       display:inline-block;
@@ -322,21 +322,21 @@ export default {
       font-size: 0.32rem;
       color: #fff;
       position: relative;
-      top: -13px;
+      top: -0.22rem;
     }
     .myshop-header-level{
-      width: 1.63rem;
+      width: 1.173rem;
       display: inline-block;
       background: #f3c608;
       font-size: 0.32rem;
       color: #fff;
-      line-height: 0.77rem;
+      line-height: 0.5rem;
       border-radius: 15px;
       text-align: center;
       vertical-align: text-bottom;
       position: relative;
-      top: -9px;
-      left: -0.5rem;
+      top: -6px;
+      left: -0.3rem;
       z-index: 0;
     }
   }
