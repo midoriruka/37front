@@ -26,7 +26,7 @@
         <!-- 0  入职 1打卡  -->
         <div v-show="backInfo.onManAmount">
           <p class="tb-entry-reward">入职奖励：{{Number(backInfo.onManAmount) >= Number(backInfo.onWomanAmount) ? backInfo.onManAmount:backInfo.onWomanAmount}}{{backInfo.onPeriod}}</p>
-          <p class="tb-desc">{{backInfo.onMode === 0 ? '入职':'打卡'}}{{backInfo.onValue}}天，37打工网奖励先进{{Number(backInfo.onManAmount) >= Number(backInfo.onWomanAmount) ? backInfo.onManAmount:backInfo.onWomanAmount}}元<br>活动倒计时：<span class="tb-desc-red">00:00:00</span></p>
+          <p class="tb-desc">{{backInfo.onMode === 0 ? '入职':'打卡'}}{{backInfo.onValue}}天，37打工网奖励先进{{Number(backInfo.onManAmount) >= Number(backInfo.onWomanAmount) ? backInfo.onManAmount:backInfo.onWomanAmount}}元<br>活动倒计时：<span class="tb-desc-red">{{countDown}}</span></p>
           <div class="tb-tips">
             <span ><img class="tb-tips-img" src="@/assets/icon/最高奖励/温馨提示.png"></span>
             <span class="tb-tips-red">温馨提示</span>
@@ -234,6 +234,7 @@ export default {
   name: '',
   data() {
     return {
+      now: +new Date(),
       dialogTableVisible: false,
       detailTabs: ['工资说明', '录用条件', '企业介绍'],
       activeTab: '工资说明',
@@ -274,6 +275,9 @@ export default {
   },
   mounted() {
     this.$nextTick().then(async () => {
+      setInterval(() => {
+        this.now = +new Date()
+      }, 1000);
       const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
       const officeId = this.officeId = JSON.parse(window.localStorage.getItem('officeId'));
       this.isUploadBtnShow = (userMsg && userMsg.users.userId);
@@ -363,6 +367,20 @@ export default {
     }
   },
   computed: {
+    countDown() {
+      //结束时间
+      const endTime = this.backInfo.endTime;
+      const ms = moment(endTime, 'YYYY-MM-DD HH:mm:ss').diff(moment(this.now));
+      if (ms < 0) {
+        return '已结束';
+      }
+      let second = ms / 1000;
+      let minute = second / 60;
+      let hour = parseInt(minute / 60);
+      minute = (parseInt(minute % 60) + '').padStart(2, 0);
+      second = (parseInt(second % 60) + '').padStart(2, 0);
+      return `${hour}:${minute}:${second}`;
+    },
     getFirstImage(imgStr) {
       return function(imgStr) {
         const imgs = imgStr.split(',');

@@ -24,10 +24,6 @@ import Search from '@/page/search/index'
 import SearchResult from '@/page/search/result'
 
 Vue.use(Router);
-
-Vue.use(Router)
-
-
 let menu = new Router({
   mode: 'history',
   srcollBehavior(to,from,savedPosition){

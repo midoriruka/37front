@@ -25,17 +25,13 @@
       name: "jobInfo",
       data(){
         return{
-          jobData:[{
-            officeName:'司机',
-            salaryStart:2000,
-            salayEnd:5000
-          }],
+          jobData:[],
         }
       },
       mounted(){
         this.$nextTick().then(() => {
           console.log(this.$store.state.companyId);
-          // this.getJobInfo();
+          this.getJobInfo();
         })
       },
       methods:{
@@ -47,7 +43,7 @@
               'Content-type': 'application/json;charset=UTF-8'
             },
             data:{
-              companyId:this.$store.state.companyId
+              companyId:JSON.parse(window.localStorage.getItem('userMsg')).users.company_user_id
             }
           }).then((res) => {
             if (res.data.code == 200) {
@@ -88,6 +84,7 @@
               message: res.data.msg,
             })
           })
+          this.getJobInfo();
         }
       }
     }
