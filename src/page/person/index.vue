@@ -271,7 +271,7 @@
                 <div>
                   <img src="@/assets/person/guanzhuqiye.png" alt="" class="person-list-img">
                 </div>
-                <div style="font-size: 0.1rem;">
+                <div style="font-size: 0.3rem;">
                   我的招聘
                 </div>
               </div>
@@ -283,7 +283,7 @@
                   <div>
                     <img src="@/assets/person/shop.png" alt="" class="person-list-img">
                   </div>
-                  <div style="font-size: 0.1rem;">
+                  <div style="font-size: 0.3rem;">
                     职位发布
                   </div>
                 </div>
@@ -293,7 +293,7 @@
                   <div>
                     <img src="@/assets/person/shop.png" alt="" class="person-list-img">
                   </div>
-                  <div style="font-size: 0.1rem;">
+                  <div style="font-size: 0.3rem;">
                     我要入驻
                   </div>
                 </div>
@@ -305,7 +305,7 @@
                 <div>
                   <img src="@/assets/person/msg.png" alt="" class="person-list-img">
                 </div>
-                <div style="font-size: 0.1rem;">
+                <div style="font-size: 0.3rem;">
                   消息中心
                 </div>
               </div>
@@ -315,7 +315,7 @@
                 <div>
                   <img src="@/assets/person/tixian.png" alt="" class="person-list-img">
                 </div>
-                <div style="font-size: 0.1rem;">
+                <div style="font-size: 0.3rem;">
                   提现
                 </div>
               </div>
@@ -325,7 +325,7 @@
                 <div>
                   <img src="@/assets/person/suggest.png" alt="" class="person-list-img">
                 </div>
-                <div style="font-size: 0.1rem;">
+                <div style="font-size: 0.3rem;">
                   意见反馈
                 </div>
               </div>
@@ -341,7 +341,7 @@
                 <div>
                   <img src="@/assets/person/guanzhuqiye.png" alt="" class="person-list-img">
                 </div>
-                <div style="font-size: 0.1rem;">
+                <div style="font-size: 0.3rem;">
                   关注企业
                 </div>
               </div>
@@ -352,7 +352,7 @@
                 <div>
                   <img src="@/assets/person/shop.png" alt="" class="person-list-img">
                 </div>
-                <div style="font-size: 0.1rem;">
+                <div style="font-size: 0.3rem;">
                   我的小店
                 </div>
               </div>
@@ -362,7 +362,7 @@
                 <div>
                   <img src="@/assets/person/msg.png" alt="" class="person-list-img">
                 </div>
-                <div style="font-size: 0.1rem;">
+                <div style="font-size: 0.3rem;">
                   消息中心
                 </div>
               </div>
@@ -372,7 +372,7 @@
                 <div>
                   <img src="@/assets/person/tixian.png" alt="" class="person-list-img">
                 </div>
-                <div style="font-size: 0.1rem;">
+                <div style="font-size: 0.3rem;">
                   提现
                 </div>
               </div>
@@ -382,7 +382,7 @@
                 <div>
                   <img src="@/assets/person/suggest.png" alt="" class="person-list-img">
                 </div>
-                <div style="font-size: 0.1rem;">
+                <div style="font-size: 0.3rem;">
                   意见反馈
                 </div>
               </div>
@@ -399,7 +399,7 @@
               <div>
                 <img src="@/assets/person/guanzhuqiye.png" alt="" class="person-list-img">
               </div>
-              <div style="font-size: 0.1rem;">
+              <div style="font-size: 0.3rem;">
                 关注企业
               </div>
             </div>
@@ -410,7 +410,7 @@
               <div>
                 <img src="@/assets/person/shop.png" alt="" class="person-list-img">
               </div>
-              <div style="font-size: 0.1rem;">
+              <div style="font-size: 0.3rem;">
                 我的小店
               </div>
             </div>
@@ -420,7 +420,7 @@
               <div>
                 <img src="@/assets/person/msg.png" alt="" class="person-list-img">
               </div>
-              <div style="font-size: 0.1rem;">
+              <div style="font-size: 0.3rem;">
                 消息中心
               </div>
             </div>
@@ -430,7 +430,7 @@
               <div>
                 <img src="@/assets/person/tixian.png" alt="" class="person-list-img">
               </div>
-              <div style="font-size: 0.1rem;">
+              <div style="font-size: 0.3rem;">
                 提现
               </div>
             </div>
@@ -440,7 +440,7 @@
               <div>
                 <img src="@/assets/person/suggest.png" alt="" class="person-list-img">
               </div>
-              <div style="font-size: 0.1rem;">
+              <div style="font-size: 0.3rem;">
                 意见反馈
               </div>
             </div>
