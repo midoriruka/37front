@@ -222,16 +222,16 @@
             if (res.data.code == 200 && res.data.data) {
               this.fieldData = res.data.data;
               if(this.fieldData.companyImage){
-                this.companyImage=this.fieldData.companyImage.splice(',');
+                this.companyImage=this.fieldData.companyImage.split(',');
               }
               if(this.fieldData.eatImage){
-                this.eatImage=this.fieldData.eatImage.splice(',');
+                this.eatImage=this.fieldData.eatImage.split(',');
               }
               if(this.fieldData.sleepImage){
-                this.sleepImage=this.fieldData.sleepImage.splice(',');
+                this.sleepImage=this.fieldData.sleepImage.split(',');
               }
               if(this.fieldData.salryImage){
-                this.salryImage=this.fieldData.salryImage.splice(',');
+                this.salryImage=this.fieldData.salryImage.split(',');
               }
             }
           }).catch((res) => {
@@ -241,8 +241,15 @@
             })
           })
         },
+        //提交数据
         submit() {
           MessageBox.close();
+          if(!(/^1[3456789]\d{9}$/.test(this.fieldData.companyContactPhone))){
+            MessageBox({
+                title: '错误',
+                message: '手机号码格式错误！',
+              })
+          }
           if(this.companyImage.length>0){
             this.fieldData.companyImage=this.companyImage.join(',');
           }
@@ -256,6 +263,7 @@
             this.fieldData.salryImage=this.salryImage.join(',');
           }
           this.fieldData.companyFrom = this.$route.query.type == '委托招聘' ? '1' : '2';
+
           this.axios({
             method: 'post',
             url: '/api/h5/addEntrust',
