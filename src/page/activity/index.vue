@@ -172,6 +172,7 @@ export default {
                   clearInterval(interval);
                   interval = null;
                   MessageBox.alert('恭喜您，中了' + lotterty + '！');
+                  this.getActivityInfo();
                 } else {
                   if (i === 7) {
                     i = 0;
@@ -187,7 +188,7 @@ export default {
             this.currentIndex = -1;
             MessageBox.alert('抽奖失败');
           }
-          this.getActivityInfo();
+         
         }
       }
     }
