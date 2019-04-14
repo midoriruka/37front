@@ -49,6 +49,9 @@ export default {
     if (window.localStorage.getItem('userMsg')) {
       var info = JSON.parse(window.localStorage.getItem('userMsg'))
       this.userId = info.users.userId
+    } else {
+      //跳转到登录页
+        this.$router.push('/login')
     }
   },
   methods: {

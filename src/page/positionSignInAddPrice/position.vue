@@ -2,7 +2,7 @@
     <div class="page">
       <div class="mint-searchbar">
         <div>
-          <img src="../../assets/icon/最高奖励/关闭.png" alt="" style="width: 20px;display: block;margin-right: 20px;" @click="goTo">
+          <img src="../../assets/icon/最高奖励/关闭.png" alt="" style="width: 20px;display: block;margin-right: 20px;" @click="$router.back()">
         </div>
         <div class="mint-searchbar-inner">
           <i class="mintui mintui-search"></i>
@@ -50,6 +50,11 @@
               companyCity:[],
               currentSeleCity:''
             }
+        },
+        mounted(){
+          this.$nextTick().then(()=>{
+            
+          })
         },
         methods:{
           seleCity(data){
