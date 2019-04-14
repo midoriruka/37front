@@ -21,3 +21,17 @@ export const OFFICE_TAGS = [
   { index: "18", name: "年龄要求低" },
   { index: "19", name: "日多薪" },
 ];
+export const userStatus=[
+  {index:"21",name: "接站中"},
+  {index:"22",name: "接站成功"},
+  {index:"23",name: "接站失败"},
+  {index:"24",name: "面试成功"},
+  {index:"25",name: "面试失败"},
+  {index:"26",name: "换厂"},
+  {index:"27",name: "体检成功"},
+  {index:"28",name: "体检失败"},
+  {index:"29",name: "报道成功"},
+  {index:"30",name: "未报到"},
+  {index:"31",name: "改天面试"},
+  {index:"32",name: "入职成功"}
+];

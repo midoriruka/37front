@@ -1,6 +1,6 @@
 <!-- 招聘详情 -->
 <template>
-  <div style="background: #fff;">
+  <div style="background: #fff;min-height: 100vh;">
     <div v-title>招聘详情</div>
     <div class="img-box">
       <swiper :options="swiperOption" ref="swiper" @slideChange="onSlideChange">
@@ -39,17 +39,17 @@
         </div>
         <!-- 报名 -->
         <div class="signup-block">
-          <p class="su-title">已报名：500人</p>
+          <p class="su-title">已报名：{{partCount}}人</p>
           <div class="signups">
-            <div class="signup-item" v-for="(item,i) in 5" :key="i">
+            <div class="signup-item" v-for="(item,i) in partList" :key="i">
               <div class="su-user-l">
-                <img class="su-user-portrait-img">
-                <span class="su-user-name">大王找我来巡山</span>
+                <img class="su-user-portrait-img" :src="item.user_image_url">
+                <span class="su-user-name">{{item.nick_name}}</span>
               </div>
-              <span class="su-user-r">18888888888</span>
+              <span class="su-user-r">{{item.left_phone}}****{{item.right_phone}}</span>
             </div>
           </div>
-          <div class="signup-btn">
+          <div class="signup-btn" @click="signUp">
             我要报名
           </div>
         </div>
@@ -61,7 +61,7 @@
             {{item}}
           </div>
         </div>
-        <div class="detail-title"><span>{{activeTab}}</span><span class="detail-mod-btn">我要纠错</span></div>
+        <div class="detail-title"><span>{{activeTab}}</span><span class="detail-mod-btn" @click="$router.push('/errorCorrection')">我要纠错</span></div>
         <div class="detail-content">
           <!-- 工资说明 -->
           <div v-show="'工资说明' === activeTab" class="sal-detail" v-html="officeInfo.officeDes">
@@ -146,8 +146,8 @@
         </div>
         <!-- 评论按钮组 -->
         <div class="user-comment-btn-group">
-          <div class="user-comment-btn more">更多点评</div>
-          <div class="user-comment-btn">我来点评</div>
+          <div class="user-comment-btn more" @click="$router.push('/reward/moreComments')">更多点评</div>
+          <div class="user-comment-btn" @click="$router.push('/reviewDetail')">我来点评</div>
         </div>
       </div>
       <!-- 猜你喜欢 -->
@@ -155,7 +155,7 @@
         <div class="guess-ur-fav-title">猜你喜欢</div>
         <!-- 猜你喜欢列表 -->
         <div class="gufs">
-          <div class="guf-item" v-for="(item,i) in hotOfficeList" :key="i">
+          <div class="guf-item" v-for="(item,i) in hotOfficeList" :key="i" @click="onOfficeItemClick(item)">
             <div class="guf-l">
               <img class="guf-l-img" :src="item.companyLogo" @click="window.location = item.companyLogo">
               <div class="guf-l-img-desc">{{item.inviteCount}}人</div>
@@ -200,6 +200,27 @@
         </p>
         <p class="no-more">真的没有了！</p>
       </div>
+      <el-dialog :width="'92%'" :show-close="false" :visible.sync="dialogTableVisible">
+        <div slot="title" class="dialog-title">我要报名</div>
+        <div class="dialog-content">
+          <div class="dialog-form">
+            <div class="input-wrapper">
+              <img class="input-img" src="@/assets/icon/最高奖励/user.png">
+              <input type="text" placeholder="请输入用户名"></div>
+            <div class="input-wrapper">
+              <img class="input-img" src="@/assets/icon/最高奖励/phone.png">
+              <input type="text" placeholder="请输入手机号"></div>
+            <div class="input-wrapper">
+              <img class="input-img" src="@/assets/icon/最高奖励/valid.png">
+              <div>
+                <input type="text" placeholder="请输入验证码">
+              </div>
+              <div class="get-vn-btn">获取验证码</div>
+            </div>
+          </div>
+          <div class="dialog-sign-up-btn">确定报名</div>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -208,38 +229,57 @@ import moment from 'moment';
 import 'swiper/dist/css/swiper.css';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import { OFFICE_TAGS } from '@/assets/constant.js';
+import { MessageBox } from 'mint-ui';
 export default {
   name: '',
   data() {
     return {
+      dialogTableVisible: false,
       detailTabs: ['工资说明', '录用条件', '企业介绍'],
       activeTab: '工资说明',
       imgTypes: ['厂区', '餐厅', '宿舍', '工资条'],
       activeImgType: '厂区',
-      commentList: [], //评论
+      commentList: [
+        /*{
+                feedTime: +new Date(),
+                userImageUrl: 'https://img01.sogoucdn.com/net/a/04/link?appid=100520040&url=https://img04.sogoucdn.com/app/a/100520093/135af7683914878b-0429e3faa7dc75a3-dec813deb352cc0e4941bb54372fde34.jpg',
+                userName: '王晓',
+                feedContent: '这个bucuo'
+              },{
+                feedTime: +new Date(),
+                userImageUrl: 'https://img01.sogoucdn.com/net/a/04/link?appid=100520040&url=https://img04.sogoucdn.com/app/a/100520093/135af7683914878b-0429e3faa7dc75a3-dec813deb352cc0e4941bb54372fde34.jpg',
+                userName: '王晓',
+                feedContent: '这个bucuo'
+              }*/
+      ], //评论
       backInfo: {}, //
       companyInfo: {}, //企业信息
       officeInfo: {}, //职位信息
-      hotOfficeList: [{
-        officeTags: '3,4,7',
-        companyLogo: 'http://p6.qhimg.com/dmfd/160_90_/t01f88419b151733f1c.jpg'
-      }], //热门职位
+      hotOfficeList: [
+        /*{
+                officeTags: '3,4,7',
+                companyLogo: 'http://p6.qhimg.com/dmfd/160_90_/t01f88419b151733f1c.jpg'
+              }*/
+      ], //热门职位
       swiperOption: {
         pagination: {
           el: '.swiper-pagination'
         }
       },
       swiperSlides: [],
+      partCount: 0, //报名人数
+      partList: [], //报名列表
       isUploadBtnShow: false, //是否显示上传按钮
     }
   },
   mounted() {
     this.$nextTick().then(async () => {
       const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
+      const officeId = this.officeId = JSON.parse(window.localStorage.getItem('officeId'));
       this.isUploadBtnShow = (userMsg && userMsg.users.userId);
       //请求数据
       const { data } = await this.axios.post('/api/h5/getOfficeInfo', {
-        officeId: 7
+        officeId: Number(officeId)
       });
       if (data.code === 200) {
         const result = data.data;
@@ -261,6 +301,8 @@ export default {
         if (hotOfficeList) {
           this.hotOfficeList = hotOfficeList;
         }
+        this.partCount = result.partCount ? result.partCount : 0;
+        this.partList = result.partList ? result.partList : [];
         //加载地图
         this.initMap();
       }
@@ -292,6 +334,32 @@ export default {
     },
     locate() {
       this.local.search(this.companyInfo.companyAddress);
+    },
+
+    async signUp() {
+      const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
+      if (userMsg && userMsg.users.userId) {
+        //直接报名
+        const { data } = await this.axios.post('/api/h5/partOfiice', {
+          companyId: this.companyInfo.companyId,
+          userId: userMsg.users.userId,
+          officeId: Number(this.officeId)
+        })
+        if (data.code === 200) {
+          //跳转到报名成功页面
+          window.localStorage.removeItem('signCanvas');
+          window.localStorage.setItem('officeId', officeId);
+          this.$router.push('/sign');
+        } else {
+          MessageBox.alert('报名失败:' + data.msg);
+        }
+      } else {
+        //跳转到登录页
+        this.$router.push('/login')
+        //弹出对话框
+
+        // this.dialogTableVisible = true;
+      }
     }
   },
   computed: {

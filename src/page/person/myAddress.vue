@@ -1,9 +1,9 @@
 <!-- 我的收货地址 -->
 <template>
-  <div style="background: #fff;">
+  <div style="background: #fff;min-height: 100vh;overflow: auto;">
     <div v-title>我的收货地址</div>
-    <div class="address-list">
-      <div class="address-item" v-for="(item,i) in addresses" :key="i">
+    <div class="address-list" :class="addresses.length === 0 ?'higher':''">
+      <div class="address-item"  v-for="(item,i) in addresses" :key="i">
         <div class="address-item-l" @click="chooseAddress(item)">
           <div class="receiver"><span>{{item.reciverName}}</span><span class="phone-num">{{item.contactPhone}}</span></div>
           <div class="address-item-b">
@@ -14,7 +14,7 @@
         <div class="edit-btn" @click="editAddress(item)">编辑</div>
       </div>
     </div>
-    <div class="btn-group">
+    <div class="btn-group ">
       <div class="add" @click="addAddress">添加地址</div>
     </div>
   </div>

@@ -99,7 +99,7 @@
 
           <el-row style="margin-top: 20px;">
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('activity')">
                 <div class="button-box">
                   <img src="@/assets/index/zuixin.png" alt="">
                 </div>
@@ -158,7 +158,7 @@
         </div>
       </div>
       <div class="remen-content">
-        <div class="remen-content-item" v-for="(item, index) in hotOfficList" :key="index">
+        <div class="remen-content-item" v-for="(item, index) in hotOfficList" :key="index" @click="jumptoDetail(item)">
           <div class="item-img">
             <img :src="item.companyLogo" alt="">
           </div>
@@ -189,7 +189,7 @@
         </div>
       </div>
       <div>
-        <div v-for="(item, index) in indexOffic" :key="index" class="index-offic-item">
+        <div v-for="(item, index) in indexOffic" :key="index" class="index-offic-item" @click="jumptoDetail(item)">
           <el-row>
             <el-col :span="5" class="offic-title-img">
               <img :src="item.companyLogo" alt="">
@@ -245,7 +245,7 @@
         </div>
       </div>
       <div>
-        <div v-for="(item, index) in topOffic" :key="index" class="index-offic-item">
+        <div v-for="(item, index) in topOffic" :key="index" class="index-offic-item" @click="jumptoDetail(item)">
           <el-row>
             <el-col :span="5" class="offic-title-img">
               <img :src="item.companyLogo" alt="">
@@ -398,6 +398,10 @@ export default {
     this.getTopOffice()
   },
   methods: {
+    jumptoDetail(data) {
+      window.localStorage.setItem('officeId', data.officeId)
+      this.$router.push('/recruitDetail')
+    },
     getBanner() {
       this.axios({
         method: 'post',

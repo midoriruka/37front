@@ -1,7 +1,7 @@
 <template>
   <!--委托招聘-->
   <div class="index">
-    <div v-title>委托招聘</div>
+    <div v-title>{{type}}</div>
     <div class="nav">
       <ul class="nav-tab">
         <router-link to="/recruitment/wtRecruitment/qiye" tag="li" class="nav-item">企业信息</router-link>
@@ -18,7 +18,8 @@
       name: "wtRecruitment",
       data(){
         return{
-          isActive:false
+          isActive:false,
+          type:'委托招聘',
         }
       },
       watch: {
@@ -42,6 +43,7 @@
      line-height: 1.053rem;
      display: flex;
      padding-left: 0;
+     margin: 0;
      .nav-item{
        width: 50%;
        text-align: center;

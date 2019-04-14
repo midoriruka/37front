@@ -9,14 +9,18 @@
         <tr v-for="(item,index) in jobData" :key="index+'-label'">
           <td>{{item.officeName}}</td>
           <td>{{item.salaryStart}}-{{item.salayEnd}}</td>
-          <td @click="editJobInfo('modify')">修改</td>
+          <td>
+            <span @click="editJobInfo('修改职位',item.officeId)">修改</span>
+            <span @click="deleteJobInfo(item.officeId)">删除</span>
+          </td>
         </tr>
       </table>
-      <mt-button class="index-btn" type="primary" @click="editJobInfo('add')">增加职位</mt-button>
+      <mt-button class="index-btn" type="primary" @click="editJobInfo('增加职位')">增加职位</mt-button>
     </div>
 </template>
 
 <script>
+  import { MessageBox } from 'mint-ui'
     export default {
       name: "jobInfo",
       data(){
@@ -30,6 +34,7 @@
       },
       mounted(){
         this.$nextTick().then(() => {
+          console.log(this.$store.state.companyId);
           // this.getJobInfo();
         })
       },
@@ -42,6 +47,7 @@
               'Content-type': 'application/json;charset=UTF-8'
             },
             data:{
+              companyId:this.$store.state.companyId
             }
           }).then((res) => {
             if (res.data.code == 200) {
@@ -54,11 +60,34 @@
             })
           })
         },
-        editJobInfo(type){
+        editJobInfo(type,officeId){
             this.$router.push({
-              path: '/recruitment/wtRecruitment/modify',query:{ type:`${type}`}
+              path: '/recruitment/wtRecruitment/modify',query:{ type:`${type}`,officeId:officeId}
             })
-
+        },
+        deleteJobInfo(id){
+          this.axios({
+            method: 'post',
+            url: '/api/h5/delOffice',
+            headers: {
+              'Content-type': 'application/json;charset=UTF-8'
+            },
+            data:{
+              officeId: id
+            }
+          }).then((res) => {
+            if (res.data.code == 200) {
+              MessageBox({
+                title: '提示',
+                message: '删除成功！',
+              })
+            }
+          }).catch((res) => {
+            MessageBox({
+              title: '小提示',
+              message: res.data.msg,
+            })
+          })
         }
       }
     }
@@ -66,6 +95,8 @@
 
 <style scoped lang="scss">
 .index{
+  min-height: 100vh;
+  background: #fff;
   text-align: center;
   table{
     th{

@@ -319,8 +319,7 @@ span {
 }
 
 .user-comment-item {
-  padding-bottom: 0.586667rem;
-  border-bottom: 0.013333rem solid #f5f5f9;
+
   margin-bottom: 0.426667rem;
 
   &:last-child {
@@ -328,6 +327,12 @@ span {
     border-bottom: 0;
     margin-bottom: 0;
   }
+}
+
+.uc-item-content {
+  margin-left: 1.066667rem;
+  padding-bottom: 0.586667rem;
+  border-bottom: 0.013333rem solid #f5f5f9;
 }
 
 .uc-item-top {
@@ -496,4 +501,67 @@ span {
 
 .reward-unit {
   font-size: 0.28rem;
+}
+
+.dialog-title {
+  font-size: 0.48rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.dialog-form {
+  margin-bottom: 1.24rem;
+  .input-wrapper{
+    margin-bottom: 0.44rem;
+    border-bottom: 1px solid #e3e3e3;
+    display:flex;
+    align-items: center;
+  }
+  input {
+    padding: 0;
+    height: 1.066667rem;
+    line-height: 1.066667rem;
+       width: 100%;
+    border: none;
+    
+    
+
+    &::-webkit-input-placeholder {
+      color: #e3e3e3;
+      opacity: .8;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+
+.get-vn-btn {
+  width: 3.2rem;
+  height: 1.066667rem;
+  color: #fff;
+  background-color: #e6a03c;
+  text-align: center;
+  line-height: 1.066667rem;
+  flex: 0 0 auto;
+}
+
+.dialog-sign-up-btn {
+  margin: auto;
+  width: 4.8rem;
+  height: 1.066667rem;
+  line-height: 1.066667rem;
+  background-color: #e6a03c;
+  color:#fff;
+  text-align: center;
+  border-radius: 0.133333rem;
+}
+
+.input-img{
+  width: 0.4rem;
+  height: 0.413333rem;
+  margin-right: 0.32rem;
+  object-fit: contain;
 }

@@ -10,9 +10,13 @@ export default new Vuex.Store({
     app
   },
   state: {
-
+    companyId: null
   },
-  mutations: {},
+  mutations: {
+    setCompanyId(state, companyId) {
+      state.companyId = companyId;
+    }
+  },
   actions: {
 
   }
