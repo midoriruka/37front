@@ -219,7 +219,7 @@ export default {
         },
         data: {
           companyProvince: '',
-          companyCity: '',
+          companyCity: window.localStorage.getItem('position') || '',
           levelNear: condition.levelNear,
           officeTags: condition.officeTags,
           payCycle: condition.payCycle,
