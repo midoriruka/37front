@@ -1,7 +1,10 @@
 <template>
   <div>
-    <mt-field :readonly="companyContactPhone?true:false" :label="label" v-model="phone">
-      <div style="border:1px solid #e6a03c;text-align: center;border-radius: 3px;padding: 8px 12px;" @click="select">修改</div>
+    <mt-field :readonly="companyContactPhone?true:false"
+              :label="label"
+              @change="$emit('callBack',phone)"
+              v-model="phone">
+      <div style="border:1px solid #e6a03c;text-align: center;border-radius: 3px;padding: 8px 12px;" @click="select" v-if="companyContactPhone">修改</div>
     </mt-field>
     <mt-popup
       style="width: 90%;background: #ffffff;padding: 0 20px;"
@@ -147,6 +150,9 @@
         }
         this.changeMyPhone();
       },
+    },
+    updated(){
+      this.phone = this.companyContactPhone;
     },
     created(){
       this.phone = this.companyContactPhone;
