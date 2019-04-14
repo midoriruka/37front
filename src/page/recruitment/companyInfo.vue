@@ -221,18 +221,6 @@
           }).then((res) => {
             if (res.data.code == 200 && res.data.data) {
               this.fieldData = res.data.data;
-              if(this.fieldData.companyImage){
-                this.companyImage=this.fieldData.companyImage.splice(',');
-              }
-              if(this.fieldData.eatImage){
-                this.eatImage=this.fieldData.eatImage.splice(',');
-              }
-              if(this.fieldData.sleepImage){
-                this.sleepImage=this.fieldData.sleepImage.splice(',');
-              }
-              if(this.fieldData.salryImage){
-                this.salryImage=this.fieldData.salryImage.splice(',');
-              }
             }
           }).catch((res) => {
             MessageBox({
@@ -240,6 +228,18 @@
               message: res.data.msg,
             })
           })
+          if(this.fieldData.companyImage){
+            this.companyImage=this.fieldData.companyImage.splice(',');
+          }
+          if(this.fieldData.eatImage){
+            this.eatImage=this.fieldData.eatImage.splice(',');
+          }
+          if(this.fieldData.sleepImage){
+            this.sleepImage=this.fieldData.sleepImage.splice(',');
+          }
+          if(this.fieldData.salryImage){
+            this.salryImage=this.fieldData.salryImage.splice(',');
+          }
         },
         submit() {
           MessageBox.close();
@@ -321,7 +321,7 @@
           }
         },
         //企业图片批量上传
-        async beforeAvatarUpload1(file) {
+        beforeAvatarUpload1(file) {
           MessageBox.close();
           var testmsg = file.name.substring(file.name.lastIndexOf('.'))
           let typeArr = ['.png', '.jpg', '.jpeg']
@@ -369,7 +369,7 @@
             return
           }
         },
-        async beforeAvatarUpload2(file) {
+        beforeAvatarUpload2(file) {
           MessageBox.close();
           var testmsg = file.name.substring(file.name.lastIndexOf('.'))
           let typeArr = ['.png', '.jpg', '.jpeg']
@@ -417,7 +417,7 @@
             return
           }
         },
-        async beforeAvatarUpload3(file) {
+        beforeAvatarUpload3(file) {
           MessageBox.close();
           var testmsg = file.name.substring(file.name.lastIndexOf('.'))
           let typeArr = ['.png', '.jpg', '.jpeg']
@@ -465,7 +465,7 @@
             return
           }
         },
-        async beforeAvatarUpload4(file) {
+        beforeAvatarUpload4(file) {
           MessageBox.close();
           var testmsg = file.name.substring(file.name.lastIndexOf('.'))
           let typeArr = ['.png', '.jpg', '.jpeg']
