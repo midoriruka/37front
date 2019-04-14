@@ -71,7 +71,7 @@ export default {
           feedType: this.isAnonymous ? 1 : 0,
           userId: this.userId,
           officeId: this.officeId,
-          isHead: !this.isAnonymous
+          isHead: this.isAnonymous ? 1 : 0
         }
       })
         .then(res => {
