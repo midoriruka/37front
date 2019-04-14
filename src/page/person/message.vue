@@ -2,7 +2,8 @@
   <div class="person-message">
     <div v-title>消息中心</div>
     <div>
-      <div v-for="(item, index) in shopList" :key="index" @click="showDetail(item,index)">
+      <div v-for="(item, index) in shopList"  v-if="!shopList.length"
+      :key="index" @click="showDetail(item,index)">
         <span class="message-time">{{item.creatTime | time}}</span>
         <div class="message-item">
           <div :class="{'item-title':true,'no-read':item.isRead == 0}">
@@ -13,6 +14,7 @@
           <div v-if="item.isExpand">{{item.msgContext}}</div>
         </div>
       </div>
+      <div v-else class="message-item">暂时无提示信息</div>
     </div>
   </div>
 </template>
