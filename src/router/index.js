@@ -33,13 +33,13 @@ let menu = new Router({
       path: '/editPerson',
       name: '修改个人资料',
       component: editPerson,
-      meta: {showHead: true}
+      meta: {showHead: false}
     },
     {
       path: '/editCompany',
       name: '修改公司资料',
       component: editCompany,
-      meta: {showHead: true}
+      meta: {showHead: false}
     },{
       path: '/signIn',
       name: '我要报名',

@@ -2,7 +2,7 @@
   <div class="index-body">
     <div class="index-title">
       <div class="index-bar">
-        <div class="index-bar-1 index-bar-0">
+        <div class="index-bar-1 index-bar-0" @click="position()">
           <div style="float: left">
             <img src="@/assets/index/position.png" alt="" style="width:30px; margin-top: 15px;">
           </div>
@@ -398,14 +398,18 @@ export default {
       } else {
         this.getUserMsg(1)
       }
-
     }
     this.getBanner()
     this.getHotOffice()
     this.getIndexOffice()
     this.getTopOffice()
+    this.position = window.localStorage.getItem('position') ? window.localStorage.getItem('position') : '北京'
   },
+ 
   methods: {
+    position() {
+      this.$router.push('/position')
+    },
     getUserMsg(data) {
       let url = data == 0 ? '/api/h5/getMyCenter' : '/api/h5/getCompanyCenter'
       this.axios({

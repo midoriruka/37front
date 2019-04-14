@@ -3,7 +3,7 @@
     <div v-title>日多薪</div>
     <div class="daypay-content">
       <div class="daypay-select-box">
-        <el-button type="text" style="color: #777;">区域<i class="el-icon-caret-bottom"></i></el-button>
+        <el-button type="text" style="color: #777;" @click="jumptoposition()">{{position}}<i class="el-icon-caret-bottom"></i></el-button>
         <el-button v-if="isSelectButtonActive" type="text" style="color:rgba(225, 150, 54, 1)" @click="handleSelect">
           筛选<i class="el-icon-caret-top" style="color:rgba(225, 150, 54, 1)"></i>
         </el-button>
@@ -111,6 +111,7 @@ export default {
         payCycle: '',
         salayNeed: '',
       },
+      position: '区域'
     }
   },
   components: {
@@ -182,8 +183,12 @@ export default {
   },
   created () {
     this.getDayPayData()
+    window.localStorage.getItem('position') ? this.position = window.localStorage.getItem('position') : '区域'
   },
   methods: {
+    jumptoposition() {
+      this.$router.push('/position')
+    },
     jumptoDetail(data) {
       window.localStorage.setItem('officeId', data.officeId)
       this.$router.push('/recruitDetail')
