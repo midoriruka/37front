@@ -24,7 +24,7 @@
           <span class="tb-label-i" v-for="(item,i) in officeTags(officeInfo.officeTags)" :key="i">{{item}}</span>
         </div>
         <!-- 0  入职 1打卡  -->
-        <div v-show="!backInfo.onManAmount">
+        <div v-show="backInfo.onManAmount">
           <p class="tb-entry-reward">入职奖励：{{Number(backInfo.onManAmount) >= Number(backInfo.onWomanAmount) ? backInfo.onManAmount:backInfo.onWomanAmount}}{{backInfo.onPeriod}}</p>
           <p class="tb-desc">{{backInfo.onMode === 0 ? '入职':'打卡'}}{{backInfo.onValue}}天，37打工网奖励先进{{Number(backInfo.onManAmount) >= Number(backInfo.onWomanAmount) ? backInfo.onManAmount:backInfo.onWomanAmount}}元<br>活动倒计时：<span class="tb-desc-red">{{countDown}}</span></p>
           <div class="tb-tips">
