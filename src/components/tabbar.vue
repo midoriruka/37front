@@ -6,7 +6,7 @@
         <img slot="icon" :src="iArr[0]">
         首页
       </mt-tab-item>
-      <mt-tab-item id="hire">
+      <mt-tab-item id="highreward">
         <img slot="icon" :src="iArr[1]">
         高新职位
       </mt-tab-item>
