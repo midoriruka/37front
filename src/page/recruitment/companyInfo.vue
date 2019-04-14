@@ -96,8 +96,7 @@
           <el-upload
             class="upload-demo"
             action=""
-            :on-change="allUpload"
-            :before-upload="beforeAvatarUpload"
+            :before-upload="beforeAvatarUpload1"
             :show-file-list="false"
             multiple
             :limit="8"
@@ -118,8 +117,7 @@
           <el-upload
             class="upload-demo"
             action=""
-            :on-change="allUpload"
-            :before-upload="beforeAvatarUpload"
+            :before-upload="beforeAvatarUpload2"
             :show-file-list="false"
             multiple
             :limit="8"
@@ -140,8 +138,7 @@
           <el-upload
             class="upload-demo"
             action=""
-            :on-change="allUpload"
-            :before-upload="beforeAvatarUpload"
+            :before-upload="beforeAvatarUpload3"
             :show-file-list="false"
             multiple
             :limit="8"
@@ -162,8 +159,7 @@
           <el-upload
             class="upload-demo"
             action=""
-            :on-change="allUpload"
-            :before-upload="beforeAvatarUpload"
+            :before-upload="beforeAvatarUpload4"
             :show-file-list="false"
             multiple
             :limit="8"
@@ -193,7 +189,6 @@
       name: "companyInfo",
       data(){
         return{
-          uploadType:0,
           companyId:null,
           companyIndus:InduOption,
           companyNatures:NatureOption,
@@ -318,7 +313,7 @@
           }
         },
         //企业图片批量上传
-        beforeAvatarUpload(file) {
+        beforeAvatarUpload1(file) {
           var testmsg = file.name.substring(file.name.lastIndexOf('.'))
           let typeArr = ['.png', '.jpg', '.jpeg']
           if (typeArr.indexOf(testmsg) > -1) {
@@ -339,34 +334,105 @@
                 }
               }).then((res) => {
                 if (res.data.code == 200) {
-                  if(this.uploadType==0){
-                    companyImage.push(res.data.data);
+                    this.companyImage.push(res.data.data);
                     MessageBox({
                       type: '提示',
                       message: '批量上传厂区图片成功！'
                     })
-                  }
-                  else if(this.uploadType==1) {
-                    eatImage.push(res.data.data);
+                  } else {
+                  MessageBox({
+                    type: '错误',
+                    message: '上传失败，请重试！'
+                  })
+                }
+              }).catch(() => {
+                MessageBox({
+                  type: '错误',
+                  message: '上传失败，请重试！'
+                })
+              })
+            }
+          } else {
+            MessageBox({
+              type: 'error',
+              message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
+            })
+            return
+          }
+        },
+        beforeAvatarUpload2(file) {
+          var testmsg = file.name.substring(file.name.lastIndexOf('.'))
+          let typeArr = ['.png', '.jpg', '.jpeg']
+          if (typeArr.indexOf(testmsg) > -1) {
+            // 上传文件地址，然后赋值给fileForm.waterFile
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+              let _base64 = reader.result
+              this.axios({
+                method: 'post',
+                url: '/api/back/uploadFile',
+                headers: {
+                  'Content-type': 'application/json;charset=UTF-8'
+                },
+                data: {
+                  baseFile: _base64,
+                  baseType: testmsg.substring(1)
+                }
+              }).then((res) => {
+                if (res.data.code == 200) {
+                    this.eatImage.push(res.data.data);
                     MessageBox({
                       type: '提示',
                       message: '批量上传食堂图片成功！'
                     })
-                  }
-                  else if(this.uploadType==2) {
-                    sleepImage.push(res.data.data);
+                  }else {
+                  MessageBox({
+                    type: '错误',
+                    message: '上传失败，请重试！'
+                  })
+                }
+              }).catch(() => {
+                MessageBox({
+                  type: '错误',
+                  message: '上传失败，请重试！'
+                })
+              })
+            }
+          } else {
+            MessageBox({
+              type: 'error',
+              message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
+            })
+            return
+          }
+        },
+        beforeAvatarUpload3(file) {
+          var testmsg = file.name.substring(file.name.lastIndexOf('.'))
+          let typeArr = ['.png', '.jpg', '.jpeg']
+          if (typeArr.indexOf(testmsg) > -1) {
+            // 上传文件地址，然后赋值给fileForm.waterFile
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+              let _base64 = reader.result
+              this.axios({
+                method: 'post',
+                url: '/api/back/uploadFile',
+                headers: {
+                  'Content-type': 'application/json;charset=UTF-8'
+                },
+                data: {
+                  baseFile: _base64,
+                  baseType: testmsg.substring(1)
+                }
+              }).then((res) => {
+                if (res.data.code == 200) {
+                    this.sleepImage.push(res.data.data);
                     MessageBox({
                       type: '提示',
                       message: '批量上传宿舍图片成功！'
                     })
-                  }
-                  else{
-                      salryImage.push(res.data.data);
-                    MessageBox({
-                      type: '提示',
-                      message: '批量上传工资条图片成功！'
-                    })
-                  }
                 } else {
                   MessageBox({
                     type: '错误',
@@ -388,8 +454,52 @@
             return
           }
         },
-        allUpload() {
-          this.uploadType += 1
+        beforeAvatarUpload4(file) {
+          var testmsg = file.name.substring(file.name.lastIndexOf('.'))
+          let typeArr = ['.png', '.jpg', '.jpeg']
+          if (typeArr.indexOf(testmsg) > -1) {
+            // 上传文件地址，然后赋值给fileForm.waterFile
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+              let _base64 = reader.result
+              this.axios({
+                method: 'post',
+                url: '/api/back/uploadFile',
+                headers: {
+                  'Content-type': 'application/json;charset=UTF-8'
+                },
+                data: {
+                  baseFile: _base64,
+                  baseType: testmsg.substring(1)
+                }
+              }).then((res) => {
+                if (res.data.code == 200) {
+                    this.salryImage.push(res.data.data);
+                    MessageBox({
+                      type: '提示',
+                      message: '批量上传工资条图片成功！'
+                    })
+                } else {
+                  MessageBox({
+                    type: '错误',
+                    message: '上传失败，请重试！'
+                  })
+                }
+              }).catch(() => {
+                MessageBox({
+                  type: '错误',
+                  message: '上传失败，请重试！'
+                })
+              })
+            }
+          } else {
+            MessageBox({
+              type: 'error',
+              message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
+            })
+            return
+          }
         },
         //单张分类型上传
         handleChange1(file) {
