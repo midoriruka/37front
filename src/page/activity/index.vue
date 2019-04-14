@@ -99,41 +99,53 @@ export default {
   methods: {
     async getActivityInfo() {
       //获取用户ID
-      const userId = JSON.parse(window.localStorage.getItem('userMsg')).users.userId;
-      this.userId = userId;
-      const { data } = await this.axios.post('/api/h5/getActivityInfo', {
-        userId,
-      });
-      this.newActivity = !!data.activiMap;
-      //this.newActivity = true;
-      if (this.newActivity) {
-        //可抽奖次数
-        this.count = data.activiCount ? data.activiCount : 0;
-        //中奖记录
-        this.recordList = data.recordList;
-        this.activityId = data.activiMap.activityId;
-        //奖池图片
-        this.prizes[0].img = data.activiMap.fristPrizeImage;
-        this.prizes[1].img = data.activiMap.secondPrizeImage;
-        this.prizes[2].img = data.activiMap.thridPrizeImage;
-        this.prizes[5].img = data.activiMap.fourthPrizeImage;
-        this.prizes[8].img = data.activiMap.fivePrizeImage;
-        this.prizes[7].img = data.activiMap.sexPrizeImage;
-        this.prizes[6].img = data.activiMap.sevenPrizeImage;
-        this.prizes[3].img = data.activiMap.eighthPrizeImage;
-        // this.prizes[0].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
-        // this.prizes[1].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
-        // this.prizes[2].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
-        // this.prizes[3].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
-        // this.prizes[5].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
-        // this.prizes[6].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
-        // this.prizes[7].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
-        // this.prizes[8].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
+      const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
+      if (userMsg === undefined) {
+        this.$router.push('/login');
+        return;
       }
+      this.userId = userMsg.users.loginType === 'person' ? userMsg.users.userId : userMsg.users.company_user_id;
+      const { data: result } = await this.axios.post('/api/h5/getActivityInfo', {
+        userId: this.userId,
+      });
+      if (result.code === 200) {
+        const data = result.data;
+        this.newActivity = !!data.activiMap;
+        //this.newActivity = true;
+        if (this.newActivity) {
+          //可抽奖次数
+          this.count = data.activiCount ? data.activiCount : 0;
+          //中奖记录
+          this.recordList = data.recordList;
+          this.activityId = data.activiMap.activityId;
+          //奖池图片
+          this.prizes[0].img = data.activiMap.fristPrizeImage;
+          this.prizes[1].img = data.activiMap.secondPrizeImage;
+          this.prizes[2].img = data.activiMap.thridPrizeImage;
+          this.prizes[5].img = data.activiMap.fourthPrizeImage;
+          this.prizes[8].img = data.activiMap.fivePrizeImage;
+          this.prizes[7].img = data.activiMap.sexPrizeImage;
+          this.prizes[6].img = data.activiMap.sevenPrizeImage;
+          this.prizes[3].img = data.activiMap.eighthPrizeImage;
+          // this.prizes[0].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
+          // this.prizes[1].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
+          // this.prizes[2].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
+          // this.prizes[3].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
+          // this.prizes[5].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
+          // this.prizes[6].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
+          // this.prizes[7].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
+          // this.prizes[8].img = 'http://pic15.nipic.com/20110628/1369025_192645024000_2.jpg';
+        }
+      }
+
     },
     async drawLottery(index) {
-      if (!interval && this.count > 0) {
+      if (!interval) {
         if (index === 4) { //4是抽奖按钮
+          if (this.count <= 0) {
+            MessageBox.alert('没有抽奖次数啦！');
+            return;
+          }
           let i = parseInt(Math.random() * 8);
           interval = setInterval(() => {
             this.currentIndex = prizeIndex[i];
@@ -159,7 +171,8 @@ export default {
                 if (i === lastIndex) {
                   clearInterval(interval);
                   interval = null;
-                  MessageBox.alert('恭喜您，中了'+lotterty+'！');
+                  MessageBox.alert('恭喜您，中了' + lotterty + '！');
+                  this.getActivityInfo();
                 } else {
                   if (i === 7) {
                     i = 0;
@@ -175,7 +188,7 @@ export default {
             this.currentIndex = -1;
             MessageBox.alert('抽奖失败');
           }
-          this.getActivityInfo();
+         
         }
       }
     }

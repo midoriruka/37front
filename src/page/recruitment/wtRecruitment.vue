@@ -4,9 +4,15 @@
     <div v-title>{{type}}</div>
     <div class="nav">
       <ul class="nav-tab">
-        <router-link to="/recruitment/wtRecruitment/qiye" tag="li" class="nav-item">企业信息</router-link>
+        <router-link to="/recruitment/wtRecruitment/qiye" tag="li" class="nav-item">
+          <p>企业信息</p>
+          <p class="line"></p>
+        </router-link>
         <!-- 注意这里的路径，course和order是account的子路由 -->
-        <router-link to="/recruitment/wtRecruitment/zhiwei" tag="li" class="nav-item" :class="{active:isActive}">职位信息</router-link>
+        <router-link to="/recruitment/wtRecruitment/zhiwei" tag="li" class="nav-item" :class="{active:isActive}">
+          <p>企业信息</p>
+          <p class="line"></p>
+        </router-link>
       </ul>
     </div>
     <router-view></router-view>
@@ -49,13 +55,37 @@
        text-align: center;
        font-size: 0.4rem;
        list-style: none;
+       p{
+         margin-top: 0;
+         margin-bottom: 0;
+       }
+       /*.line{*/
+         /*margin-left: 1.5rem;*/
+         /*width: 2rem;*/
+         /*height:0.1rem;*/
+         /*background-color: #e6a03c;*/
+       /*}*/
      }
    }
  }
  .active{
    color:#e6a03c;
+   .line{
+     margin-left: 1.5rem;
+     width: 2rem;
+     height:0.1rem;
+     background-color: #e6a03c;
+     border-radius: 1rem;
+   }
  }
   .router-link-active{
     color:#e6a03c;
+    .line{
+      margin-left: 1.5rem;
+      width: 2rem;
+      height:0.1rem;
+      background-color: #e6a03c;
+      border-radius: 1rem;
+    }
   }
 </style>
