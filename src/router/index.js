@@ -21,8 +21,6 @@ import HighReward from '@/page/highreward/index'
 
 Vue.use(Router);
 
-Vue.use(Router)
-
 let menu = new Router({
   mode: 'history',
   routes: [
