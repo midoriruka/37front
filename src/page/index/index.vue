@@ -3,10 +3,10 @@
     <div class="index-title">
       <div class="index-bar">
         <div class="index-bar-1 index-bar-0" @click="jumpPosition()">
-          <div style="float: left">
+          <div style="float: left; width: 30px">
             <img src="@/assets/index/position.png" alt="" style="width:30px; margin-top: 15px;">
           </div>
-          <div style="float: left" >
+          <div style="float: left; width: calc(100% - 30px)" >
             {{position}}
           </div>
         </div>
