@@ -715,12 +715,13 @@ export default {
       height: 80px;
     }
     .invite {
-      background: rgba(238, 201, 0, 0.7);
+      background: rgba(225, 150, 54, 0.5);
       position: absolute;
       bottom: 0;
       width: 100%;
       padding: 5px 0;
       text-align: center;
+      color: #fff;
     }
   }
   .offic-content {

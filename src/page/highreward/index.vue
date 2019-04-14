@@ -245,6 +245,7 @@ export default {
 
 <style lang="less" scoped>
 .daypay-page{
+  padding-bottom: 50px;
   .daypay-content{
     .daypay-select-box{
       padding: 10px 20px 20px;
