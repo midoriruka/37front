@@ -2,11 +2,11 @@
   <div class="index-body">
     <div class="index-title">
       <div class="index-bar">
-        <div class="index-bar-1 index-bar-0">
-          <div style="float: left">
+        <div class="index-bar-1 index-bar-0" @click="jumpPosition()">
+          <div style="float: left; width: 30px">
             <img src="@/assets/index/position.png" alt="" style="width:30px; margin-top: 15px;">
           </div>
-          <div style="float: left" >
+          <div style="float: left; width: calc(100% - 30px)" >
             {{position}}
           </div>
         </div>
@@ -398,14 +398,20 @@ export default {
       } else {
         this.getUserMsg(1)
       }
-
     }
     this.getBanner()
     this.getHotOffice()
     this.getIndexOffice()
     this.getTopOffice()
+    
+    this.position = (window.localStorage.getItem('position') ? window.localStorage.getItem('position') : '北京')
+    console.log(this.position)
   },
+ 
   methods: {
+    jumpPosition() {
+      this.$router.push('/position')
+    },
     getUserMsg(data) {
       let url = data == 0 ? '/api/h5/getMyCenter' : '/api/h5/getCompanyCenter'
       this.axios({

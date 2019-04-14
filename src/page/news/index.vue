@@ -20,10 +20,14 @@
         </li>
       </ul>
      <div  class="list-content" v-for="(item, index) in tabLIst" :id="index" :key="index">
-      <div class="list"><span class="list-title">{{item.className}}</span><span class="list-more">更多</span></div>
-      <div v-for="(item, index) in data['list'+index]"  v-if="index < 2"  :key="index" @click="toDetail(item.articleUrl)">
+      <div class="list"><span class="list-title">{{item.className}}</span><span @click="jumpto(item.classValue,item.className)" class="list-more">更多</span></div>
+      <div v-for="(item, index) in data['list'+index]"  v-if="index < 2"  :key="index" @click="toDetail(item.articleUrl)" style="height:1.633rem;">
         <img :src="item.articleImage" class="list-img">
-        <span class="list-des">{{item.articleTitle}}</span>
+        <div class="list-names">   
+          <span class="list-des">{{item.articleTitle}}</span>
+          <span class="list-content-desc">{{item.articleDes}}</span>
+        </div>
+        
       </div>
       </div>
     </div>
@@ -32,6 +36,7 @@
   
 </template>
 <script>
+import { MessageBox } from "mint-ui";
 export default{
   name: "news",
   data() {
@@ -47,6 +52,13 @@ export default{
      this.getData();
   },
   methods: {
+    jumpto(data,name){
+      window.localStorage.setItem('classId', data);
+      window.localStorage.setItem('className', name);
+      this.$router.push({
+        path: "/news/moreinfo"
+      })    
+    },
      getData() {
       this.axios({
         method: 'post',
@@ -95,7 +107,6 @@ window.onscroll = function(){
   li {
     list-style: none;
     display:inline-block;
-    width: 20%;
     text-align: center;
     font-size: 0.4rem;
     color:#323232;
@@ -119,16 +130,38 @@ window.onscroll = function(){
   padding:0 20px 20px 20px;
   margin-top:20px;
   background:#fff;
+  border-bottom: 1px solid #f5f5f9;
   .list-img{
-    width: 2rem;
-    height: 1rem;
+    width: 2.133rem;
+    height: 1.333rem;
   }
-  .list-des{
+  .list-names{
     vertical-align: top;
     display: inline-block;
-    margin-left: 10px;
     width: 72%;
+    font-size: 0.32rem;
+    margin-left: 10px;
+
+  .list-des{
+    color: #323232;
+    font-weight: bold;
+    display: block;
   }
+  .list-content-desc{
+    color: #969696;
+    position: relative;
+    display: inline-block;
+    height: 0.9rem;
+    overflow: hidden;
+    margin-top: 0.1rem;
+    overflow:hidden;
+    text-overflow: ellipsis;//显示省略号
+    display:-webkit-box;
+    -webkit-line-clamp:2;//块元素显示的文本行数
+    -webkit-box-orient:vertical;
+  }
+  }
+
 }
 .list{
   padding:7px 0;

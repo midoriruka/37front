@@ -164,7 +164,7 @@
               <div class="guf-r-t">
                 <div class="basic-info">
                   <p class="basic-info-title">{{item.officeName}}</p>
-                  <p>{{item.salaryStart}}-{{item.salaryEnd}}元/{{salayUnit === '0' ? '天':'小时'}}</p>
+                  <p>{{item.salaryStart}}-{{item.salaryEnd}}元/{{item.salayUnit === '0' ? '天':'小时'}}</p>
                 </div>
                 <div class="reward" v-show="item.onAmount">
                   <div class="reward-num">{{item.onAmount}}<br><span class="reward-unit">元/{{item.onPeriod === '1' ? '小时':'天'}}</span></div>
@@ -371,7 +371,7 @@ export default {
       //结束时间
       const endTime = this.backInfo.endTime;
       const ms = moment(endTime, 'YYYY-MM-DD HH:mm:ss').diff(moment(this.now));
-      if (ms < 0) {
+      if (endTime === "" || ms < 0) {
         return '已结束';
       }
       let second = ms / 1000;

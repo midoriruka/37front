@@ -1080,13 +1080,15 @@ export default {
       }
     },
     editorMsg() {
-      window.localStorage.setItem('editoMsg', JSON.stringify({
-        userId: this.user.userId,
-        userType: this.user.loginType
-      }))
-      this.$router.push({
-        path: '/person/edit'
-      })
+      if (this.user.loginType == 'person') {
+        this.$router.push({
+          path: '/editPerson'
+        })
+      } else {
+        this.$router.push({
+          path: '/editCompany'
+        })
+      }
     },
     isQiandao() {
       this.axios({
