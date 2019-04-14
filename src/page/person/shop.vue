@@ -5,8 +5,8 @@
       <div v-for="(item, index) in shopList" :key="index" class="shop-item" @click="showDetail(item)">
         <el-row style="margin: 0; text-align: center">
           <el-col :span="6">
-            <img :src="item.saleImageUrl" alt="" v-if="item.saleImageUrl">
-            <img src="@/assets/person/shopcar.png" alt="" v-else>
+            <img :src="item.saleImageUrl" alt="" v-if="item.saleImageUrl" style="width: 100%; border-radius: 4px;">
+            <img src="@/assets/person/shopcar.png" alt="" v-else style="width: 100%; border-radius: 4px;">
           </el-col>
           <el-col :span="12" style="text-align: left;padding-left: 20px;">
             <div style="font-size: 0.5rem">

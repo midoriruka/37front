@@ -19,6 +19,8 @@ import MoreComments from '@/page/reward/moreComments';
 import Sign from './sign'
 import Daypay from '@/page/daypay/index'
 import HighReward from '@/page/highreward/index'
+import Search from '@/page/search/index'
+import SearchResult from '@/page/search/result'
 
 Vue.use(Router);
 
@@ -71,13 +73,13 @@ let menu = new Router({
       component: RecruitDetail
     },
     {
-      path:'/reward/imgUpload',
-      name:'企业图片上传',
-      component:ImgUpload,
+      path: '/reward/imgUpload',
+      name: '企业图片上传',
+      component: ImgUpload
     },{
-      path:'/reward/moreComments',
-      name:'更多点评',
-      component:MoreComments,
+      path: '/reward/moreComments',
+      name: '更多点评',
+      component: MoreComments
     },{
       path: '/reward/imgUpload',
       name: '招聘详情',
@@ -90,6 +92,14 @@ let menu = new Router({
       path: '/highreward',
       name: '最高奖励',
       component: HighReward
+    }, {
+      path: '/search',
+      name: '搜索',
+      component: Search
+    }, {
+      path: '/search/result',
+      name: '搜索结果',
+      component: SearchResult
     }
   ].concat(Person, LoginRegister, Recruitment, Recommend,UnderLine,Sign)
 })

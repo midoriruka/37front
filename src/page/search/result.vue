@@ -1,29 +1,9 @@
 <template>
-  <div class="daypay-page">
-    <div v-title>日多薪</div>
-    <div class="daypay-content">
-      <div class="daypay-select-box">
-        <el-button type="text" style="color: #777;">区域<i class="el-icon-caret-bottom"></i></el-button>
-        <el-button v-if="isSelectButtonActive" type="text" style="color:rgba(225, 150, 54, 1)" @click="handleSelect">
-          筛选<i class="el-icon-caret-top" style="color:rgba(225, 150, 54, 1)"></i>
-        </el-button>
-        <el-button v-if="!isSelectButtonActive" type="text" style="color: #777;" :class="isSelectButtonActive ? 'button-select': 'button-noselect'" @click="handleSelect">
-          筛选<i class="el-icon-caret-bottom"></i>
-        </el-button>
-      </div>
-      <div class="daypay-banner-pic">
-        <mt-swipe :auto="4000" style="height: 240px">
-          <mt-swipe-item>
-            <img :src="bannerList.dayBannerOne" :alt="bannerList.dayBannerOneUrl" class="banner-img">
-          </mt-swipe-item>
-          <mt-swipe-item>
-            <img :src="bannerList.dayBannerTwo" :alt="bannerList.dayBannerTwoUrl" class="banner-img">
-          </mt-swipe-item>
-          <mt-swipe-item>
-            <img :src="bannerList.dayBannerThree" :alt="bannerList.dayBannerThreeUrl" class="banner-img">
-          </mt-swipe-item>
-        </mt-swipe>
-      </div>
+  <div style="min-height: 100vh; background: #fff;">
+    <div style="padding: 5px;">
+      >>搜索结果为：
+    </div>
+    <div v-if="officeList.length > 0">
       <div class="daypay-office-list">
         <div class="daypay-list-item" v-for="(item, index) in officeList" :key="index" @click="jumptoDetail(item)">
           <el-row>
@@ -77,45 +57,24 @@
           </el-row>
         </div>
       </div>
+      
     </div>
-    <select-dialog :dialogObject="dialogObject" :selectGroup="dialogGroup" @dialog-click="getDayPayData"></select-dialog>
+    <div v-else style="text-align: center; margin-top: 200px">
+      暂无搜索内容
+    </div>
+    <div style="margin-top: 20px; text-align: center">
+      <el-button @click="jumpto">返回首页</el-button>
+    </div>
   </div>
 </template>
-
 <script>
-import tabbar from '@/components/tabbar'
 import moment from 'moment'
-import SelectDialog from '@/components/SelectDialog'
 import tags from './tags'
 export default {
-  name: 'Daypay',
-  data () {
+  data() {
     return {
-      bannerList: {},
-      bannerContentOne: {},
-      bannerContent: 1,
-      officeList: [],
-      isSelectButtonActive: false,
-      dialogObject: {
-        isDialogOpen: false
-      },
-      dialogGroup: {
-        levelNear: [],
-        officeTags: [],
-        payCycle: [],
-        salayNeed: []
-      },
-      selectCondition: {
-        levelNear: 0,
-        officeTags: '',
-        payCycle: '',
-        salayNeed: '',
-      },
+      officeList: []
     }
-  },
-  components: {
-    SelectDialog,
-    tabbar
   },
   filters: {
     time: (value) => {
@@ -180,89 +139,39 @@ export default {
       return text
     }
   },
-  created () {
-    this.getDayPayData()
+  created() {
+    if (window.localStorage.getItem('searchParams')) {
+      this.getSearchList()
+    }
   },
   methods: {
-    jumptoDetail(data) {
-      window.localStorage.setItem('officeId', data.officeId)
-      this.$router.push('/recruitDetail')
+    jumpto() {
+      this.$router.push('/')
     },
-    getDayPayData (selectConditionFromDialog, isDialogClose) {
-      if(isDialogClose) {
-        this.dialogObject.isDialogOpen = false
-        this.isSelectButtonActive = false
-      }
-      const condition = {
-        levelNear: this.selectCondition.levelNear,
-        officeTags: this.selectCondition.officeTags,
-        payCycle: this.selectCondition.payCycle,
-        salayNeed: this.selectCondition.salayNeed
-      }
-      if (selectConditionFromDialog) {
-          condition.levelNear = selectConditionFromDialog.levelNear;
-          condition.officeTags = selectConditionFromDialog.officeTags;
-          condition.payCycle = selectConditionFromDialog.payCycle
-          condition.salayNeed = selectConditionFromDialog.salayNeed
-      }
+    getSearchList() {
       this.axios({
         method: 'post',
-        url: '/api/h5/getDayOfficeList',
+        url: '/api/h5/getCompanyIndexOfficeList',
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        data: {
-          companyProvince: '',
-          companyCity: '',
-          levelNear: condition.levelNear,
-          officeTags: condition.officeTags,
-          payCycle: condition.payCycle,
-          salayNeed: condition.salayNeed,
-          queStr: ''
+        data: JSON.parse(window.localStorage.getItem('searchParams'))
+      }).then((res) => {
+        if (res.data.code == 200 && res.data.data.officeList && res.data.data.officeList.length > 0) {
+          this.officeList = res.data.data.officeList
         }
-      }).then(({data}) => {
-        if (data) {
-          this.bannerList = data.data.bannerList
-          this.officeList = data.data.officeList
-        }
-      })     
-    },
-    handleSelect () {
-      this.isSelectButtonActive = !this.isSelectButtonActive
-      if (this.isSelectButtonActive) {
-        this.dialogObject.isDialogOpen = true
-      }
+      }).catch((res) => {
+        MessageBox({
+          title: '小提示',
+          message: res.data.msg,
+        })
+      })
     }
   }
 }
 </script>
-
 <style lang="less" scoped>
-.daypay-page{
-  .daypay-content{
-    .daypay-select-box{
-      padding: 10px 20px 20px;
-      background: #fff;
-      height: 60px;
-      font-size: 0.5rem;
-      line-height: 60px;
-      span{
-        display: inline-block;
-        width: 45%;
-        cursor: pointer;
-      }
-    }
-    .daypay-banner-pic{
-      padding: 20px;
-      margin-top: 2px;
-      background: #fff;
-      img {
-        border-radius: 10px;
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .daypay-office-list {
+.daypay-office-list {
       margin: 10px 0 0;
       background: #fff;
       .daypay-list-item {
@@ -304,6 +213,6 @@ export default {
         }
       }
     }
-  }
-}
 </style>
+
+
