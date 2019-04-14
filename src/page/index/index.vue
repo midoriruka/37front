@@ -2,7 +2,7 @@
   <div class="index-body">
     <div class="index-title">
       <div class="index-bar">
-        <div class="index-bar-1 index-bar-0" @click="position()">
+        <div class="index-bar-1 index-bar-0" @click="jumpPosition()">
           <div style="float: left">
             <img src="@/assets/index/position.png" alt="" style="width:30px; margin-top: 15px;">
           </div>
@@ -403,11 +403,13 @@ export default {
     this.getHotOffice()
     this.getIndexOffice()
     this.getTopOffice()
-    this.position = window.localStorage.getItem('position') ? window.localStorage.getItem('position') : '北京'
+    
+    this.position = (window.localStorage.getItem('position') ? window.localStorage.getItem('position') : '北京')
+    console.log(this.position)
   },
  
   methods: {
-    position() {
+    jumpPosition() {
       this.$router.push('/position')
     },
     getUserMsg(data) {

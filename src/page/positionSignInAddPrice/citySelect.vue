@@ -74,7 +74,7 @@ export default {
       })
     },
     selectLocation(location) {
-      window.localStorage.setItem('location', location);
+      window.localStorage.setItem('position', location);
       this.$router.back();
     },
   }
