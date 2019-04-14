@@ -35,7 +35,7 @@
 
   &:before {
     content: '';
-    background: url('~@/assets/index/search.png');
+    background: url('~@/assets/index/search.png') no-repeat;
     background-size: contain;
     height: 0.36rem;
     width: 0.36rem;
