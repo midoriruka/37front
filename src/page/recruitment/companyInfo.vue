@@ -107,44 +107,74 @@
         </el-form-item>
         <div class="imgs-box">
           <div v-for="(img,i) in companyImage" class="img-wrapper">
-            <img class="box-item img" :class="{uploading:img.uploading}" :src="img.url" :preview="i">
-            <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
+            <img class="box-item img" :src="img" :preview="i">
+            <div class="remove-btn" v-show="!img.submited" @click="remove(i,0)">×</div>
           </div>
           <el-upload action="" class="upload-demo" :on-change="handleChange1" :auto-upload="false" :show-file-list="false">
             <div class="add-btn box-item" slot="trigger">+</div>
           </el-upload>
         </div>
         <el-form-item label="餐厅" class="item" >
-          <el-button size="small" style="color: #e6a03c;border-color: #e6a03c;background-color: white;margin-left:3.5rem;" @click="uploadImgs('餐厅')">批量上传</el-button>
+          <el-upload
+            class="upload-demo"
+            action=""
+            :on-change="allUpload"
+            :before-upload="beforeAvatarUpload"
+            :show-file-list="false"
+            multiple
+            :limit="8"
+          >
+            <el-button size="small" style="color: #e6a03c;border-color: #e6a03c;background-color: white;margin-left:3.5rem;">批量上传</el-button>
+          </el-upload>
         </el-form-item>
         <div class="imgs-box">
           <div v-for="(img,i) in eatImage" class="img-wrapper">
-            <img class="box-item img" :src="img.url">
-            <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
+            <img class="box-item img" :src="img">
+            <div class="remove-btn" v-show="!img.submited" @click="remove(i,1)">×</div>
           </div>
           <el-upload action="" class="upload-demo" :on-change="handleChange2" :auto-upload="false" :show-file-list="false">
             <div class="add-btn box-item" slot="trigger">+</div>
           </el-upload>
         </div>
         <el-form-item label="宿舍" class="item" >
-          <el-button size="small" style="color: #e6a03c;border-color: #e6a03c;background-color: white;margin-left:3.5rem;" @click="uploadImgs('宿舍')">批量上传</el-button>
+          <el-upload
+            class="upload-demo"
+            action=""
+            :on-change="allUpload"
+            :before-upload="beforeAvatarUpload"
+            :show-file-list="false"
+            multiple
+            :limit="8"
+          >
+            <el-button size="small" style="color: #e6a03c;border-color: #e6a03c;background-color: white;margin-left:3.5rem;">批量上传</el-button>
+          </el-upload>
         </el-form-item>
         <div class="imgs-box">
           <div v-for="(img,i) in sleepImage" class="img-wrapper">
-            <img class="box-item img" :src="img.url" :preview="i">
-            <div class="remove-btn" v-show="!submited" @click="remove(i)">×</div>
+            <img class="box-item img" :src="img" :preview="i">
+            <div class="remove-btn" v-show="!submited" @click="remove(i,2)">×</div>
           </div>
           <el-upload action="" class="upload-demo" :on-change="handleChange3" :auto-upload="false" :show-file-list="false">
             <div class="add-btn box-item" slot="trigger">+</div>
           </el-upload>
         </div>
         <el-form-item label="工资条" class="item" >
-          <el-button size="small" style="color: #e6a03c;border-color: #e6a03c;background-color: white;margin-left:3.5rem;" @click="uploadImgs('工资条')">批量上传</el-button>
+          <el-upload
+            class="upload-demo"
+            action=""
+            :on-change="allUpload"
+            :before-upload="beforeAvatarUpload"
+            :show-file-list="false"
+            multiple
+            :limit="8"
+          >
+            <el-button size="small" style="color: #e6a03c;border-color: #e6a03c;background-color: white;margin-left:3.5rem;">批量上传</el-button>
+          </el-upload>
         </el-form-item>
         <div class="imgs-box">
           <div v-for="(img,i) in salryImage" class="img-wrapper">
-            <img class="box-item img" :class="{uploading:img.uploading}" :src="img.url" :preview="i">
-            <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
+            <img class="box-item img" :src="img" :preview="i">
+            <div class="remove-btn" v-show="!img.submited" @click="remove(i,3)">×</div>
           </div>
           <el-upload action="" class="upload-demo" :on-change="handleChange4" :auto-upload="false" :show-file-list="false">
             <div class="add-btn box-item" slot="trigger">+</div>
@@ -196,10 +226,18 @@
           }).then((res) => {
             if (res.data.code == 200 && res.data.data) {
               this.fieldData = res.data.data;
-              this.companyImage=this.fieldData.companyImage.splice(',');
-              this.eatImage=this.fieldData.eatImage.splice(',');
-              this.sleepImage=this.fieldData.sleepImage.splice(',');
-              this.salryImage=this.fieldData.salryImage.splice(',');
+              if(this.fieldData.companyImage){
+                this.companyImage=this.fieldData.companyImage.splice(',');
+              }
+              if(this.fieldData.eatImage){
+                this.eatImage=this.fieldData.eatImage.splice(',');
+              }
+              if(this.fieldData.sleepImage){
+                this.sleepImage=this.fieldData.sleepImage.splice(',');
+              }
+              if(this.fieldData.salryImage){
+                this.salryImage=this.fieldData.salryImage.splice(',');
+              }
             }
           }).catch((res) => {
             MessageBox({
@@ -237,6 +275,7 @@
             })
           })
         },
+        //上传LOGO
         onchange(file) {
           let fileType = file.name.substring(file.name.lastIndexOf('.'));
           let typeArr = ['.png', '.jpg', '.jpeg'];
@@ -278,14 +317,14 @@
             })
           }
         },
-        //批量上传
+        //企业图片批量上传
         beforeAvatarUpload(file) {
           var testmsg = file.name.substring(file.name.lastIndexOf('.'))
           let typeArr = ['.png', '.jpg', '.jpeg']
           if (typeArr.indexOf(testmsg) > -1) {
             // 上传文件地址，然后赋值给fileForm.waterFile
             let reader = new FileReader();
-            reader.readAsDataURL(file.raw);
+            reader.readAsDataURL(file);
             reader.onload = () => {
               let _base64 = reader.result
               this.axios({
@@ -300,25 +339,45 @@
                 }
               }).then((res) => {
                 if (res.data.code == 200) {
-                  switch (this.uploadType) {
-                    case 0:
-                      this.fieldData.companyImage.push(res.data.data);
-                      break;
-                    case 1:
-                      this.fieldData.eatImage.push(res.data.data);
-                      break;
-                    case 2:
-                      this.fieldData.sleepImage.push(res.data.data);
-                      break;
-                    case 3:
-                      this.fieldData.salryImage.push(res.data.data);
-                      break;
+                  if(this.uploadType==0){
+                    companyImage.push(res.data.data);
+                    MessageBox({
+                      type: '提示',
+                      message: '批量上传厂区图片成功！'
+                    })
+                  }
+                  else if(this.uploadType==1) {
+                    eatImage.push(res.data.data);
+                    MessageBox({
+                      type: '提示',
+                      message: '批量上传食堂图片成功！'
+                    })
+                  }
+                  else if(this.uploadType==2) {
+                    sleepImage.push(res.data.data);
+                    MessageBox({
+                      type: '提示',
+                      message: '批量上传宿舍图片成功！'
+                    })
+                  }
+                  else{
+                      salryImage.push(res.data.data);
+                    MessageBox({
+                      type: '提示',
+                      message: '批量上传工资条图片成功！'
+                    })
                   }
                 } else {
-                  MessageBox.error('上传失败，请重试')
+                  MessageBox({
+                    type: '错误',
+                    message: '上传失败，请重试！'
+                  })
                 }
               }).catch(() => {
-                MessageBox.error('上传失败，请重试')
+                MessageBox({
+                  type: '错误',
+                  message: '上传失败，请重试！'
+                })
               })
             }
           } else {
@@ -468,6 +527,22 @@
               message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
             })
             return
+          }
+        },
+        remove(i,type) {
+          switch (type) {
+            case 0:
+              this.companyImage.splice(i, 1);
+              break;
+            case 1:
+              this.eatImage.splice(i, 1);
+              break;
+            case 2:
+              this.sleepImage.splice(i, 1);
+              break;
+            case 3:
+              this.salryImage.splice(i, 1);
+              break;
           }
         },
       }
