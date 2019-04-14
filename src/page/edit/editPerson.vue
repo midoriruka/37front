@@ -6,7 +6,13 @@
         <div>
           <mt-field label="姓名" placeholder="请输入用户名" v-model="userInfo.nickName"></mt-field>
           <mt-field label="昵称" placeholder="请输入昵称" v-model="userInfo.userName"></mt-field>
-          <mt-field label="性别" placeholder="请输入性别" v-model="userInfo.userSex"></mt-field>
+          <!--<mt-field label="性别" placeholder="请输入性别" v-model="userInfo.userSex"></mt-field>-->
+          <Selector label="性别"
+                    type="userSex"
+                    :option="configData.companyContact"
+                    :defaultIndexPro="defaultIndexProCompanyContact"
+                    @changeValue="changeValue"
+                    :seleValuePro="configData.companyContact[defaultIndexProCompanyContact]"></Selector>
           <EditPhone label="手机号"
                      v-if="userInfo.userPhone"
                      :companyContactPhone="userInfo.userPhone"
@@ -32,12 +38,12 @@
           <Selector label="所属地区"
                     type="userCity"
                     :option="configData.userCity"
-                    :defaultIndexPro="defaultIndexProUserCity"
+                    :defaultIndexPro="defaultIndexProUserProvince"
                     :defaultIndexChildPro="defaultIndexProUserCity"
                     :defaultIndexChildAfterPro="defaultIndexProUserArea"
                     @changeValue="changeValue"
-                    :seleValueChildrenPro="configData.userCity[defaultIndexProUserCity].children[defaultIndexProUserCity]"
-                    :seleValueChildren2Pro="configData.userCity[defaultIndexProUserCity].children[defaultIndexProUserCity].children[defaultIndexProUserArea]"
+                    :seleValueChildrenPro="configData.userCity[defaultIndexProUserProvince].children[defaultIndexProUserCity]"
+                    :seleValueChildren2Pro="configData.userCity[defaultIndexProUserProvince].children[defaultIndexProUserCity].children[defaultIndexProUserArea]"
                     :seleValuePro="configData.userCity[defaultIndexProUserCity]"></Selector>
           <mt-field label="详细地址" placeholder="请输入详细地址" v-model="userInfo.userAddress"></mt-field>
           <mt-field label="个人技能" placeholder="个人技能" type="textarea" rows="4" v-model="userInfo.userRemark" class="level"></mt-field>
@@ -58,6 +64,7 @@
                 configData,
                 popupVisible:false,
                 defaultIndexProNation:0,
+                defaultIndexProCompanyContact:0,
                 defaultIndexProUserEdu:0,
                 defaultIndexProUserCity:0,
                 defaultIndexProUserProvince:0,
@@ -79,6 +86,7 @@
                   userProvince:'',
                   userSex:'',
                   userRemark:'',
+                  userArea:'',
                 }
             }
         },
@@ -93,8 +101,12 @@
           this.pickerValue = true;
         },
         changeValue(data){
-          console.log(data,123123)
-          this.userInfo[data.type] = data.value;
+          if(data.type == "userProvince" || data.type == "userCity" || data.type == "userArea"){
+//            let type = data.type.replace(/user/,'company')
+            this.userInfo[data.type] = data.label;
+          }else{
+            this.userInfo[data.type] = data.value;
+          }
         },
         submit(){
           this.updateUserInfo()
@@ -139,12 +151,13 @@
           }).then((res) => {
             if (res.data.code == 200) {
               this.userInfo = res.data.data;
-              console.log(this.userInfo)
               this.finduserCityIndex(res.data.data.userNation,'userNation','defaultIndexProNation');
+              this.finduserCityIndex(res.data.data.userSex,'companyContact','defaultIndexProCompanyContact');
               this.finduserCityIndex(res.data.data.userEdu,'userEdu','defaultIndexProUserEdu');
               this.finduserCityIndex(res.data.data.userProvince,'userCity','defaultIndexProUserProvince',res.data.data.userCity,'defaultIndexProUserCity',res.data.data.userArea,'defaultIndexProUserArea');
-//              this.finduserCityIndex(res.data.data.userCity,'userCity','defaultIndexProUserCity');
-
+//              console.log(this.defaultIndexProUserProvince)
+//              console.log(this.defaultIndexProUserCity)
+//              console.log(this.defaultIndexProUserArea)
             } else {
               this.$store.commit('showToast',res.data?res.data.msg:'请求出错' || '请求出错');
             }
@@ -155,15 +168,17 @@
             this[type] = 0;
             return;
           }
-          for(let i = 0;i<configData[arrType].length;i++){
-            if(configData[arrType][i].name == data){
+
+          for(var i = 0;i<configData[arrType].length;i++){
+            if(configData[arrType][i][arrType == 'userCity'?'name':'value'] == data){
               this[type] = i;
               if(childrenIndex){
-                for(let j= 0;j<configData[arrType][i].children.length;j++){
+                for(var j= 0;j<configData[arrType][i].children.length;j++){
                   if(configData[arrType][i].children[j].name == dataChildren){
                     this[childrenIndex] = j;
                   }
                   if(childrenIndexIndex){
+
                     for(var k = 0,temp = configData[arrType][i].children[j].children;k<temp.length;k++){
                       if(temp[k].name == dataChildrenAfter){
                         this[childrenIndexIndex] = k;

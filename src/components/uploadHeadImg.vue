@@ -3,13 +3,14 @@
       <input type="file"
              style="display: none"
              ref="upload"
+             :multiple="multiple"
              @change="changeImage($event)"
              accept="image/gif,image/jpeg,image/jpg,image/png">
       <div class="headImg" v-if="from === 'head'">
         <img :src="userUrl || userImageUrl" alt="" @click="uploadClick">
         <img :src="userImageUrl" alt="">
       </div>
-      <div v-if="from === 'button'" style="border: 1px solid #e6a03c;border-radius: 3px;padding: 5px 12px;" @click="uploadClick('button')">
+      <div v-if="from === 'button' || from === 'logo'" style="border: 1px solid #e6a03c;border-radius: 3px;padding: 5px 12px;" @click="uploadClick('button')">
         {{text}}
       </div>
     </div>
@@ -18,11 +19,13 @@
 </style>
 <script>
   import userImageUrl from '../assets/icon/个人中心/camera.png'
-  console.log(userImageUrl)
   export default{
     props:{
       userUrl:'',
       text:'',
+      multiple:{
+        default:false
+      },
       from:{
         default:'head'
       }
@@ -62,11 +65,8 @@
           });
         })
       },
-      changeImage: function(e){
-        let file = e.target.files[0];
-//          console.log(file)
+      fileReader(file){
         if(file) {
-          this.file = file;
           let reader = new FileReader()
           let that = this
           reader.readAsDataURL(file)
@@ -77,6 +77,19 @@
             that.uploadFile();
           }
         }
+      },
+      changeImage: function(e){
+        let files = e.target.files;
+        if(files.length>0){
+          if(this.multiple){
+            for(var i = 0;i<files.length;i++){
+              this.fileReader(files[i]);
+            }
+          }else{
+            this.fileReader(files[0]);
+          }
+        }
+
       },
       uploadClick(){
         this.$refs.upload.click();

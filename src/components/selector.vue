@@ -65,18 +65,38 @@
             }]
           }
         },
+        watch:{
+          seleValuePro:{
+            handler:function(val,oldval){
+              this.init();
+            },
+            deep: true
+          },
+          seleValueChildren2Pro:{
+            handler:function(val,oldval){
+              this.init();
+            },
+            deep: true
+          },
+          seleValueChildrenPro:{
+            handler:function(val,oldval){
+              this.init();
+            },
+            deep: true
+          }
+        },
         methods:{
           onValuesChange (picker, values) {
               let town = [];
              this.seleValue = values[0];
               if(this.type !== 'userCity'){
-                this.$emit('changeValue',{type:this.type,value:values[0].name});
+                this.$emit('changeValue',{type:this.type,label:values[0].name,value:values[0].value});
               }else{
                 this.seleValueChildren = values[1];
                 this.seleValueChildren2 = values[2]
-                this.$emit('changeValue',{type:'userProvince',value:values[0].name});
-                this.$emit('changeValue',{type:'userCity',value:values[1].name});
-                this.$emit('changeValue',{type:'userArea',value:values[2].name});
+                this.$emit('changeValue',{type:'userProvince',label:values[0].name,value:values[0].value});
+                this.$emit('changeValue',{type:'userCity',label:values[1].name,value:values[0].value});
+                this.$emit('changeValue',{type:'userArea',label:values[2].name,value:values[0].value});
                 picker.setSlotValues(1, values[0].children);
                 if (values[1]) {
                   town = values[1].children
@@ -95,20 +115,19 @@
             this.seleValue = {name:time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDay()}
             this.$emit('changeValue',{type:this.type,value:this.seleValue.name})
           },
-        },
-        created(){
-          this.seleValue = this.seleValuePro;
-          console.log(this.seleValuePro)
-          if(this.type == 'userBrith'){
-            this.value = new Date(this.seleValuePro.name);
-            return
-          }
-          this.slots[0].defaultIndex = this.defaultIndexPro;
-          this.slots[0].values = this.option;
-          if(this.type == 'userCity'){
-            this.seleValueChildren2 = this.seleValueChildren2Pro;
-            this.seleValueChildren = this.seleValueChildrenPro;
-            this.slots = [{
+          init(){
+            this.seleValue = this.seleValuePro;
+            if(this.type == 'userBrith'){
+              this.value = new Date(this.seleValuePro.name);
+              return
+            }
+            this.slots[0].defaultIndex = this.defaultIndexPro;
+            this.slots[0].values = this.option;
+            if(this.type == 'userCity'){
+              this.seleValueChildren2 = this.seleValueChildren2Pro;
+              this.seleValueChildren = this.seleValueChildrenPro;
+              console.log(this.defaultIndexPro)
+              this.slots = [{
                 flex: 1,
                 values: this.option,
                 defaultIndex: this.defaultIndexPro,
@@ -135,8 +154,12 @@
                 className: 'slot5',
                 textAlign: 'center'
               }
-            ]
-          }
+              ]
+            }
+          },
+        },
+        created(){
+          this.init()
         },
     }
 </script>

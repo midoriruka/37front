@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mt-field :readonly="companyContactPhone?true:false"
+    <mt-field
               :label="label"
               @change="$emit('callBack',phone)"
               v-model="phone">
@@ -61,6 +61,7 @@
         smsCode:'',
         userId:'',
         isPortTea:false,
+        readOnly:false
       }
     },
     methods:{
@@ -71,6 +72,10 @@
         if(this.isPortTea){
           return;
         }
+        if(!(/^1[3456789]\d{9}$/.test(this.userPhoneNew))){
+          this.$store.commit('showToast','手机格式不正确');
+          return
+        }
         this.isPortTea = true
         this.axios({
           method: 'post',
@@ -79,7 +84,7 @@
             'Content-type': 'application/json;charset=UTF-8'
           },
           data: {
-            smsPhone: this.userPhoneOld,
+            smsPhone: this.userPhoneNew,
           }
         }).then((res) => {
           if (res.data.code == 200) {
@@ -108,17 +113,22 @@
         })
       },
       changeMyPhone(){
+        var data = {
+          newPhone: this.userPhoneNew,
+          smsCode:this.smsCode,
+        }
+        if(localStorage.getItem('loginType') == 'company'){
+          data['companyUserId'] = this.userId;
+        }else{
+          data['userId'] = this.userId;
+        }
         this.axios({
           method: 'post',
           url: '/api/h5/changeMyPhone',
           headers: {
             'Content-type': 'application/json;charset=UTF-8'
           },
-          data: {
-            newPhone: this.userPhoneNew,
-            smsCode:this.smsCode,
-            userId:this.userId,
-          }
+          data: data
         }).then((res) => {
           if (res.data.code == 200) {
             this.popupVisible = false;
@@ -156,7 +166,10 @@
     },
     created(){
       this.phone = this.companyContactPhone;
-      let user = JSON.parse(localStorage.getItem('userMsg')).users
+//      this.readOnly = this.companyContactPhone?true:false;
+//      console.log(this.phone)
+      let user = JSON.parse(localStorage.getItem('userMsg')).users;
+
       this.userId = user.company_user_id || user.user_id;
     },
   }
