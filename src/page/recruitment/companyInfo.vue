@@ -93,47 +93,61 @@
           <el-input type="textarea" v-model="fieldData.companyDes" placeholder="请输入企业介绍"></el-input>
         </el-form-item>
         <el-form-item label="厂区" class="item" >
+          <el-upload
+            class="upload-demo"
+            action=""
+            :on-change="allUpload"
+            :before-upload="beforeAvatarUpload"
+            :show-file-list="false"
+            multiple
+            :limit="8"
+          >
+          <el-button size="small" style="color: #e6a03c;border-color: #e6a03c;background-color: white;margin-left:3.5rem;">批量上传</el-button>
+          </el-upload>
         </el-form-item>
         <div class="imgs-box">
-          <div v-for="(img,i) in imgs" class="img-wrapper">
+          <div v-for="(img,i) in companyImage" class="img-wrapper">
             <img class="box-item img" :class="{uploading:img.uploading}" :src="img.url" :preview="i">
             <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
           </div>
-          <el-upload action="" class="upload-demo" :on-change="handleChange" :auto-upload="false" :show-file-list="false">
-            <div class="add-btn box-item" slot="trigger" v-show="imgs.length <8">+</div>
+          <el-upload action="" class="upload-demo" :on-change="handleChange1" :auto-upload="false" :show-file-list="false">
+            <div class="add-btn box-item" slot="trigger">+</div>
           </el-upload>
         </div>
         <el-form-item label="餐厅" class="item" >
+          <el-button size="small" style="color: #e6a03c;border-color: #e6a03c;background-color: white;margin-left:3.5rem;" @click="uploadImgs('餐厅')">批量上传</el-button>
         </el-form-item>
         <div class="imgs-box">
-          <div v-for="(img,i) in imgs" class="img-wrapper">
-            <img class="box-item img" :class="{uploading:img.uploading}" :src="img.url" :preview="i">
+          <div v-for="(img,i) in eatImage" class="img-wrapper">
+            <img class="box-item img" :src="img.url">
             <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
           </div>
-          <el-upload action="" class="upload-demo" :on-change="handleChange" :auto-upload="false" :show-file-list="false">
-            <div class="add-btn box-item" slot="trigger" v-show="imgs.length <8">+</div>
+          <el-upload action="" class="upload-demo" :on-change="handleChange2" :auto-upload="false" :show-file-list="false">
+            <div class="add-btn box-item" slot="trigger">+</div>
           </el-upload>
         </div>
         <el-form-item label="宿舍" class="item" >
+          <el-button size="small" style="color: #e6a03c;border-color: #e6a03c;background-color: white;margin-left:3.5rem;" @click="uploadImgs('宿舍')">批量上传</el-button>
         </el-form-item>
         <div class="imgs-box">
-          <div v-for="(img,i) in imgs" class="img-wrapper">
-            <img class="box-item img" :class="{uploading:img.uploading}" :src="img.url" :preview="i">
-            <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
+          <div v-for="(img,i) in sleepImage" class="img-wrapper">
+            <img class="box-item img" :src="img.url" :preview="i">
+            <div class="remove-btn" v-show="!submited" @click="remove(i)">×</div>
           </div>
-          <el-upload action="" class="upload-demo" :on-change="handleChange" :auto-upload="false" :show-file-list="false">
-            <div class="add-btn box-item" slot="trigger" v-show="imgs.length <8">+</div>
+          <el-upload action="" class="upload-demo" :on-change="handleChange3" :auto-upload="false" :show-file-list="false">
+            <div class="add-btn box-item" slot="trigger">+</div>
           </el-upload>
         </div>
         <el-form-item label="工资条" class="item" >
+          <el-button size="small" style="color: #e6a03c;border-color: #e6a03c;background-color: white;margin-left:3.5rem;" @click="uploadImgs('工资条')">批量上传</el-button>
         </el-form-item>
         <div class="imgs-box">
-          <div v-for="(img,i) in imgs" class="img-wrapper">
+          <div v-for="(img,i) in salryImage" class="img-wrapper">
             <img class="box-item img" :class="{uploading:img.uploading}" :src="img.url" :preview="i">
             <div class="remove-btn" v-show="!img.submited" @click="remove(i)">×</div>
           </div>
-          <el-upload action="" class="upload-demo" :on-change="handleChange" :auto-upload="false" :show-file-list="false">
-            <div class="add-btn box-item" slot="trigger" v-show="imgs.length <8">+</div>
+          <el-upload action="" class="upload-demo" :on-change="handleChange4" :auto-upload="false" :show-file-list="false">
+            <div class="add-btn box-item" slot="trigger">+</div>
           </el-upload>
         </div>
       </el-form>
@@ -149,11 +163,15 @@
       name: "companyInfo",
       data(){
         return{
-          imgs: [],
+          uploadType:0,
           companyId:null,
           companyIndus:InduOption,
           companyNatures:NatureOption,
           companyScales:ScaleOption,
+          companyImage:[],
+          eatImage:[],
+          sleepImage:[],
+          salryImage:[],
           fieldData:{
             companyUserId:`${JSON.parse(window.localStorage.getItem('userMsg')).users.company_user_id}`,
           }
@@ -164,20 +182,24 @@
           this.getCompanyInfo();
         })
       },
-      methods:{
-        getCompanyInfo(){
+      methods: {
+        getCompanyInfo() {
           this.axios({
             method: 'post',
             url: '/api/h5/getCompanyInfo',
             headers: {
               'Content-type': 'application/json;charset=UTF-8'
             },
-            data:{
-              companyUserId:JSON.parse(window.localStorage.getItem('userMsg')).users.company_user_id,
+            data: {
+              companyUserId: JSON.parse(window.localStorage.getItem('userMsg')).users.company_user_id,
             }
           }).then((res) => {
             if (res.data.code == 200 && res.data.data) {
               this.fieldData = res.data.data;
+              this.companyImage=this.fieldData.companyImage.splice(',');
+              this.eatImage=this.fieldData.eatImage.splice(',');
+              this.sleepImage=this.fieldData.sleepImage.splice(',');
+              this.salryImage=this.fieldData.salryImage.splice(',');
             }
           }).catch((res) => {
             MessageBox({
@@ -186,8 +208,12 @@
             })
           })
         },
-        async submit(){
-          this.fieldData.companyFrom= this.$route.query.type =='委托招聘'?'1':'2';
+        submit() {
+          this.fieldData.companyFrom = this.$route.query.type == '委托招聘' ? '1' : '2';
+          this.fieldData.companyImage=companyImage.join(',');
+          this.fieldData.eatImage=eatImage.join(',');
+          this.fieldData.sleepImage=sleepImage.join(',');
+          this.fieldData.salryImage=salryImage.join(',');
           this.axios({
             method: 'post',
             url: '/api/h5/addEntrust',
@@ -202,7 +228,7 @@
                 title: '提示',
                 message: '提交成功！',
               });
-             this.$store.commit('setCompanyId',res.data.data)
+              this.$store.commit('setCompanyId', res.data.data)
             }
           }).catch((res) => {
             MessageBox({
@@ -212,11 +238,7 @@
           })
         },
         onchange(file) {
-          this.imgUrl=file.name;
-          this.fieldData.companyLogo=file.name;
-          console.log(this.fieldData.companyLogo);
-          let fileType=file.name.substring(file.name.lastIndexOf('.'));
-          console.log(fileType);
+          let fileType = file.name.substring(file.name.lastIndexOf('.'));
           let typeArr = ['.png', '.jpg', '.jpeg'];
           if (typeArr.indexOf(fileType) > -1) {
             let reader = new FileReader();
@@ -235,7 +257,7 @@
                 }
               }).then((res) => {
                 if (res.data.code == 200) {
-                  this.fieldData.companyLogo=res.data.data
+                  this.fieldData.companyLogo = res.data.data
                 } else {
                   MessageBox({
                     title: 'error',
@@ -255,8 +277,200 @@
               message: '抱歉，您上传的格式不符合要求，请重新上传'
             })
           }
-          },
         },
+        //批量上传
+        beforeAvatarUpload(file) {
+          var testmsg = file.name.substring(file.name.lastIndexOf('.'))
+          let typeArr = ['.png', '.jpg', '.jpeg']
+          if (typeArr.indexOf(testmsg) > -1) {
+            // 上传文件地址，然后赋值给fileForm.waterFile
+            let reader = new FileReader();
+            reader.readAsDataURL(file.raw);
+            reader.onload = () => {
+              let _base64 = reader.result
+              this.axios({
+                method: 'post',
+                url: '/api/back/uploadFile',
+                headers: {
+                  'Content-type': 'application/json;charset=UTF-8'
+                },
+                data: {
+                  baseFile: _base64,
+                  baseType: testmsg.substring(1)
+                }
+              }).then((res) => {
+                if (res.data.code == 200) {
+                  switch (this.uploadType) {
+                    case 0:
+                      this.fieldData.companyImage.push(res.data.data);
+                      break;
+                    case 1:
+                      this.fieldData.eatImage.push(res.data.data);
+                      break;
+                    case 2:
+                      this.fieldData.sleepImage.push(res.data.data);
+                      break;
+                    case 3:
+                      this.fieldData.salryImage.push(res.data.data);
+                      break;
+                  }
+                } else {
+                  MessageBox.error('上传失败，请重试')
+                }
+              }).catch(() => {
+                MessageBox.error('上传失败，请重试')
+              })
+            }
+          } else {
+            MessageBox({
+              type: 'error',
+              message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
+            })
+            return
+          }
+        },
+        allUpload() {
+          this.uploadType += 1
+        },
+        //单张分类型上传
+        handleChange1(file) {
+          let fileType = file.name.substring(file.name.lastIndexOf('.'));
+          let typeArr = ['.png', '.jpg', '.jpeg']
+          if (typeArr.indexOf(fileType) > -1) {
+            // 上传文件地址，然后赋值给fileForm.waterFile
+            let reader = new FileReader()
+            reader.readAsDataURL(file.raw)
+            reader.onload = () => {
+              let _base64 = reader.result
+              this.axios({
+                method: 'post',
+                url: '/api/back/uploadFile',
+                headers: {
+                  'Content-type': 'application/json;charset=UTF-8'
+                },
+                data: {
+                  baseFile: _base64,
+                  baseType: fileType.substring(1)
+                }
+              }).then((res) => {
+                  this.companyImage.push(res.data.data);
+                //将图片路径赋值给src
+                this.$previewRefresh();
+              }).catch(() => {
+                MessageBox({
+                  title: 'error',
+                  message: '上传失败，请重试1',
+                });
+              })
+            }
+          } else {
+            MessageBox({
+              type: 'error',
+              message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
+            })
+            return
+          }
+        },
+        handleChange2(file) {
+          var testmsg = file.name.substring(file.name.lastIndexOf('.'))
+          let typeArr = ['.png', '.jpg', '.jpeg']
+          if (typeArr.indexOf(testmsg) > -1) {
+            // 上传文件地址，然后赋值给fileForm.waterFile
+            let reader = new FileReader()
+            reader.readAsDataURL(file.raw)
+            reader.onload = () => {
+              let _base64 = reader.result
+              this.axios({
+                method: 'post',
+                url: '/api/back/uploadFile',
+                headers: {
+                  'Content-type': 'application/json;charset=UTF-8'
+                },
+                data: {
+                  baseFile: _base64,
+                  baseType: testmsg.substring(1)
+                }
+              }).then((res) => {
+                  this.eatImage.push(res.data.data);
+              }).catch(() => {
+                MessageBox.error('上传失败，请重试')
+              })
+            }
+          } else {
+            MessageBox({
+              type: 'error',
+              message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
+            })
+            return
+          }
+        },
+        handleChange3(file) {
+          var testmsg = file.name.substring(file.name.lastIndexOf('.'))
+          let typeArr = ['.png', '.jpg', '.jpeg']
+          if (typeArr.indexOf(testmsg) > -1) {
+            // 上传文件地址，然后赋值给fileForm.waterFile
+            let reader = new FileReader()
+            reader.readAsDataURL(file.raw)
+            reader.onload = () => {
+              let _base64 = reader.result
+              this.axios({
+                method: 'post',
+                url: '/api/back/uploadFile',
+                headers: {
+                  'Content-type': 'application/json;charset=UTF-8'
+                },
+                data: {
+                  baseFile: _base64,
+                  baseType: testmsg.substring(1)
+                }
+              }).then((res) => {
+                  this.sleepImage.push(res.data.data);
+              }).catch(() => {
+                MessageBox.error('上传失败，请重试')
+              })
+            }
+          } else {
+            MessageBox({
+              type: 'error',
+              message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
+            })
+            return
+          }
+        },
+        handleChange4(file) {
+          var testmsg = file.name.substring(file.name.lastIndexOf('.'))
+          let typeArr = ['.png', '.jpg', '.jpeg']
+          if (typeArr.indexOf(testmsg) > -1) {
+            // 上传文件地址，然后赋值给fileForm.waterFile
+            let reader = new FileReader()
+            reader.readAsDataURL(file.raw)
+            reader.onload = () => {
+              let _base64 = reader.result;
+              this.axios({
+                method: 'post',
+                url: '/api/back/uploadFile',
+                headers: {
+                  'Content-type': 'application/json;charset=UTF-8'
+                },
+                data: {
+                  baseFile: _base64,
+                  baseType: testmsg.substring(1)
+                }
+              }).then((res) => {
+                  this.salryImage.push(res.data.data);
+              }).catch(() => {
+                MessageBox.error('上传失败，请重试')
+              })
+            }
+          } else {
+            MessageBox({
+              type: 'error',
+              message: '抱歉，您上传的格式不符合要求或上传图片已够8张'
+            })
+            return
+          }
+        },
+      }
     }
 </script>
 

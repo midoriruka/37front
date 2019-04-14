@@ -54,14 +54,14 @@
         <el-row style="padding-right: 0.5rem">
           <el-col :span="10">
             <el-form-item label="薪资">
-              <el-input v-model="jobInfo.inviteStartAge">
+              <el-input v-model="jobInfo.salaryStart">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="2" class="line">-</el-col>
           <el-col :span="10">
             <el-form-item label-width="0">
-              <el-input v-model="jobInfo.inviteEndAge">
+              <el-input v-model="jobInfo.salayEnd">
               </el-input>
             </el-form-item>
           </el-col>
@@ -139,7 +139,7 @@
         this.$nextTick().then(() => {
           if(this.$route.query.type=='增加职位'){
             this.jobInfo={
-              officeId:this.$route.query.officeId,
+              companyId:JSON.parse(window.localStorage.getItem('userMsg')).users.company_user_id
             }
           }else{
             this.getJobInfo();
