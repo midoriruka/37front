@@ -99,10 +99,14 @@ export default {
   methods: {
     async getActivityInfo() {
       //获取用户ID
-      const userId = JSON.parse(window.localStorage.getItem('userMsg')).users.userId;
-      this.userId = userId;
+      const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
+      if(userMsg === undefined){
+        this.$router.push('/login');
+        return; 
+      }
+      this.userId = userMsg.users.loginType === 'person' ? userMsg.users.userId : userMsg.users.company_user_id;
       const { data } = await this.axios.post('/api/h5/getActivityInfo', {
-        userId,
+        userId:this.userId,
       });
       this.newActivity = !!data.activiMap;
       //this.newActivity = true;

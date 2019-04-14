@@ -37,8 +37,8 @@ export default {
     this.$nextTick().then(async () => {
       const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
       //获取我的收货地址
-      if (userMsg && userMsg.users.userId) {
-        const userId = userMsg.users.userId;
+      if (userMsg && userMsg.users) {
+        const userId = userMsg.users.loginType === 'person' ? userMsg.users.userId: userMsg.users.company_user_id;
         const { data } = await this.axios.post('/api/h5/getUserAddressList', {
           userId,
         });

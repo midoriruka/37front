@@ -49,7 +49,7 @@
               <span class="su-user-r">{{item.left_phone}}****{{item.right_phone}}</span>
             </div>
           </div>
-          <div class="signup-btn" @click="signUp">
+          <div class="signup-btn" @click="signUp" v-show="showSignUpBtn">
             我要报名
           </div>
         </div>
@@ -271,6 +271,7 @@ export default {
       partCount: 0, //报名人数
       partList: [], //报名列表
       isUploadBtnShow: false, //是否显示上传按钮
+      showSignUpBtn:true,
     }
   },
   mounted() {
@@ -280,7 +281,14 @@ export default {
       }, 1000);
       const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
       const officeId = this.officeId = JSON.parse(window.localStorage.getItem('officeId'));
-      this.isUploadBtnShow = (userMsg && userMsg.users.userId);
+      this.isUploadBtnShow = (userMsg && userMsg.users);
+      if(userMsg && userMsg.users && userMsg.users.loginType !== 'person'){
+        //企业用户 隐藏报名按钮
+        this.showSignUpBtn = false;
+      }else{
+        // 显示报名按钮
+        this.showSignUpBtn = true;
+      }
       //请求数据
       const { data } = await this.axios.post('/api/h5/getOfficeInfo', {
         officeId: Number(officeId)
