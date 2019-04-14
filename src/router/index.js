@@ -8,6 +8,7 @@ import editPerson from '../page/edit/editPerson.vue'
 import editCompany from '../page/edit/editCompany.vue'
 import signIn from '../page/positionSignInAddPrice/signIn.vue'
 import position from '../page/positionSignInAddPrice/position.vue'
+import citySelect from '@/page/positionSignInAddPrice/citySelect.vue';
 import addPrice from '../page/positionSignInAddPrice/addPrice.vue'
 import Activity from '@/page/activity/index';
 import Recruitment from './recruitment'
@@ -51,7 +52,7 @@ let menu = new Router({
     },{
       path: '/position',
       name: '区域选择',
-      component: position
+      component: citySelect
     },{
       path: '/addPrice',
       name: '我要加价',
@@ -84,10 +85,6 @@ let menu = new Router({
       path: '/reward/moreComments',
       name: '更多点评',
       component: MoreComments
-    },{
-      path: '/reward/imgUpload',
-      name: '招聘详情',
-      component: ImgUpload
     },{
       path: '/daypay',
       name: '日多薪',

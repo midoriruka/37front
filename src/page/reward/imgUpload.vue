@@ -26,7 +26,10 @@ export default {
   },
   mounted() {
     this.$nextTick().then(() => {
-
+      const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
+      if(userMsg === undefined){
+        this.$router.push('/login');
+      }
     })
   },
   methods: {
@@ -43,15 +46,17 @@ export default {
       this.imgs.forEach(async img => {
         img.uploading = true;
         img.submited = true;
-        const { data } = await this.axios.post('/api/h5/myOfficeUpload', {
-          officeId: this.officeId,
-          userId: this.userId, 
-          // officeId: 1,
-          // userId: 3,
-          uploadImg: img.url,
+        const { data } = await this.axios.post('/api/back/uploadFile',{
+          baseFile:img.url,
+          baseType:img.type,
+        })
+        const { data:result } = await this.axios.post('/api/h5/myOfficeUpload', {
+          officeId: officeId,
+          userId: userMsg.users.userId,
+          uploadImg: data.data,
         })
         img.uploading = false;
-        img.success = (data.code === 200);
+        img.success = (result.code === 200);
         if (!img.success) {
           MessageBox.alert('上传失败!');
           return;
@@ -81,6 +86,7 @@ export default {
           url: e.target.result,
           uploading: false,
           success: null,
+          type:type.replace('image/',''),
         }); //将图片路径赋值给src
         this.$previewRefresh();
       }
