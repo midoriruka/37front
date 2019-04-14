@@ -2,12 +2,12 @@
   <div class="page">
     <EditHead @submit="submit"></EditHead>
     <div style="padding-bottom: 30px;">
-      <UploadImg :userUrl="companyUserInfo.userHeadImage"></UploadImg>
+      <UploadImg :userUrl="companyUserInfo.userHeadImage" @callBackUpload="callBackUpload"></UploadImg>
       <div>
         <mt-field label="企业名称" placeholder="请输入公司名称" v-model="companyUserInfo.companyName"></mt-field>
         <mt-field label="企业简称" placeholder="请输入公司简称" v-model="companyUserInfo.companySort"></mt-field>
         <mt-field label="联系人" placeholder="请输入性别" v-model="companyUserInfo.companyContact"></mt-field>
-        <EditPhone label="联系电话" :companyContactPhone="companyUserInfo.companyContactPhone" @callback="callback"></EditPhone>
+        <EditPhone label="联系电话" :companyContactPhone="companyUserInfo.companyContactPhone" @callBack="callBack"></EditPhone>
         <!--<mt-field label="联系电话" placeholder="请输入联系电话" v-model="companyUserInfo.companyContactPhone"></mt-field>-->
         <Selector label="工资发放周期"
                   type="userNation"
@@ -51,13 +51,19 @@
             <div>
               企业图片
             </div>
-            <UploadImg :userUrl="companyUserInfo.userHeadImage" from="button" text="批量上传"></UploadImg>
+            <UploadImg :userUrl="companyUserInfo.userHeadImage"
+                       from="button"
+                       @callBackUpload="callBackUpload"
+                       text="批量上传"></UploadImg>
           </div>
           <div>
             <img :src="item" alt="" v-for="item in companyUserInfo.companyImage">
           </div>
         </div>
       </div>
+    </div>
+    <div v-for="item,index in [1,2,3,4,5,6]" v-if="index<3">
+      {{item}}
     </div>
   </div>
 </template>
@@ -79,7 +85,7 @@
         defaultIndexProUserProvince:0,
         defaultIndexProUserArea:0,
         companyUserInfo: {
-          userId:'',
+          userId:JSON.parse(localStorage.getItem('userMsg')).company_user_id,
           companyAddress: "",
           companyArea: "",
           companyCity: "",
@@ -104,6 +110,16 @@
       }
     },
     methods:{
+      callBackUpload(data){
+        if(data.from == 'head'){
+          this.companyUserInfo.userHeadImage = data.data;
+        }else if(data.from == 'button'){
+          this.companyUserInfo.companyImage.push(data.data);
+
+        }else if(data.from == 'logo'){
+          this.companyUserInfo.companyLogo = data.data;
+        }
+      },
       callBack(data){
         this.companyUserInfo.companyContactPhone = data;
       },
@@ -111,9 +127,15 @@
         this.companyUserInfo[data.type] = data.value;
       },
       submit(){
-        this.updateUserInfo()
+        this.updateCompanyInfo()
       },
       updateCompanyInfo() {
+        this.companyUserInfo.userId = JSON.parse(localStorage.getItem('userMsg')).users.company_user_id;
+        if(!(/^1[3456789]\d{9}$/.test(this.companyUserInfo.companyContactPhone))){
+          this.$store.commit('showToast','手机格式不正确');
+          return
+        }
+        this.companyUserInfo.companyImage = this.companyUserInfo.companyImage.join(',');
         this.axios({
           method: 'post',
           url: '/api/h5/updateCompanyInfo',
@@ -123,7 +145,7 @@
           data: this.companyUserInfo,
         }).then((res) => {
           if (res.data.code == 200) {
-            console.log(res.data);
+            console.log(res.data.data);
 
           } else {
             this.$toast({
@@ -150,7 +172,8 @@
           }
         }).then((res) => {
           if (res.data.code == 200) {
-            this.companyUserInfo = res.data.data
+            this.companyUserInfo = res.data.data;
+            this.companyUserInfo.companyImage = this.companyUserInfo.companyImage?this.companyUserInfo.companyImage.split(','):[];
           } else {
             this.$toast({
               message: res.data.msg || '请求出错',
@@ -196,7 +219,7 @@
     created(){
       this.$store.state.app.headContent = '修改资料';
       let user = JSON.parse(localStorage.getItem('userMsg'));
-        this.getCompanyUserInfo(user.users.company_user_id)
+        this.getCompanyUserInfo(user.users.company_user_id || '4')
     },
     components: {
       EditHead,

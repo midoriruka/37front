@@ -1162,9 +1162,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.person-index {
-
-}
 .person-bgm {
   position: relative;
   width: 100%;

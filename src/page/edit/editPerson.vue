@@ -7,7 +7,10 @@
           <mt-field label="姓名" placeholder="请输入用户名" v-model="userInfo.nickName"></mt-field>
           <mt-field label="昵称" placeholder="请输入昵称" v-model="userInfo.userName"></mt-field>
           <mt-field label="性别" placeholder="请输入性别" v-model="userInfo.userSex"></mt-field>
-          <EditPhone label="手机号" :companyContactPhone="userInfo.userPhone" @callBack="callBack"></EditPhone>
+          <EditPhone label="手机号"
+                     v-if="userInfo.userPhone"
+                     :companyContactPhone="userInfo.userPhone"
+                     @callBack="callBack"></EditPhone>
           <Selector label="生日"
                     type="userBrith"
                     v-if="userInfo.userBrith"
@@ -106,6 +109,10 @@
             data: this.userInfo,
           }).then((res) => {
             if (res.data.code == 200) {
+              this.$toast({
+                message: res.data.msg,
+                duration: 1000,
+              });
             } else {
               this.$toast({
                 message: res.data.msg || '请求出错',

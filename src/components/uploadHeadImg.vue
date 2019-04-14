@@ -48,7 +48,7 @@
           },
         }).then((res) => {
           if (res.data.code == 200) {
-            this.$emit('callBackUpload',res.data.data)
+            this.$emit('callBackUpload',{from:this.from,data:res.data.data})
           } else {
             this.$toast({
               message: res.data.msg || '请求出错',

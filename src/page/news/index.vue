@@ -15,13 +15,13 @@
       
     <div>
     <ul class="tabList" id="tabList">
-        <li v-for="(item, index) in tabLIst" :key="index">
-          <span tabId={item.classId}>{{item.className}}</span>
+        <li v-for="(item, index) in tabLIst" :key="index" @click="activeindex = index" :style="{'width':100 / tabLIst.length+'%'}">
+          <a :class="activeindex === index ? 'active' : ''" :href="'#'+index"><span>{{item.className}}</span></a>
         </li>
       </ul>
-     <div class="list-content" v-for="(item, index) in tabLIst" :key="index">
+     <div  class="list-content" v-for="(item, index) in tabLIst" :id="index" :key="index">
       <div class="list"><span class="list-title">{{item.className}}</span><span class="list-more">更多</span></div>
-      <div v-for="(item, index) in data['list'+index]" :key="index" @click="toDetail(item.articleUrl)">
+      <div v-for="(item, index) in data['list'+index]"  v-if="index < 2"  :key="index" @click="toDetail(item.articleUrl)">
         <img :src="item.articleImage" class="list-img">
         <span class="list-des">{{item.articleTitle}}</span>
       </div>
@@ -39,6 +39,7 @@ export default{
       data:{},
       bannerList: {},
       tabLIst:{},
+      activeindex:0
 
     }
   },
@@ -55,7 +56,6 @@ export default{
         }
       }).then((res) => {
         if (res.data.code == 200) {
-          console.log(res.data.data.bannerInfo);
           this.data = res.data.data;
           this.bannerList = res.data.data.bannerInfo;
           this.tabLIst = res.data.data.classList;
@@ -97,12 +97,21 @@ window.onscroll = function(){
     display:inline-block;
     width: 20%;
     text-align: center;
-    font-size: 14px;
+    font-size: 0.4rem;
     color:#323232;
-    &:hover{
+    .active{
       color:#e6a03c;
       font-weight:bold;
       font-size:15px;
+    }
+    a{
+      color: #323232;
+      text-decoration: none;
+      &:hover{
+        color:#e6a03c;
+        font-weight:bold;
+        font-size:15px;
+      }
     }
   }
 }

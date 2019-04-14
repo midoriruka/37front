@@ -130,13 +130,17 @@
             label:'5-10年',
             value:'4'
           }],
-          jobInfo:{}
+          jobInfo:{
+            officeId:this.$route.query.officeId,
+          }
         }
       },
       mounted(){
         this.$nextTick().then(() => {
           if(this.$route.query.type=='增加职位'){
-            this.jobInfo={}
+            this.jobInfo={
+              officeId:this.$route.query.officeId,
+            }
           }else{
             this.getJobInfo();
           }
@@ -146,7 +150,7 @@
         getJobInfo(){
           this.axios({
             method: 'post',
-            url: '/api/h5/addEntrust',
+            url: '/api/h5/getOfficeMsg',
             headers: {
               'Content-type': 'application/json;charset=UTF-8'
             },
@@ -167,7 +171,7 @@
         save(){
           this.axios({
             method: 'post',
-            url: '/api/h5/addEntrust',
+            url: '/api/h5/addOffice',
             headers: {
               'Content-type': 'application/json;charset=UTF-8'
             },

@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="index-bar-2 index-bar-0">
-          <div class="bar-search">
+          <div class="bar-search" @click="jumpToSearch()">
             <div style="float: left; line-height: 50px; margin-right: 5px;padding-left: 5px;">
               <img src="@/assets/index/search.png" alt="" style="width:20px; margin-top: -10px;">
             </div>
@@ -49,7 +49,7 @@
         <div>
           <el-row style="margin-top: 16px;">
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('highreward')">
                 <div class="button-box" style="position: relative">
                   <img src="@/assets/index/zuigao.png" alt="">
                 </div>
@@ -63,7 +63,7 @@
               
             </el-col>
             <el-col :span="6">
-              <div @click="jumpTo()">
+              <div @click="jumpTo('daypay')">
                 <div class="button-box">
                   <img src="@/assets/index/riduoxin.png" alt="">
                 </div>
@@ -160,7 +160,7 @@
       <div class="remen-content">
         <div class="remen-content-item" v-for="(item, index) in hotOfficList" :key="index" @click="jumptoDetail(item)">
           <div class="item-img">
-            <img :src="item.companyLogo" alt="">
+            <img :src="item.companyLogo" alt="" style="width: 100%; height: 100%">
           </div>
           <div class="item-content">
             <div class="item-content-title">
@@ -225,7 +225,7 @@
                 </el-row>
               </div>
               <div style="padding-top: 20px;">
-                {{item.createTime | time}}
+                更新：{{item.createTime | time}}
               </div>
               
             </el-col>
@@ -281,7 +281,7 @@
                 </el-row>
               </div>
               <div style="padding-top: 20px;">
-                {{item.createTime | time}}
+                更新：{{item.createTime | time}}
               </div>
               
             </el-col>
@@ -311,7 +311,7 @@
       </div>
     </div>
 
-    <tabbar tarname="home" :iconarr="iconArr"></tabbar>
+    <tabbar tarname="" :iconarr="iconArr"></tabbar>
   </div>
 </template>
 <script>
@@ -338,7 +338,9 @@ export default {
       maxAmount: 0,
       hotOfficList: [],
       indexOffic: [],
-      topOffic: []
+      topOffic: [],
+      user: {},
+      info: {}
     }
   },
   components: {tabbar},
@@ -390,7 +392,13 @@ export default {
   },
   created() {
     if (window.localStorage.getItem('userMsg')) {
-      
+      this.user = JSON.parse(window.localStorage.getItem('userMsg')).users
+      if (this.user.loginType == 'person') {
+        this.getUserMsg(0)
+      } else {
+        this.getUserMsg(1)
+      }
+
     }
     this.getBanner()
     this.getHotOffice()
@@ -398,6 +406,34 @@ export default {
     this.getTopOffice()
   },
   methods: {
+    getUserMsg(data) {
+      let url = data == 0 ? '/api/h5/getMyCenter' : '/api/h5/getCompanyCenter'
+      this.axios({
+        method: 'post',
+        url: url,
+        headers: {
+          'Content-type': 'application/json;charset=UTF-8'
+        },
+        data: {
+          userId: data == 0 ? this.user.userId : this.user.company_user_id
+        }
+      }).then((res) => {
+        if (res.data.code == 200) {
+          if (data == 0) {
+            this.userInfo.img = res.data.data.userImageUrl || '../../static/index/3.png'
+          } else {
+            this.userInfo.img = res.data.data.companyInfo.userHeadImage || '../../static/index/3.png'          }
+        }
+      }).catch((res) => {
+        MessageBox({
+          title: '小提示',
+          message: res.data.msg,
+        })
+      })
+    },
+    jumpToSearch() {
+      this.$router.push('/search')
+    },
     jumptoDetail(data) {
       window.localStorage.setItem('officeId', data.officeId)
       this.$router.push('/recruitDetail')

@@ -25,7 +25,7 @@
         </mt-swipe>
       </div>
       <div class="daypay-office-list">
-        <div class="daypay-list-item" v-for="(item, index) in officeList" :key="index">
+        <div class="daypay-list-item" v-for="(item, index) in officeList" :key="index" @click="jumptoDetail(item)">
           <el-row>
             <el-col :span="5" class="offic-title-img">
               <img :src="item.companyLogo" alt="item.companyLogo">
@@ -42,10 +42,10 @@
               </div>
               <div>
                 <span class="offic-tag" v-for="(tagItem, indexs) in item.officeTags.split(',')" :key="indexs">
-                  {{tagItem}}
+                  {{tagItem | tag}}
                 </span>
               </div>
-              <div style="color: #777;">
+              <div style="color: #777;" class="ellipsis-1">
                 {{item.companyName}}
               </div>
             </el-col>
@@ -78,7 +78,7 @@
       </div>
     </div>
     <select-dialog :dialogObject="dialogObject" :selectGroup="dialogGroup" @dialog-click="getHighRewardList"></select-dialog>
-    <tabbar tarname="home" :iconarr="iconArr"></tabbar>
+    <tabbar tarname="highreward" :iconarr="iconArr"></tabbar>
   </div>
 </template>
 
@@ -86,6 +86,7 @@
 import tabbar from '@/components/tabbar'
 import moment from 'moment'
 import SelectDialog from '@/components/SelectDialog'
+import tags from './tags'
 export default {
   name: 'Daypay',
   data () {
@@ -169,11 +170,25 @@ export default {
       }
       return text
     },
+    tag: (value) => {
+      let text = ''
+      for (let i = 0; i < tags.length; i++) {
+        if (value == tags[i].value) {
+          text = tags[i].label
+          break
+        }
+      }
+      return text
+    }
   },
   created () {
     this.getHighRewardList()
   },
   methods: {
+    jumptoDetail(data) {
+      window.localStorage.setItem('officeId', data.officeId)
+      this.$router.push('/recruitDetail')
+    },
     getHighRewardList (selectConditionFromDialog, isDialogClose) {
       if(isDialogClose) {
         this.dialogObject.isDialogOpen = false
@@ -203,7 +218,8 @@ export default {
           levelNear: condition.levelNear,
           officeTags: condition.officeTags,
           payCycle: condition.payCycle,
-          salayNeed: condition.salayNeed
+          salayNeed: condition.salayNeed,
+          queStr: ''
         }
       }).then(({data}) => {
         if (data) {
@@ -243,6 +259,8 @@ export default {
       background: #fff;
       img {
         border-radius: 10px;
+        width: 100%;
+        height: 100%;
       }
     }
     .daypay-office-list {
