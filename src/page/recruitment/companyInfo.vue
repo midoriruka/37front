@@ -221,6 +221,18 @@
           }).then((res) => {
             if (res.data.code == 200 && res.data.data) {
               this.fieldData = res.data.data;
+              if(this.fieldData.companyImage){
+                this.companyImage=this.fieldData.companyImage.splice(',');
+              }
+              if(this.fieldData.eatImage){
+                this.eatImage=this.fieldData.eatImage.splice(',');
+              }
+              if(this.fieldData.sleepImage){
+                this.sleepImage=this.fieldData.sleepImage.splice(',');
+              }
+              if(this.fieldData.salryImage){
+                this.salryImage=this.fieldData.salryImage.splice(',');
+              }
             }
           }).catch((res) => {
             MessageBox({
@@ -228,18 +240,6 @@
               message: res.data.msg,
             })
           })
-          if(this.fieldData.companyImage){
-            this.companyImage=this.fieldData.companyImage.splice(',');
-          }
-          if(this.fieldData.eatImage){
-            this.eatImage=this.fieldData.eatImage.splice(',');
-          }
-          if(this.fieldData.sleepImage){
-            this.sleepImage=this.fieldData.sleepImage.splice(',');
-          }
-          if(this.fieldData.salryImage){
-            this.salryImage=this.fieldData.salryImage.splice(',');
-          }
         },
         submit() {
           MessageBox.close();
