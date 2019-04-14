@@ -107,7 +107,7 @@
         <div class="imgs-box">
           <div v-for="(img,i) in companyImage" class="img-wrapper">
             <img class="box-item img" :src="img" :preview="i">
-            <div class="remove-btn" v-show="!img.submited" @click="remove(i,0)">×</div>
+            <div class="remove-btn" @click="remove(i,0)">×</div>
           </div>
           <el-upload action="" class="upload-demo" :on-change="handleChange1" :auto-upload="false" :show-file-list="false">
             <div class="add-btn box-item" slot="trigger">+</div>
@@ -128,7 +128,7 @@
         <div class="imgs-box">
           <div v-for="(img,i) in eatImage" class="img-wrapper">
             <img class="box-item img" :src="img">
-            <div class="remove-btn" v-show="!img.submited" @click="remove(i,1)">×</div>
+            <div class="remove-btn" @click="remove(i,1)">×</div>
           </div>
           <el-upload action="" class="upload-demo" :on-change="handleChange2" :auto-upload="false" :show-file-list="false">
             <div class="add-btn box-item" slot="trigger">+</div>
@@ -149,7 +149,7 @@
         <div class="imgs-box">
           <div v-for="(img,i) in sleepImage" class="img-wrapper">
             <img class="box-item img" :src="img" :preview="i">
-            <div class="remove-btn" v-show="!submited" @click="remove(i,2)">×</div>
+            <div class="remove-btn" @click="remove(i,2)">×</div>
           </div>
           <el-upload action="" class="upload-demo" :on-change="handleChange3" :auto-upload="false" :show-file-list="false">
             <div class="add-btn box-item" slot="trigger">+</div>
@@ -170,7 +170,7 @@
         <div class="imgs-box">
           <div v-for="(img,i) in salryImage" class="img-wrapper">
             <img class="box-item img" :src="img" :preview="i">
-            <div class="remove-btn" v-show="!img.submited" @click="remove(i,3)">×</div>
+            <div class="remove-btn" @click="remove(i,3)">×</div>
           </div>
           <el-upload action="" class="upload-demo" :on-change="handleChange4" :auto-upload="false" :show-file-list="false">
             <div class="add-btn box-item" slot="trigger">+</div>
@@ -242,11 +242,20 @@
           })
         },
         submit() {
+          MessageBox.close();
+          if(this.companyImage.length>0){
+            this.fieldData.companyImage=this.companyImage.join(',');
+          }
+          if(this.eatImage.length>0){
+            this.fieldData.eatImage=this.eatImage.join(',');
+          }
+          if(this.sleepImage.length>0){
+            this.fieldData.sleepImage=this.sleepImage.join(',');
+          }
+          if(this.salryImage.length>0){
+            this.fieldData.salryImage=this.salryImage.join(',');
+          }
           this.fieldData.companyFrom = this.$route.query.type == '委托招聘' ? '1' : '2';
-          this.fieldData.companyImage=companyImage.join(',');
-          this.fieldData.eatImage=eatImage.join(',');
-          this.fieldData.sleepImage=sleepImage.join(',');
-          this.fieldData.salryImage=salryImage.join(',');
           this.axios({
             method: 'post',
             url: '/api/h5/addEntrust',
@@ -255,7 +264,6 @@
             },
             data: this.fieldData
           }).then((res) => {
-            console.log(res.data.code);
             if (res.data.code == 200 && res.data.data) {
               MessageBox({
                 title: '提示',
@@ -313,7 +321,8 @@
           }
         },
         //企业图片批量上传
-        beforeAvatarUpload1(file) {
+        async beforeAvatarUpload1(file) {
+          MessageBox.close();
           var testmsg = file.name.substring(file.name.lastIndexOf('.'))
           let typeArr = ['.png', '.jpg', '.jpeg']
           if (typeArr.indexOf(testmsg) > -1) {
@@ -360,7 +369,8 @@
             return
           }
         },
-        beforeAvatarUpload2(file) {
+        async beforeAvatarUpload2(file) {
+          MessageBox.close();
           var testmsg = file.name.substring(file.name.lastIndexOf('.'))
           let typeArr = ['.png', '.jpg', '.jpeg']
           if (typeArr.indexOf(testmsg) > -1) {
@@ -407,7 +417,8 @@
             return
           }
         },
-        beforeAvatarUpload3(file) {
+        async beforeAvatarUpload3(file) {
+          MessageBox.close();
           var testmsg = file.name.substring(file.name.lastIndexOf('.'))
           let typeArr = ['.png', '.jpg', '.jpeg']
           if (typeArr.indexOf(testmsg) > -1) {
@@ -454,7 +465,8 @@
             return
           }
         },
-        beforeAvatarUpload4(file) {
+        async beforeAvatarUpload4(file) {
+          MessageBox.close();
           var testmsg = file.name.substring(file.name.lastIndexOf('.'))
           let typeArr = ['.png', '.jpg', '.jpeg']
           if (typeArr.indexOf(testmsg) > -1) {
