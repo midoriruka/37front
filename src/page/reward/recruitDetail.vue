@@ -25,7 +25,7 @@
         </div>
         <!-- 0  入职 1打卡  -->
         <div v-show="backInfo.onManAmount">
-          <p class="tb-entry-reward">入职奖励：{{Number(backInfo.onManAmount) >= Number(backInfo.onWomanAmount) ? backInfo.onManAmount:backInfo.onWomanAmount}}{{backInfo.onPeriod}}</p>
+          <p class="tb-entry-reward">入职奖励：{{Number(backInfo.onManAmount) >= Number(backInfo.onWomanAmount) ? backInfo.onManAmount:backInfo.onWomanAmount}}元/{{backInfo.onPeriod=== '1' ? '小时':'天'}}</p>
           <p class="tb-desc">{{backInfo.onMode === 0 ? '入职':'打卡'}}{{backInfo.onValue}}天，37打工网奖励先进{{Number(backInfo.onManAmount) >= Number(backInfo.onWomanAmount) ? backInfo.onManAmount:backInfo.onWomanAmount}}元<br>活动倒计时：<span class="tb-desc-red">{{countDown}}</span></p>
           <div class="tb-tips">
             <span ><img class="tb-tips-img" src="@/assets/icon/最高奖励/温馨提示.png"></span>
@@ -313,8 +313,6 @@ export default {
     })
   },
   methods: {
-
-
     onTabClick(tab) {
       this.activeTab = tab;
     },
@@ -339,7 +337,11 @@ export default {
     locate() {
       this.local.search(this.companyInfo.companyAddress);
     },
-
+    onOfficeItemClick(item) {
+      window.localStorage.setItem('officeId', item.officeId);
+      window.history.go(0);
+      window.scrollTo(0, 0);
+    },
     async signUp() {
       const userMsg = JSON.parse(window.localStorage.getItem('userMsg'));
       if (userMsg && userMsg.users.userId) {
