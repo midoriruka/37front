@@ -20,7 +20,7 @@
       <el-button type="warning" @click="telDialogVisiable = true" class="chat-pri">免费咨询</el-button>
     </div>
     <el-dialog
-      
+      class="kaishi-sign"
       :visible.sync="dialogSup"
       width="100%"
       >
@@ -29,6 +29,7 @@
         <el-button type="danger" round @click="jumpto()" class="start-use">开始使用</el-button>
       </div>
     </el-dialog>
+    
     <el-dialog
       title="免费咨询"
       :visible.sync="telDialogVisiable"
@@ -56,7 +57,7 @@
 export default {
   data() {
     return {
-      dialogSup: false,
+      dialogSup: true,
       hasDraw: false,
       telDialogVisiable: false
     };
@@ -283,10 +284,8 @@ export default {
 }
 </style>
 <style>
-.tel>.el-dialog, .el-pager li {
-  background: #fff!important  
-}
-.el-dialog, .el-pager li {
+
+.kaishi-sign>.el-dialog, .el-pager li {
     background: none!important
   }
 .start-use {

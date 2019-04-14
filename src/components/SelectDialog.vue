@@ -185,6 +185,7 @@ export default {
 }
 </script>
 
+
 <style lang="less" scoped>
 .select-different-dialog{
   .select-title{
@@ -194,7 +195,7 @@ export default {
     color: #333;
   }
   /deep/ .el-checkbox-group{
-    background: #fff;
+    background: #fff!important;
     color: #333;
     border: 0;
     margin-bottom: 16px;
@@ -202,7 +203,7 @@ export default {
       margin: 6px 4px;
       /deep/ .el-checkbox-button__inner{
         width: 110px;
-        background: rgb(243, 244, 249);
+        background: rgb(243, 244, 249)!important;
         color: rgb(154, 155, 156);
         font-size: 0.42rem;
       }
@@ -225,12 +226,12 @@ export default {
       width: 150px;
       color: #969696;
       border-color: #f5f5f9;
-      background-color: #f5f5f9;
+      background-color: #f5f5f9!important;
     }
     .el-button:focus, .el-button:hover {
       color: #969696;
       border-color: #f5f5f9;
-      background-color: #f5f5f9;
+      background-color: #f5f5f9!important;
     }
     .el-button--primary { 
       color: #FFF;

@@ -19,7 +19,7 @@
                 </span>
               </el-col>
               <el-col :span="6"></el-col>
-              <el-col :span="6" style="padding-right: 10px; text-align: right; font-size: 0.3rem">
+              <el-col :span="6" style="padding-right: 10px; text-align: right; font-size: 0.4rem">
                 <span @click="editorMsg()">修改资料</span>
               </el-col>
             </el-row>
@@ -104,7 +104,7 @@
                 </span>
               </el-col>
               <el-col :span="6"></el-col>
-              <el-col :span="6" style="padding-right: 10px; text-align: right; font-size: 0.3rem">
+              <el-col :span="6" style="padding-right: 10px; text-align: right; font-size: 0.4rem">
                 <span @click="editorMsg()">修改资料</span>
               </el-col>
             </el-row>
@@ -1228,14 +1228,14 @@ export default {
   background: #e6a03c;
   padding: 2px 5px;
   border-radius: 10px;
-  font-size: 0.3rem
+  font-size: 0.4rem
 }
 .weiqiandao {
   display: inline-block;
   background: #969696;
   padding: 2px 5px;
   border-radius: 10px;
-  font-size: 0.3rem
+  font-size: 0.4rem
 }
 
 </style>
