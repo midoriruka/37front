@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/page/index/index'
 import News from '@/page/news/index'
+import NewsMore from '@/page/news/moreinfo';
 import LoginRegister from './login'
 import Person from './person'
 import editPerson from '../page/edit/editPerson.vue'
@@ -74,6 +75,11 @@ let menu = new Router({
       path: '/news',
       name: '薪资讯',
       component: News
+    },
+    {
+      path: '/news/moreinfo',
+      name: '更多资讯',
+      component: NewsMore
     },
     {
       path: '/recruitDetail',
