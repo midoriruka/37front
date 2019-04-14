@@ -343,6 +343,7 @@ export default {
       info: {}
     }
   },
+  
   components: {tabbar},
   filters: {
     tag: (value) => {
@@ -405,7 +406,9 @@ export default {
     this.getTopOffice()
     
     this.position = (window.localStorage.getItem('position') ? window.localStorage.getItem('position') : '北京')
-    console.log(this.position)
+    if (window.location.search) {
+      window.localStorage.setItem('openId', window.location.search.substring(window.location.search.indexOf('=') + 1))
+    }
   },
  
   methods: {

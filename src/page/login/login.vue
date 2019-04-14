@@ -132,7 +132,8 @@ export default {
         data: {
           userPhone: this.userPhone,
           smsCode: this.smsCode,
-          loginType: this.loginType
+          loginType: this.loginType,
+          openId: window.localStorage.getItem('openId') || ''
         }
       }).then((res) => {
         if (res.data.code == 200 || res.data.code == '200') {

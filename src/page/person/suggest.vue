@@ -38,7 +38,8 @@ export default {
         },
         data: {
           feedContext: this.feedContext,
-          userId: JSON.parse(window.localStorage.getItem("userMsg")).users.userId
+          userId: JSON.parse(window.localStorage.getItem("userMsg")).users.userId,
+          loginType: JSON.parse(window.localStorage.getItem("userMsg")).users.loginType
         }
       }).then(res => {
         if (res.data.code == 200) {
