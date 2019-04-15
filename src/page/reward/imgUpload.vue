@@ -54,6 +54,7 @@ export default {
           officeId: officeId,
           userId: userMsg.users.loginType === 'person' ? userMsg.users.userId : userMsg.users.company_user_id,
           uploadImg: data.data,
+          loginType: userMsg.users.loginType,
         })
         img.uploading = false;
         img.success = (result.code === 200);
