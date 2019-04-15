@@ -4,19 +4,19 @@
               :label="label"
               @change="$emit('callBack',phone)"
               v-model="phone">
-      <div style="border:1px solid #e6a03c;text-align: center;border-radius: 3px;padding: 8px 12px;" @click="select" v-if="companyContactPhone">修改</div>
+      <div style="border:1px solid #e6a03c;text-align: center;border-radius: 3px;padding: 8px 12px;font-size: 14px;" @click="select">修改</div>
     </mt-field>
     <mt-popup
       style="width: 90%;background: #ffffff;padding: 0 20px;"
       v-model="popupVisible">
       <div class="pop">
-        <div style="text-align: center;font-size: 19px;color: #000;">修改手机号</div>
+        <div style="text-align: center;font-size: 16px;color: #000;">修改手机号</div>
         <div class="login-form-input">
           <div class="login-form-input-1">
             <img src="@/assets/login/phone.png" alt="" class="login-form-input-icon">
           </div>
           <div class="login-form-input-2">
-            <mt-field @blur="outPoint('old')" placeholder="请输入原手机号" v-model="userPhoneOld"></mt-field>
+            <mt-field @blur="outPoint('old')" placeholder="请输入原手机号" v-model="userPhoneOld" style="font-family: 'Avenir', Helvetica, Arial, sans-serif"></mt-field>
           </div>
         </div>
         <div class="login-form-input">
@@ -162,7 +162,12 @@
       },
     },
     updated(){
-      this.phone = this.companyContactPhone;
+//      this.phone = this.companyContactPhone;
+    },
+    watch:{
+      companyContactPhone:function (val,old) {
+        this.phone = this.companyContactPhone;
+      }
     },
     created(){
       this.phone = this.companyContactPhone;
@@ -180,9 +185,14 @@
   }
   .pop{
     padding:20px 0;
+    font-size: 14px;
+
   }
   .pop .mint-cell-value{
     border:none;
+  }
+  .pop .mint-field-core{
+    /*font-family: 'Avenir', Helvetica, Arial, sans-serif !important;*/
   }
   .mint-toast{
     z-index: 2012!important;

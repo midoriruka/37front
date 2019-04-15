@@ -165,6 +165,9 @@
         })
       },
       methods:{
+        handleChange(){
+
+        },
         getCompanyInfo(){
           this.axios({
             method: 'post',

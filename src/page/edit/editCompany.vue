@@ -6,12 +6,21 @@
       <div>
         <mt-field label="企业名称" placeholder="请输入公司名称" v-model="companyUserInfo.companyName"></mt-field>
         <mt-field label="企业简称" placeholder="请输入公司简称" v-model="companyUserInfo.companySort"></mt-field>
-        <Selector label="联系人"
-                  type="companyContact"
-                  :option="configData.companyContact"
-                  :defaultIndexPro="defaultIndexProCompanyContact"
-                  @changeValue="changeValue"
-                  :seleValuePro="configData.companyContact[defaultIndexProCompanyContact]"></Selector>
+        <mt-field label="联系人" placeholder="联系人" v-model="companyUserInfo.companyContact">
+          <div style="width: 150px;">
+            <Selector label="性别"
+              type="companyContactSex"
+              :option="configData.companyContactSex"
+              :defaultIndexPro="defaultIndexProCompanyContactSex"
+              @changeValue="changeValue"
+              :seleValuePro="configData.companyContactSex[defaultIndexProCompanyContactSex]"></Selector></div>
+    </mt-field>
+    <!--<Selector label="联系人"-->
+                  <!--type="companyContact"-->
+                  <!--:option="configData.companyContactSex"-->
+                  <!--:defaultIndexPro="defaultIndexProCompanyContactSex"-->
+                  <!--@changeValue="changeValue"-->
+                  <!--:seleValuePro="configData.companyContact[defaultIndexProCompanyContactSex]"></Selector>-->
         <!--<mt-field label="联系人" placeholder="请输入性别" v-model="companyUserInfo.companyContact"></mt-field>-->
         <EditPhone label="联系电话" :companyContactPhone="companyUserInfo.companyContactPhone" @callBack="callBack"></EditPhone>
         <!--<mt-field label="联系电话" placeholder="请输入联系电话" v-model="companyUserInfo.companyContactPhone"></mt-field>-->
@@ -40,7 +49,7 @@
                   @changeValue="changeValue"
                   :seleValuePro="configData.companyScale[defaultIndexProCompanyScale]"></Selector>
         <div class="flex">
-          <div style="width: 105px;">
+          <div style="width: 105px;font-size: 14px;color: #9e9e9e;">
             企业LOGO
           </div>
           <div style="width:calc(100% - 105px);border-bottom: 1px solid #f5f5f9;display: flex;justify-content:space-between">
@@ -51,20 +60,21 @@
                        text="浏览"></UploadImg>
           </div>
         </div>
-        <Selector label="企业地区"
-                  type="userCity"
-                  :option="configData.userCity"
-                  :defaultIndexPro="defaultIndexProUserProvince"
-                  :defaultIndexChildPro="defaultIndexProUserCity"
-                  :defaultIndexChildAfterPro="defaultIndexProUserArea"
-                  @changeValue="changeValue"
-                  :seleValuePro="configData.userCity[defaultIndexProUserProvince]"
-                  :seleValueChildrenPro="configData.userCity[defaultIndexProUserCity].children[defaultIndexProUserCity]"
-                  :seleValueChildren2Pro="configData.userCity[defaultIndexProUserProvince].children[defaultIndexProUserCity].children[defaultIndexProUserArea]"></Selector>
+        <!--<Selector label="企业地区"-->
+                  <!--type="userCity"-->
+                  <!--:option="configData.userCity"-->
+                  <!--:defaultIndexPro="defaultIndexProUserProvince"-->
+                  <!--:defaultIndexChildPro="defaultIndexProUserCity"-->
+                  <!--:defaultIndexChildAfterPro="defaultIndexProUserArea"-->
+                  <!--@changeValue="changeValue"-->
+                  <!--:seleValuePro="configData.userCity[defaultIndexProUserProvince]"-->
+                  <!--:seleValueChildrenPro="configData.userCity[defaultIndexProUserCity].children[defaultIndexProUserCity]"-->
+                  <!--:seleValueChildren2Pro="configData.userCity[defaultIndexProUserProvince].children[defaultIndexProUserCity].children[defaultIndexProUserArea]"></Selector>-->
+        <mt-field label="企业地区" placeholder="请输入企业地区" v-model="companyUserInfo.companyCity"></mt-field>
         <mt-field label="详细地址" placeholder="请输入详细地址" v-model="companyUserInfo.companyAddress"></mt-field>
         <div>
           <div class="flex">
-            <div style="width: 105px;">
+            <div style="width: 105px;font-size: 14px;color: #9e9e9e;">
               企业图片
             </div>
             <div style="width:calc(100% - 105px);border-bottom: 1px solid #f5f5f9;display: flex;justify-content: flex-end">
@@ -100,7 +110,7 @@
         defaultIndexProUserProvince:0,
         defaultIndexProUserBeforeCity:0,
         defaultIndexProUserArea:0,
-        defaultIndexProCompanyContact:0,
+        defaultIndexProCompanyContactSex:0,
         defaultIndexProPayCycle:0,
         defaultIndexProCompanyIndu:0,
         defaultIndexProCompanyScale:0,
@@ -206,7 +216,8 @@
             this.companyUserInfo = res.data.data;
             this.companyUserInfo.companyImage = this.companyUserInfo.companyImage?this.companyUserInfo.companyImage.split(','):[];
             this.imgList = this.companyUserInfo.companyImage;
-            this.finduserCityIndex(res.data.data.companyContact,'companyContact','defaultIndexProCompanyContact');
+            this.finduserCityIndex(res.data.data.companyContactSex,'companyContactSex','defaultIndexProCompanyContactSex');
+            return
             this.finduserCityIndex(res.data.data.payCycle,'payCycle','defaultIndexProPayCycle');
             this.finduserCityIndex(res.data.data.companyIndu,'companyIndu','defaultIndexProCompanyIndu');
             this.finduserCityIndex(res.data.data.companyScale,'companyScale','defaultIndexProCompanyScale');
@@ -271,6 +282,14 @@
 </script>
 
 <style>
+  .page .mint-cell-title{
+    color: #9e9e9e;
+    font-size: 14px;
+  }
+  .page .mint-field-core{
+    color: #323232;
+    font-size: 14px;
+  }
   .flex{
     font-size: 16px;
     display: flex;justify-content: space-between;

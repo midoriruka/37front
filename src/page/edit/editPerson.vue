@@ -9,12 +9,12 @@
           <!--<mt-field label="性别" placeholder="请输入性别" v-model="userInfo.userSex"></mt-field>-->
           <Selector label="性别"
                     type="userSex"
-                    :option="configData.companyContact"
+                    :option="configData.companyContactSex"
                     :defaultIndexPro="defaultIndexProCompanyContact"
                     @changeValue="changeValue"
-                    :seleValuePro="configData.companyContact[defaultIndexProCompanyContact]"></Selector>
+                    :seleValuePro="configData.companyContactSex[defaultIndexProCompanyContact]"></Selector>
+          <!--:companyContactPhone="userInfo.userPhone"-->
           <EditPhone label="手机号"
-                     v-if="userInfo.userPhone"
                      :companyContactPhone="userInfo.userPhone"
                      @callBack="callBack"></EditPhone>
           <Selector label="生日"
@@ -35,18 +35,19 @@
                     :defaultIndexPro="defaultIndexProUserEdu"
                     @changeValue="changeValue"
                     :seleValuePro="configData.userEdu[defaultIndexProUserEdu]"></Selector>
-          <Selector label="所属地区"
-                    type="userCity"
-                    :option="configData.userCity"
-                    :defaultIndexPro="defaultIndexProUserProvince"
-                    :defaultIndexChildPro="defaultIndexProUserCity"
-                    :defaultIndexChildAfterPro="defaultIndexProUserArea"
-                    @changeValue="changeValue"
-                    :seleValueChildrenPro="configData.userCity[defaultIndexProUserProvince].children[defaultIndexProUserCity]"
-                    :seleValueChildren2Pro="configData.userCity[defaultIndexProUserProvince].children[defaultIndexProUserCity].children[defaultIndexProUserArea]"
-                    :seleValuePro="configData.userCity[defaultIndexProUserCity]"></Selector>
+          <!--<Selector label="所属地区"-->
+                    <!--type="userCity"-->
+                    <!--:option="configData.userCity"-->
+                    <!--:defaultIndexPro="defaultIndexProUserProvince"-->
+                    <!--:defaultIndexChildPro="defaultIndexProUserCity"-->
+                    <!--:defaultIndexChildAfterPro="defaultIndexProUserArea"-->
+                    <!--@changeValue="changeValue"-->
+                    <!--:seleValueChildrenPro="configData.userCity[defaultIndexProUserProvince].children[defaultIndexProUserCity]"-->
+                    <!--:seleValueChildren2Pro="configData.userCity[defaultIndexProUserProvince].children[defaultIndexProUserCity].children[defaultIndexProUserArea]"-->
+                    <!--:seleValuePro="configData.userCity[defaultIndexProUserCity]"></Selector>-->
+          <mt-field label="所属地区" placeholder="请输入所属地区" v-model="userInfo.userCity"></mt-field>
           <mt-field label="详细地址" placeholder="请输入详细地址" v-model="userInfo.userAddress"></mt-field>
-          <mt-field label="个人技能" placeholder="个人技能" type="textarea" rows="4" v-model="userInfo.userRemark" class="level"></mt-field>
+          <mt-field label="个人技能" placeholder="个人技能" type="textarea" rows="4" v-model="userInfo.myRes" class="level"></mt-field>
         </div>
       </div>
     </div>
@@ -85,7 +86,7 @@
                   userPhone:'',
                   userProvince:'',
                   userSex:'',
-                  userRemark:'',
+                  myRes:'',
                   userArea:'',
                 }
             }
@@ -95,7 +96,7 @@
           this.userInfo.userPhone = data;
         },
         callBackUpload(data){
-          this.userInfo.userImageUrl = data
+          this.userInfo.userImageUrl = data.data
         },
         seleBirthday(){
           this.pickerValue = true;
@@ -152,9 +153,9 @@
             if (res.data.code == 200) {
               this.userInfo = res.data.data;
               this.finduserCityIndex(res.data.data.userNation,'userNation','defaultIndexProNation');
-              this.finduserCityIndex(res.data.data.userSex,'companyContact','defaultIndexProCompanyContact');
+              this.finduserCityIndex(res.data.data.userSex,'companyContactSex','defaultIndexProCompanyContact');
               this.finduserCityIndex(res.data.data.userEdu,'userEdu','defaultIndexProUserEdu');
-              this.finduserCityIndex(res.data.data.userProvince,'userCity','defaultIndexProUserProvince',res.data.data.userCity,'defaultIndexProUserCity',res.data.data.userArea,'defaultIndexProUserArea');
+//              this.finduserCityIndex(res.data.data.userProvince,'userCity','defaultIndexProUserProvince',res.data.data.userCity,'defaultIndexProUserCity',res.data.data.userArea,'defaultIndexProUserArea');
 //              console.log(this.defaultIndexProUserProvince)
 //              console.log(this.defaultIndexProUserCity)
 //              console.log(this.defaultIndexProUserArea)
@@ -214,6 +215,14 @@
     background:#ffffff;
     padding-top: 40px;
     padding-bottom: 40px;
+  }
+  .page .mint-cell-title{
+    color: #9e9e9e;
+    font-size: 14px;
+  }
+  .page .mint-field-core{
+    color: #323232;
+    font-size: 14px;
   }
   .headImg{
     width: 18%;

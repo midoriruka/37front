@@ -1,9 +1,9 @@
 <template>
     <div>
-      <div style="padding:0 10px;display: flex;font-size: 16px;color: #2c3e50;height: 48px;align-items: center;">
-        <div style="width: 105px;flex: none;">{{label}}</div>
+      <div style="padding:0 10px;display: flex;font-size: 14px;color: #2c3e50;height: 48px;align-items: center;">
+        <div style="width: 105px;flex: none;color: #9e9e9e;">{{label}}</div>
         <div style="flex:1;box-sizing: border-box;" @click="select">
-          <div style="border-bottom: 1px solid #f5f5f9;color: #000;">
+          <div style="border-bottom: 1px solid #f5f5f9;color: #323232;">
             {{seleValue.name}}{{seleValueChildren?' '+seleValueChildren.name + '  ':''}}{{seleValueChildren2?seleValueChildren2.name:''}}
           </div>
         </div>
@@ -88,6 +88,10 @@
         methods:{
           onValuesChange (picker, values) {
               let town = [];
+            console.log(values)
+            if(!values[0]){
+              return;
+            }
              this.seleValue = values[0];
               if(this.type !== 'userCity'){
                 this.$emit('changeValue',{type:this.type,label:values[0].name,value:values[0].value});
@@ -117,6 +121,7 @@
           },
           init(){
             this.seleValue = this.seleValuePro;
+//            console.log(this.seleValuePro)
             if(this.type == 'userBrith'){
               this.value = new Date(this.seleValuePro.name);
               return

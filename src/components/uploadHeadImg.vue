@@ -10,7 +10,7 @@
         <img :src="userUrl || userImageUrl" alt="" @click="uploadClick">
         <img :src="userImageUrl" alt="">
       </div>
-      <div v-if="from === 'button' || from === 'logo'" style="border: 1px solid #e6a03c;border-radius: 3px;padding: 5px 12px;" @click="uploadClick('button')">
+      <div v-if="from === 'button' || from === 'logo'" style="border: 1px solid #e6a03c;border-radius: 3px;padding: 5px 12px;font-size: 14px;" @click="uploadClick('button')">
         {{text}}
       </div>
     </div>
